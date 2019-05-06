@@ -3,7 +3,7 @@ eche__/
 .env
 .idea/workspace.xml
 venv/
-.idea/
+.idea/workspace.xml
 
 # SQLite database files
 
