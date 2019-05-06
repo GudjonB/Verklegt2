@@ -1,6 +1,7 @@
 eche__/
 *.py[cod]
 .env
+.idea/workspace.xml
 venv/
 .idea/
 
