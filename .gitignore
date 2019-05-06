@@ -3,7 +3,7 @@ eche__/
 .env
 .idea/
 venv/
-
+.idea/
 
 # SQLite database files
 
