@@ -2,7 +2,7 @@ eche__/
 *.py[cod]
 .env
 venv/
-
+.idea/
 
 # SQLite database files
 
