@@ -1,17 +1,7 @@
 from django.db import models
-
-#from Users.models import Users
-
-import datetime
-
-
-class Categories(models.Model):
-    category = models.CharField(max_length=255)
-
-
-class Zip(models.Model):
-    zip = models.CharField(max_length=18)
-    city = models.CharField(max_length=189)
+from django.contrib.auth.models import User
+# from Users.models import Users
+# import datetime
 
 
 class Properties(models.Model):
@@ -25,24 +15,33 @@ class Properties(models.Model):
     price = models.FloatField()
 
 
+class Categories(models.Model):
+    category = models.CharField(max_length=255)
+
+
+class Zip(models.Model):
+    zip = models.CharField(max_length=18)
+    city = models.CharField(max_length=189)
+
+
 class Description(models.Model):
+    property = models.ForeignKey(Properties, on_delete=models.CASCADE)
     description = models.CharField(max_length=999, blank=True)
-    property_id = models.ForeignKey(Properties, on_delete=models.CASCADE)
 
 
 class OpenHouses(models.Model):
-    property_id = models.ForeignKey(Properties, on_delete=models.CASCADE)
-    #  user_id = models.ForeignKey(Users, on_delete=models.CASCADE)  # TODO: create Users module in Users app
+    property = models.ForeignKey(Properties, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     time = models.DateTimeField(blank=True)
-    length = models.IntegerField("minutes:")
+    length = models.IntegerField() #Minutes
 
 
 class PropertyImages(models.Model):
-    property_id = models.ForeignKey(Properties, on_delete=models.CASCADE)
-    images = models.CharField(max_length=999)
+    property = models.ForeignKey(Properties, on_delete=models.CASCADE)
+    images = models.CharField(max_length=999, blank=True)
 
 
 class PropertyVisits(models.Model):
-    property_id = models.ForeignKey(Properties, on_delete=models.CASCADE)
+    property = models.ForeignKey(Properties, on_delete=models.CASCADE)
     week_number = models.IntegerField()
     counter = models.IntegerField()
