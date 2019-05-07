@@ -1,39 +1,30 @@
-/* Icon 2*/
-
-.animated-icon2 span:nth-child(1) {
-top: 0px;
+/* Remove the navbar's default rounded borders and increase the bottom margin */
+.navbar {
+  margin-bottom: 50px;
+  border-radius: 0;
 }
 
-.animated-icon2 span:nth-child(2), .animated-icon2 span:nth-child(3) {
-top: 10px;
+/* Remove the jumbotron's default bottom margin */
+.jumbotron {
+  margin-bottom: 0;
 }
 
-.animated-icon2 span:nth-child(4) {
-top: 20px;
+/* Add a gray background color and some padding to the footer */
+footer {
+  background-color: #f2f2f2;
+  padding: 25px;
+}
+.img-responsive {
+  width:100%
+}
+.active-pink-2 input[type=text]:focus:not([readonly]) {
+  border-bottom: 1px solid #f48fb1;
+  box-shadow: 0 1px 0 0 #f48fb1;
+  width: 70%;
 }
 
-.animated-icon2.open span:nth-child(1) {
-top: 11px;
-width: 0%;
-left: 50%;
-}
-
-.animated-icon2.open span:nth-child(2) {
--webkit-transform: rotate(45deg);
--moz-transform: rotate(45deg);
--o-transform: rotate(45deg);
-transform: rotate(45deg);
-}
-
-.animated-icon2.open span:nth-child(3) {
--webkit-transform: rotate(-45deg);
--moz-transform: rotate(-45deg);
--o-transform: rotate(-45deg);
-transform: rotate(-45deg);
-}
-
-.animated-icon2.open span:nth-child(4) {
-top: 11px;
-width: 0%;
-left: 50%;
+.form-control {
+    width: 70%;
+    margin: 40px auto;
+    border: aliceblue
 }
