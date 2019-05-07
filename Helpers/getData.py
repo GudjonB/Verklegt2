@@ -64,7 +64,6 @@ for link in links:
     + str(tempSize) + ", " + str(tempRooms) + ", " + str(tempBathrooms) + ", "
     + str(tempYearBuilt) + ", " + "\"" + str(tempPrice) + "\");\n")
 
-
     #file.write("INSERT INTO " + "Description(description) VALUES (\"" + str(tempDescr) +
     #"\");\n")
 

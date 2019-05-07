@@ -15,3 +15,16 @@ def register(request):
     return render(request, 'Users/register.html', {
         'form': UserCreationForm()
     })
+
+def profile(request):
+    profile = Profiles.objects.filter(user=request.user).first()
+    if request.method == 'POST':
+        form = ProfileForm(instance=profile, data=request.user).first()
+        if form.is_valid():
+            profile = form.save(commit=False)
+            profile.user = request.user
+            profile.save()
+            return redirect('profile')
+    return render(request, 'Users/profile.html', {
+        'form': ProfileForm(instance=profile)
+    })
