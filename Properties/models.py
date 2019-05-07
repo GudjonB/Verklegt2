@@ -4,17 +4,6 @@ from django.contrib.auth.models import User
 # import datetime
 
 
-class Properties(models.Model):
-    address = models.CharField(max_length=255)
-    zip = models.ForeignKey(Zip, on_delete=models.CASCADE)
-    category_id = models.ForeignKey(Categories, on_delete=models.CASCADE)
-    size = models.IntegerField()  # max?
-    rooms = models.IntegerField()  # max?
-    bathrooms = models.IntegerField()  # min? max?
-    year_built = models.DateTimeField()  #min=1, max=datetime.date.today().year)
-    price = models.FloatField()
-
-
 class Categories(models.Model):
     category = models.CharField(max_length=255)
 
@@ -22,6 +11,17 @@ class Categories(models.Model):
 class Zip(models.Model):
     zip = models.CharField(max_length=18)
     city = models.CharField(max_length=189)
+
+
+class Properties(models.Model):
+    address = models.CharField(max_length=255)
+    zip = models.ForeignKey(Zip, on_delete=models.CASCADE)
+    category_id = models.ForeignKey(Categories, on_delete=models.CASCADE)
+    size = models.IntegerField()  # max?
+    rooms = models.IntegerField()  # max?
+    bathrooms = models.IntegerField()  # min? max?
+    year_built = models.DateTimeField()  # min=1, max=datetime.date.today().year)
+    price = models.FloatField()
 
 
 class Description(models.Model):
@@ -33,7 +33,7 @@ class OpenHouses(models.Model):
     property = models.ForeignKey(Properties, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     time = models.DateTimeField(blank=True)
-    length = models.IntegerField() #Minutes
+    length=models.IntegerField() # Minutes
 
 
 class PropertyImages(models.Model):
