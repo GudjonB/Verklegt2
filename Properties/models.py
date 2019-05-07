@@ -33,7 +33,7 @@ class OpenHouses(models.Model):
     property = models.ForeignKey(Properties, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     time = models.DateTimeField(blank=True)
-    length=models.IntegerField() # Minutes
+    length = models.IntegerField()  # Minutes
 
 
 class PropertyImages(models.Model):
