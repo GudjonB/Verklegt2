@@ -1,3 +1,6 @@
+from django.core.validators import RegexValidator
+from django.core.validators import MinValueValidator
+import datetime
 from django.db import models
 from django.contrib.auth.models import User
 from Properties.models import Properties, Zip
@@ -6,9 +9,15 @@ from Properties.models import Properties, Zip
 
 class Profiles(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    address = models.CharField(max_length=255)
+    address = models.CharField(max_length=255,
+                               validators=[RegexValidator(r'^[0-9a-zA-Z]*$',
+                                                          'Only alphanumeric characters are allowed.',
+                                                          'invalid_address')])
     zipCode = models.ForeignKey(Zip, on_delete=models.CASCADE)
-    social = models.CharField(max_length=10)
+    social = models.CharField(max_length=10,
+                              validators=[RegexValidator(r'^[0-9]*$',
+                                                         'Only numeric characters are allowed.',
+                                                         'invalid_social')])
 
 
 class ProfileImages(models.Model):
@@ -18,16 +27,27 @@ class ProfileImages(models.Model):
 
 class Cards(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    number = models.CharField(max_length=16)
-    cvc = models.CharField(max_length=3)
-    expiration = models.CharField(max_length=4)
-    name = models.CharField(max_length=255)
+    number = models.CharField(max_length=16,
+                              validators=[RegexValidator(r'^[0-9]*$',
+                                                         'Only numeric characters are allowed.',
+                                                         'invalid_card_number')])
+    cvc = models.CharField(max_length=3,
+                           validators=[RegexValidator(r'^[0-9]*$',
+                                                      'Only numeric characters are allowed.',
+                                                      'invalid_cvc')]
+                           )
+    expiration = models.CharField(max_length=4)  # TODO: MM/YY
+    name = models.CharField(max_length=255,
+                            validators=[RegexValidator(r'^[a-zA-Z]*$',
+                                                       'Only alphabetic characters are allowed.',
+                                                       'invalid_name')]
+                            )
 
 
 class Offers(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     property = models.ForeignKey(Properties, on_delete=models.CASCADE)
-    expiration = models.DateTimeField()
+    expiration = models.DateTimeField(validators=[MinValueValidator(datetime.date.today())])
 
 
 class Favourites(models.Model):
