@@ -1,3 +1,4 @@
+from django import forms
 from django.db import models
 from django.contrib.auth.models import User
 # from Users.models import Users
@@ -6,6 +7,9 @@ from django.contrib.auth.models import User
 
 class Categories(models.Model):
     category = models.CharField(max_length=255)
+
+    def __str__(self):
+       return self.category
 
 
 class Zip(models.Model):
@@ -16,11 +20,11 @@ class Zip(models.Model):
 class Properties(models.Model):
     address = models.CharField(max_length=255)
     zip = models.ForeignKey(Zip, on_delete=models.CASCADE)
-    category_id = models.ForeignKey(Categories, on_delete=models.CASCADE)
+    category = models.ForeignKey(Categories, default=1, on_delete=models.CASCADE)
     size = models.IntegerField()  # max?
     rooms = models.IntegerField()  # max?
     bathrooms = models.IntegerField()  # min? max?
-    year_built = models.DateTimeField()  # min=1, max=datetime.date.today().year)
+    year_built = models.IntegerField()  # min=1, max=datetime.date.today().year)
     price = models.FloatField()
 
 
