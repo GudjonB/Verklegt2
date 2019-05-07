@@ -18,11 +18,7 @@ class Profiles(models.Model):
                               validators=[RegexValidator(r'^[0-9]*$',
                                                          'Only numeric characters are allowed.',
                                                          'invalid_social')])
-
-
-class ProfileImages(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    images = models.CharField(max_length=999, blank=True)
+    image = models.CharField(max_length=999, blank=True)
 
 
 class Cards(models.Model):
