@@ -1,7 +1,10 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm
 
-# Create your views here.
+from Users.forms.profile_form import ProfileForm
+from Users.models import Profiles
+
+
 def index(request) :
     return render(request, 'Users/index.html' )
 
