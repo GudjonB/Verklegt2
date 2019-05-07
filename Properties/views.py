@@ -7,7 +7,7 @@ def index(request) :
 def createCandy(request):
     if request.method == 'POST':
         print(1)
-    else
+    else:
         print(2)
 
     return render(request, 'properties/createProperty.html', {
