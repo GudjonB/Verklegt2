@@ -21,11 +21,11 @@ def register(request):
 
 def profile(request):
     profile = Profiles.objects.filter(user=request.user).first()
-    if request.method == 'POST':
-        form = ProfileForm(instance=profile, data=request.user).first()
+    if request.method == 'PATCH':
+        form = ProfileForm(instance=profile, data=request.PATCH)
         if form.is_valid():
             profile = form.save(commit=False)
-            profile.user = request.user
+            profile.user_id = request.id
             profile.save()
             return redirect('profile')
     return render(request, 'Users/profile.html', {
