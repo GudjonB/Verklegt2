@@ -1,7 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-from Properties.models import Properties
-from Properties.models import Zip
+from Properties.models import Properties, Zip
 # Create your models here.
 
 
@@ -26,16 +25,16 @@ class Cards(models.Model):
 
 
 class Offers(models.Model):
-    user = models.ForeignKey(User, on_delete=models)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     property = models.ForeignKey(Properties, on_delete=models.CASCADE)
     expiration = models.DateTimeField()
 
 
 class Favourites(models.Model):
-    user = models.ForeignKey(User, on_delete=models)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     property = models.ForeignKey(Properties, on_delete=models.CASCADE)
 
 
 class CartItems(models.Model):
-    user = models.ForeignKey(User, on_delete=models)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     property = models.ForeignKey(Properties, on_delete=models.CASCADE)
