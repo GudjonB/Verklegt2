@@ -55,6 +55,7 @@ class Description(models.Model):
                                    validators=[RegexValidator(r'^[0-9a-zA-Z]*$',
                                                               'Only alphanumeric characters are allowed.',
                                                               'invalid_description')])
+
     def __str__(self):
        return self.description
 
@@ -68,10 +69,10 @@ class OpenHouses(models.Model):
 
 class PropertyImages(models.Model):
     property = models.ForeignKey(Properties, on_delete=models.CASCADE)
-    image = models.FileField(upload_to='images/properties/')
+    image = models.ImageField(upload_to='static/images/properties/')
 
-#    def __str__(self):
-#        return self.image
+    def __str__(self):
+        return self.image.name
 
 
 class PropertyVisits(models.Model):
