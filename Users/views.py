@@ -3,10 +3,13 @@ from django.contrib.auth.forms import UserCreationForm
 
 from Users.forms.profile_form import ProfileForm
 from Users.models import Profiles
+from Properties.models import Properties
 
 
-def index(request):
-    return render(request, 'Users/index.html' )
+
+def index(request) :
+    context = {'Properties': Properties.objects.all().order_by('-id')}
+    return render(request, 'Users/index.html', context)
 
 
 def register(request):
