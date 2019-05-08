@@ -26,7 +26,7 @@ window.addEventListener("scroll", event => {
 
       if (window.pageYOffset >= sticky) {
         navbar.classList.add("sticky");
-        bodyblock.style.paddingTop="105px";
+        bodyblock.style.paddingTop="100px";
       }
       else {
         navbar.classList.remove("sticky");
