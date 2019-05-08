@@ -3,8 +3,8 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path('', views.getAllProperties, name="allproPerties"),
+    path('', views.getAllProperties, name="allProperties"),
     path('create', views.createProperties, name="createProperties"),
     path('<int:id>', views.getPropertyById, name="propertyDetails"),
-    path('upload', views.propertiesImagesUpload, name="propertyImages")
+    path('upload', views.uploadPropertiesImages, name="uploadPropertyImages")
 ]
