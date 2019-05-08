@@ -42,7 +42,7 @@
         <div class="collapse navbar-collapse" id="myNavbar">
             <ul class="nav navbar-nav">
                 <li><a href="{% url 'users-index' %}">Home</a></li>
-                <li><a href="{% url 'users-index' %}">Properties</a></li>
+                <li><a href="{% url 'allproPerties' %}">Properties</a></li>
                 <li><a href="#">Open Houses</a></li>
 
                 <li><a href="#">Stores</a></li>
@@ -64,6 +64,10 @@
 <div class="bodyBlock">
     {% block content %}
 
+
+    {% endblock %}
+
+    {% block houses %}
 
     {% endblock %}
 </div>

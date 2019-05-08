@@ -39,6 +39,19 @@ footer {
     background-color: #7d7a7a;
 }
 
+.propContainer{
+    margin: 0 auto;
+    width: 70%;
+    justify-content: center;
+    display: flex;
+    flex-wrap: wrap;
+}
+.card {
+    float: left;
+    width: 18rem;
+    margin: 15px 15px;
+}
+
 li > a {
     color: #f2f2f2;
 }
@@ -55,7 +68,7 @@ li > a {
 
 .btn-floating{
     background-color: #f2f2f2;
-    border:none;
+    -webkit-appearance: none;
 }
 
 ul {
