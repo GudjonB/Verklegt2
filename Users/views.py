@@ -3,11 +3,11 @@ from django.contrib.auth.forms import UserCreationForm
 
 from Users.forms.profile_form import ProfileForm
 from Users.models import Profiles
-from Properties.views import getNewProperties
+from Properties.models import Properties
 
 
 def index(request) :
-    context = {'Properties': getNewProperties(request)}
+    context = {'Properties': Properties.objects.latest('id')}
     return render(request, 'Users/index.html', context)
 
 
