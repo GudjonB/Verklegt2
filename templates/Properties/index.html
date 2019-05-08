@@ -9,7 +9,7 @@
                 <a href="/properties/{{ i.id }}"><img src="{{ i.propertyimages_set.first }}" class="card-img-top" alt="..."></a>
                 <div class="card-body">
                     <h5 class="card-title"><a href="/properties/{{ i.id }}">{{ i.address }}</a></h5>
-                    <p class="card-text">{{ i.description_set.first }}</p>
+                    <!--<p class="card-text">{{ i.description_set.first }}</p>-->
                 </div>
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item">{{ i.category.category}}</li>

@@ -95,3 +95,12 @@ ul {
     padding-bottom: 0.5rem;
     padding-top: 0.5rem;
 }
+
+.nav-img {
+    height: 6rem;
+    display: inline-block;
+}
+
+.inline-text {
+    display: inline-block;
+}
