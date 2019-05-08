@@ -6,7 +6,7 @@
     <div class="propContainer">
         {% for i in Properties %}
             <div class="card" >
-                <a href="/properties/{{ i.id }}"><img src="{{ i.propertyimages_set.first }}" class="card-img-top" alt="..."></a>
+                <a href="/properties/{{ i.id }}"><img src="{{ i.images_set.first }}" class="card-img-top" alt="..."></a>
                 <div class="card-body">
                     <h5 class="card-title"><a href="/properties/{{ i.id }}">{{ i.address }}</a></h5>
                     <p class="card-text">{{ i.description_set.first }}</p>
@@ -19,7 +19,9 @@
                 </ul>
                 <div class="card-body">
                     <a href="#" class="card-link">Read more</a>
+                     {% if user.is_authenticated %}
                     <a href="#" class="card-link">Add to cart</a>
+                     {% endif %}
                 </div>
             </div>
         {% endfor %}
