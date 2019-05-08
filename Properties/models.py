@@ -1,3 +1,4 @@
+from django import forms
 from django.core.validators import RegexValidator
 from django.core.validators import MinValueValidator
 from django.db import models
@@ -11,6 +12,9 @@ class Categories(models.Model):
                                 validators=[RegexValidator(r'^[a-zA-Z]*$',
                                                            'Only alphabetic characters are allowed.',
                                                            'invalid_category')])
+
+    def __str__(self):
+       return self.category
 
 
 class Zip(models.Model):
@@ -32,7 +36,7 @@ class Properties(models.Model):
                                                           'Only alphanumeric characters are allowed.',
                                                           'invalid_address')])
     zip = models.ForeignKey(Zip, on_delete=models.CASCADE)
-    category_id = models.ForeignKey(Categories, on_delete=models.CASCADE)
+    category = models.ForeignKey(Categories, default=1, on_delete=models.CASCADE)
     size = models.IntegerField()
     rooms = models.PositiveIntegerField()
     bathrooms = models.PositiveIntegerField()
@@ -62,6 +66,9 @@ class OpenHouses(models.Model):
 class PropertyImages(models.Model):
     property = models.ForeignKey(Properties, on_delete=models.CASCADE)
     images = models.CharField(max_length=999, blank=True)
+
+    def __str__(self):
+       return self.images
 
 
 class PropertyVisits(models.Model):
