@@ -72,7 +72,7 @@ class PropertyImages(models.Model):
     image = models.ImageField(upload_to='static/images/properties/')
 
     def __str__(self):
-        return self.image.name
+        return '/' + self.image.name
 
 
 class PropertyVisits(models.Model):
