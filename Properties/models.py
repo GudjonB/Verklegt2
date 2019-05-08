@@ -69,10 +69,10 @@ class OpenHouses(models.Model):
 
 class PropertyImages(models.Model):
     property = models.ForeignKey(Properties, on_delete=models.CASCADE)
-    image = models.ImageField(upload_to='images/properties/')
+    image = models.ImageField(upload_to='static/images/properties/')
 
-#    def __str__(self):
-#        return self.image
+    def __str__(self):
+        return self.image.name
 
 
 class PropertyVisits(models.Model):
