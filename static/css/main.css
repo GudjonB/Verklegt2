@@ -74,3 +74,7 @@ li > a {
 ul {
   list-style-type: none;
 }
+
+.property-img {
+    padding-bottom: 1rem;
+}

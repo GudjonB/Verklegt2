@@ -55,6 +55,8 @@ class Description(models.Model):
                                    validators=[RegexValidator(r'^[0-9a-zA-Z]*$',
                                                               'Only alphanumeric characters are allowed.',
                                                               'invalid_description')])
+    def __str__(self):
+       return self.description
 
 
 class OpenHouses(models.Model):
