@@ -212,6 +212,7 @@ ul {
 .card-img-top{
     height: 11rem;
 }
+
 .sticky {
     z-index: 10000;
     position: fixed;
@@ -221,3 +222,4 @@ ul {
 .bodyBlock {
     padding-top: 0;
 }
+
