@@ -4,7 +4,7 @@
 
     <!-- Search form -->
     <div class="md-form active-pink-2 mb-3">
-        <input class="form-control" type="text" placeholder="Search" aria-label="Search">
+        <input id="mainSearch" class="form-control" type="text" placeholder="Search" aria-label="Search">
     </div>
 {% endblock %}
 
@@ -12,7 +12,7 @@
 
 
 
-  <div class="propContainer">
+    <div class="propContainer">
         {% for i in Properties %}
             <div class="card" >
                 <img src="{{ i.propertyimages_set.first }}" class="card-img-top" alt="...">
@@ -28,9 +28,9 @@
                 </ul>
                 <div class="card-body">
                     <a href="#" class="card-link">Read more</a>
-                     {% if user.is_authenticated %}
-                    <a href="#" class="card-link">Add to cart</a>
-                     {% endif %}
+                    {% if user.is_authenticated %}
+                        <a href="#" class="card-link">Add to cart</a>
+                    {% endif %}
                 </div>
             </div>
         {% endfor %}
