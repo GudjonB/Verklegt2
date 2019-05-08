@@ -40,3 +40,9 @@ def propertiesImagesUpload(request):
     return render(request, 'Properties/uploadPropertyImages.html', {
         'form': form
     })
+
+  
+def getAllProperties(request):
+    context =  {'Properties': Properties.objects.all()}
+    return render(request, 'Properties/index.html',context )
+  
