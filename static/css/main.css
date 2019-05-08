@@ -12,8 +12,9 @@
 /* Add a gray background color and some padding to the footer */
 footer {
     background-color: #f2f2f2;
-    padding: 25px;
-    margin-top: auto;
+    width: 100%;
+    position: absolute;
+    bottom: 0px;
 }
 .img-responsive {
     width:100%
@@ -37,6 +38,10 @@ footer {
 }
 .navbar{
     background-color: #7d7a7a;
+    position: sticky;
+}
+#nav-right {
+  float: right;
 }
 
 .propContainer{

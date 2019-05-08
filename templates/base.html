@@ -42,13 +42,14 @@
         <div class="collapse navbar-collapse" id="myNavbar">
             <ul class="nav navbar-nav">
                 <li><a href="{% url 'users-index' %}">Home</a></li>
-                <li><a href="{% url 'allproPerties' %}">Properties</a></li>
+                <li><a href="{% url 'allProperties' %}">Properties</a></li>
                 <li><a href="#">Open Houses</a></li>
 
                 <li><a href="#">Stores</a></li>
                 <li><a href="#">Contact</a></li>
             </ul>
         </div>
+        <div>
             <ul class="nav-right">
                 {% if user.is_authenticated %}
                     <!-- profile -->
@@ -58,7 +59,7 @@
                     <li><a href="{% url 'register' %}">Register</a></li>
                 {% endif %}
             </ul>
-
+        </div>
 
 </nav>
 <div class="bodyBlock">
