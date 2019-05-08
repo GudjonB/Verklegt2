@@ -28,6 +28,5 @@ def getPropertyById(request, id):
     })
 
 def getAllProperties(request):
-    return render(request, 'Properties/index.html', {
-        'Properties': Properties.objects.all()
-    })
+    context =  {'Properties': Properties.objects.all()}
+    return render(request, 'Properties/index.html',context )
