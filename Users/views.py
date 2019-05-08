@@ -7,7 +7,7 @@ from Properties.views import getNewProperties
 
 
 def index(request) :
-    context = {'Properties': getNewProperties()}
+    context = {'Properties': getNewProperties(request)}
     return render(request, 'Users/index.html', context)
 
 
