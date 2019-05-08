@@ -37,15 +37,13 @@
 
     <div class="burger">
         <div class="navbar-header">
-            <!--
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-                <span class="icon-bar"><i class="fas fa-bars"></i></span>
-            </button>
-            -->
+
+
             <button class="navbar-toggler second-button" type="button" data-toggle="collapse" data-target="#myNavbar"
                     aria-controls="navbarSupportedContent23" aria-expanded="false" aria-label="Toggle navigation">
                 <div class="animated-icon2"><span></span><span></span><span></span><span></span></div>
             </button>
+
 
         </div>
 
@@ -65,8 +63,10 @@
                 <!-- profile -->
                 <li><a href="{% url 'logout' %}">Logout</a></li>
             {% else %}
-                <li><a href="{% url 'login' %}">Login</a></li>
-                <li><a href="{% url 'register' %}">Register</a></li>
+
+                <li class="navRightLi"><a  href="{% url 'login' %}">Login</a></li>
+                <li class="navRightLi"><a  href="{% url 'register' %}">Register</a></li>
+
             {% endif %}
         </ul>
     </div>

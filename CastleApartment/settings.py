@@ -131,3 +131,6 @@ STATICFILES_DIRS = [
 
 LOGIN_URL = '/Users/login'
 LOGIN_REDIRECT_URL = '/Users/profile'
+
+MEDIA_ROOT = BASE_DIR
+MEDIA_URL = '/images/'
