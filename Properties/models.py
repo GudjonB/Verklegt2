@@ -22,6 +22,8 @@ class Zip(models.Model):
                             validators=[RegexValidator(r'^[a-zA-Z]*$',
                                                        'Only alphabetic characters are allowed.',
                                                        'invalid_city')])
+    def __str__(self):
+        return self.zip
 
 
 class Properties(models.Model):

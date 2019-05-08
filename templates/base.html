@@ -57,6 +57,9 @@
             <li><a href="{% url 'register' %}">Register</a></li>
         {% endif %}
       </ul>
+        {% if user.is_authenticated %}
+            <img src="{{ user.profile.image }}" class="image" />
+        {% endif %}
     </div>
   </div>
 </nav>
