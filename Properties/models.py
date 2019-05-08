@@ -21,11 +21,13 @@ class Zip(models.Model):
     zip = models.CharField(max_length=18,
                            validators=[RegexValidator(r'^[0-9a-zA-Z]*$',
                                                       'Only alphanumeric characters are allowed.',
-                                                      'invalid_zip')])
+                                                      'invalid_zip')],blank=True,null=True)
     city = models.CharField(max_length=189,
                             validators=[RegexValidator(r'^[a-zA-Z]*$',
                                                        'Only alphabetic characters are allowed.',
                                                        'invalid_city')])
+    def __str__(self):
+        return self.zip
 
 
 class Properties(models.Model):
@@ -71,8 +73,7 @@ class PropertyImages(models.Model):
     property = models.ForeignKey(Properties, on_delete=models.CASCADE)
     image = models.ImageField(upload_to='static/images/properties/')
 
-    def __str__(self):
-        return '/' + self.image.name
+
 
 
 class PropertyVisits(models.Model):
