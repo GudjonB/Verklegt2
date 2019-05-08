@@ -1,7 +1,16 @@
+
+
 /* Remove the navbar's default rounded borders and increase the bottom margin */
-.navbar {
+#navbar {
     margin-bottom: 50px;
     border-radius: 0;
+    background-color: #7d7a7a;
+}
+.sticky {
+    z-index: 10000;
+    position: fixed;
+    top: 0;
+    width: 100%;
 }
 
 /* Remove the jumbotron's default bottom margin */
@@ -50,10 +59,6 @@ input:focus {
     text-align: center;
 }
 
-.navbar {
-    background-color: #7d7a7a;
-    position: sticky;
-}
 .nav-right {
     list-style-type: none;
     margin: 0;
@@ -207,4 +212,12 @@ ul {
 .card-img-top{
     height: 11rem;
 }
-
+.sticky {
+    z-index: 10000;
+    position: fixed;
+    top: 0;
+    width: 100%;
+}
+.bodyBlock {
+    padding-top: 0;
+}
