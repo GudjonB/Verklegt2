@@ -4,10 +4,8 @@ from Users.models import Profiles
 class ProfileForm(ModelForm):
     class Meta:
         model = Profiles
-        exclude = ['id', 'user']
+        exclude = ['id', 'user', 'zipCode']
         widgets = {
-            'address': widgets.TextInput(attrs={'class': 'form-control' }),
-            'zipCode': widgets.Select(attrs={'class': 'form-control'}),
-            'social': widgets.TextInput(attrs={'class': 'form-control'}),
-            'image': widgets.TextInput(attrs={'class': 'form-control'}),
+            'change_info': widgets.Select(attrs={'class': 'form-control' }),
+            'profile_image': widgets.TextInput(attrs={'class': 'form-control' })
         }
