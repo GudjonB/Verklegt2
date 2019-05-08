@@ -68,8 +68,8 @@ class PropertyImages(models.Model):
     property = models.ForeignKey(Properties, on_delete=models.CASCADE)
     image = models.FileField(upload_to='images/properties/')
 
-    def __str__(self):
-        return self.images
+#    def __str__(self):
+#        return self.image
 
 
 class PropertyVisits(models.Model):

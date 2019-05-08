@@ -4,7 +4,9 @@ from Properties.models import PropertyImages
 
 
 class PropertiesImagesForm(ModelForm):
+
     class Meta:
+
         model = PropertyImages
         exclude = ['id']
         widgets = {
