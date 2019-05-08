@@ -38,7 +38,7 @@ class Properties(models.Model):
     size = models.IntegerField()
     rooms = models.PositiveIntegerField()
     bathrooms = models.PositiveIntegerField()
-    year_built = models.CharField(max_length=4,
+    year_built = models.CharField(max_length=4, blank=True, null=True,
                                   validators=[RegexValidator(r'^[0-9]*$',
                                                              'Only numeric characters are allowed.',
                                                              'invalid_year')]
