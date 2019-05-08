@@ -10,31 +10,34 @@
 
 {% block houses %}
 
-
-
-  <div class="propContainer">
-        {% for i in Properties %}
-            <div class="card" >
-                <img src="{{ i.propertyimages_set.first }}" class="card-img-top" alt="...">
-                <div class="card-body">
-                    <h5 class="card-title">{{ i.address }}</h5>
-                    <p class="card-text">{{ i.description_set }}</p>
-                </div>
-                <ul class="list-group list-group-flush">
-                    <li class="list-group-item">{{ i.category_id.category}}</li>
-                    <li class="list-group-item">{{ i.size }} m<sup>2</sup></li>
-                    <li class="list-group-item">{{ i.rooms }} Rooms</li>
-                    <li class="list-group-item">{{ i.price }}.- kr</li>
-                </ul>
-                <div class="card-body">
-                    <a href="#" class="card-link">Read more</a>
-                     {% if user.is_authenticated %}
-                    <a href="#" class="card-link">Add to cart</a>
-                     {% endif %}
+    <div class="propContainer">
+        <h5 class="section-title h1">Our latest properties for sale!</h5>
+        <div class="newRow">
+            <!-- Property-->
+            <div class="card">
+                <div class="card-body text-center">
+                    <p><img class="card-img-top" src="{{ Properties.0.propertyimages_set.first }}" alt="card image"></p>
+                    <h4 class="card-title">{{ Properties.0.address }}</h4>
+                    <p class="card-text">{{ Properties.0.price }} .- Kr</p>
                 </div>
             </div>
-        {% endfor %}
-    </div><br>
+            <div class="card">
+                <div class="card-body text-center">
+                    <p><img class="card-img-top" src="{{ Properties.1.propertyimages_set.first }}" alt="card image"></p>
+                    <h4 class="card-title">{{ Properties.1.address }}</h4>
+                    <p class="card-text">{{ Properties.1.price }} .- Kr</p>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body text-center">
+                    <p><img class="card-img-top" src="{{ Properties.2.propertyimages_set.first }}" alt="card image"></p>
+                    <h4 class="card-title">{{ Properties.2.address }}</h4>
+                    <p class="card-text">{{ Properties.2.price }} .- Kr</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
 
 {% endblock %}

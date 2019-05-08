@@ -3,10 +3,13 @@ from django.contrib.auth.forms import UserCreationForm
 
 from Users.forms.profile_form import ProfileForm
 from Users.models import Profiles
+from Properties.models import Properties
+
 
 
 def index(request) :
-    return render(request, 'Users/index.html' )
+    context = {'Properties': Properties.objects.all().order_by('-id')}
+    return render(request, 'Users/index.html', context)
 
 
 def register(request):
@@ -19,15 +22,16 @@ def register(request):
         'form': UserCreationForm()
     })
 
-def profile(request):
-    profile = Profiles.objects.filter(user=request.user).first()
-    if request.method == 'PATCH':
-        form = ProfileForm(instance=profile, data=request.PATCH)
+
+def updateProfile(request):
+    profile_obj = Profiles.objects.filter(user=request.user).first()
+    if request.method == 'POST':
+        form = ProfileForm(instance=profile_obj, data=request.POST)
         if form.is_valid():
-            profile = form.save(commit=False)
-            profile.user_id = request.id
-            profile.save()
+            profile_obj = form.save(commit=False)
+            profile_obj.user = request.user
+            profile_obj.save()
             return redirect('profile')
     return render(request, 'Users/profile.html', {
-        'form': ProfileForm(instance=profile)
+        'form': ProfileForm(instance=profile_obj)
     })
