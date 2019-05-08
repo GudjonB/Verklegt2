@@ -25,12 +25,53 @@
 <body>
 
 <div class="jumbotron">
+  <div class="container text-center">
+    <h1>Castle Apartments</h1>
+    <p>Homes, houses & shit</p>
+  </div>
+</div>
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar">123</span>
+        <span class="icon-bar">321</span>
+        <span class="icon-bar">213</span>
+      </button>
+      <a class="navbar-brand" href="#">CA</a>
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="#">Home</a></li>
+        <li><a href="#">Products</a></li>
+        <li><a href="#">Deals</a></li>
+        <li><a href="#">Stores</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
+
+
+
+      <ul class="nav navbar-nav navbar-right">
+        {% if user.is_authenticated %}
+            <!-- profile -->
+            <li><a href="{% url 'profile' %}">Profile</a></li>
+            <li><a href="{% url 'logout' %}">Logout</a></li>
+        {% else %}
+            <li><a href="{% url 'login' %}">Login</a></li>
+            <li><a href="{% url 'register' %}">Register</a></li>
+        {% endif %}
+      </ul>
+        {% if user.is_authenticated %}
+            <img src="{{ user.profile.image }}" class="image" />
+        {% endif %}
+
     <div class="container text-center">
         <img class="nav-img" src="/static/images/castle-clipart-fairy-tale-18.png">
         <div class="inline-text">
             <h1>Castle Apartments</h1>
             <p>Homes, houses & shit</p>
         </div>
+
     </div>
 </div>
 
