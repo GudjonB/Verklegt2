@@ -51,4 +51,3 @@ def getOpenHouses(request):
     context = {'OpenHouses' : OpenHouses.objects.all()}
     return render(request, 'Properties/openHouses.html', context)
 
-
