@@ -45,4 +45,5 @@ def uploadPropertiesImages(request):
 def getAllProperties(request):
     context =  {'Properties': Properties.objects.all()}
     return render(request, 'Properties/index.html',context )
-  
+
+

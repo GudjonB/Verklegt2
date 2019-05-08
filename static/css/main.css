@@ -73,6 +73,12 @@ input:focus {
     margin: 15px 15px;
 }
 
+.col-xs-12 {
+    display: flex;
+}
+
+
+
 li > a {
     color: #f2f2f2;
 }
