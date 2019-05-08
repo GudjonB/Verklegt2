@@ -7,7 +7,7 @@ from Properties.models import Properties
 
 
 def index(request) :
-    context = {'Properties': Properties.objects.latest('id')}
+    context = {'Properties': Properties.objects.all().order_by('-id')}
     return render(request, 'Users/index.html', context)
 
 

@@ -17,23 +17,23 @@
             <!-- Property-->
             <div class="card">
                 <div class="card-body text-center">
-                    <p><img class=" img-fluid" src="{{ Properties.1.propertyimages_set.first }}" alt="card image"></p>
-                    <h4 class="card-title">Fasteign</h4>
-                    <p class="card-text">Her kemur nyjasta fasteignin</p>
+                    <p><img class="card-img-top" src="{{ Properties.0.propertyimages_set.first }}" alt="card image"></p>
+                    <h4 class="card-title">{{ Properties.0.address }}</h4>
+                    <p class="card-text">{{ Properties.0.price }} .- Kr</p>
                 </div>
             </div>
             <div class="card">
                 <div class="card-body text-center">
-                    <p><img class=" img-fluid" src="{{ Properties.2.propertyimages_set.first }}" alt="card image"></p>
-                    <h4 class="card-title">Fasteign</h4>
-                    <p class="card-text">Her kemur nyjasta fasteignin</p>
+                    <p><img class="card-img-top" src="{{ Properties.1.propertyimages_set.first }}" alt="card image"></p>
+                    <h4 class="card-title">{{ Properties.1.address }}</h4>
+                    <p class="card-text">{{ Properties.1.price }} .- Kr</p>
                 </div>
             </div>
             <div class="card">
                 <div class="card-body text-center">
-                    <p><img class=" img-fluid" src="{{ Properties.3.propertyimages_set.first }}" alt="card image"></p>
-                    <h4 class="card-title">Fasteign</h4>
-                    <p class="card-text">Her kemur nyjasta fasteignin</p>
+                    <p><img class="card-img-top" src="{{ Properties.2.propertyimages_set.first }}" alt="card image"></p>
+                    <h4 class="card-title">{{ Properties.2.address }}</h4>
+                    <p class="card-text">{{ Properties.2.price }} .- Kr</p>
                 </div>
             </div>
         </div>
