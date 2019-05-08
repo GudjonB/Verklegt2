@@ -65,9 +65,6 @@ class PropertyImages(models.Model):
     property = models.ForeignKey(Properties, on_delete=models.CASCADE)
     images = models.CharField(max_length=999, blank=True)
 
-    def __str__(self):
-       return self.images
-
 
 class PropertyVisits(models.Model):
     property = models.ForeignKey(Properties, on_delete=models.CASCADE)
