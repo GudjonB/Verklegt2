@@ -1,4 +1,4 @@
-from django import forms
+# from django import forms
 from django.core.validators import RegexValidator
 from django.core.validators import MinValueValidator
 from django.db import models
@@ -14,7 +14,7 @@ class Categories(models.Model):
                                                            'invalid_category')])
 
     def __str__(self):
-       return self.category
+        return self.category
 
 
 class Zip(models.Model):
@@ -38,12 +38,15 @@ class Properties(models.Model):
     size = models.IntegerField()
     rooms = models.PositiveIntegerField()
     bathrooms = models.PositiveIntegerField()
-    year_built = models.CharField(max_length=4,
+    year_built = models.CharField(max_length=4, blank=True, null=True,
                                   validators=[RegexValidator(r'^[0-9]*$',
                                                              'Only numeric characters are allowed.',
                                                              'invalid_year')]
                                   )
     price = models.FloatField(validators=[MinValueValidator(0.0)])
+
+    def __str__(self):
+        return self.address
 
 
 class Description(models.Model):
@@ -52,6 +55,9 @@ class Description(models.Model):
                                    validators=[RegexValidator(r'^[0-9a-zA-Z]*$',
                                                               'Only alphanumeric characters are allowed.',
                                                               'invalid_description')])
+
+    def __str__(self):
+        return self.description
 
 
 class OpenHouses(models.Model):
@@ -63,7 +69,10 @@ class OpenHouses(models.Model):
 
 class PropertyImages(models.Model):
     property = models.ForeignKey(Properties, on_delete=models.CASCADE)
-    images = models.CharField(max_length=999, blank=True)
+    image = models.ImageField(upload_to='static/images/properties/')
+
+    def __str__(self):
+        return '/' + self.image.name
 
 
 class PropertyVisits(models.Model):

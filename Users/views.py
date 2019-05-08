@@ -3,10 +3,12 @@ from django.contrib.auth.forms import UserCreationForm
 
 from Users.forms.profile_form import ProfileForm
 from Users.models import Profiles
+from Properties.views import getNewProperties
 
 
 def index(request) :
-    return render(request, 'Users/index.html' )
+    context = {'Properties': getNewProperties(request)}
+    return render(request, 'Users/index.html', context)
 
 
 def register(request):

@@ -26,8 +26,11 @@
 
 <div class="jumbotron">
     <div class="container text-center">
-        <h1>Castle Apartments</h1>
-        <p>Homes, houses & shit</p>
+        <img class="nav-img" src="/static/images/castle-clipart-fairy-tale-18.png">
+        <div class="inline-text">
+            <h1>Castle Apartments</h1>
+            <p>Homes, houses & shit</p>
+        </div>
     </div>
 </div>
 
@@ -37,11 +40,6 @@
 
     <div class="burger">
         <div class="navbar-header">
-            <!--
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-                <span class="icon-bar"><i class="fas fa-bars"></i></span>
-            </button>
-            -->
             <button class="navbar-toggler second-button" type="button" data-toggle="collapse" data-target="#myNavbar"
                     aria-controls="navbarSupportedContent23" aria-expanded="false" aria-label="Toggle navigation">
                 <div class="animated-icon2"><span></span><span></span><span></span><span></span></div>
@@ -53,7 +51,7 @@
             <ul class="nav navbar-nav">
                 <li><a href="{% url 'users-index' %}">Home</a></li>
                 <li><a href="{% url 'allProperties' %}">Properties</a></li>
-                <li><a href="#">Open Houses</a></li>
+                <li><a href="{% url 'openHouses' %}">Open Houses</a></li>
                 <li><a href="#">Stores</a></li>
                 <li><a href="#">Contact</a></li>
             </ul>
@@ -65,8 +63,8 @@
                 <!-- profile -->
                 <li><a href="{% url 'logout' %}">Logout</a></li>
             {% else %}
-                <li><a href="{% url 'login' %}">Login</a></li>
-                <li><a href="{% url 'register' %}">Register</a></li>
+                <li class="navRightLi"><a  href="{% url 'login' %}">Login</a></li>
+                <li class="navRightLi"><a  href="{% url 'register' %}">Register</a></li>
             {% endif %}
         </ul>
     </div>
