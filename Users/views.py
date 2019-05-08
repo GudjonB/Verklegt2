@@ -21,8 +21,7 @@ def register(request):
 
 
 def updateProfile(request):
-    #profile_obj = Profiles.objects.filter(user=request.user).first()
-    profile_obj = Profiles.objects.create(user=request.user)
+    profile_obj = Profiles.objects.filter(user=request.user).first()
     if request.method == 'POST':
         form = ProfileForm(instance=profile_obj, data=request.POST)
         if form.is_valid():

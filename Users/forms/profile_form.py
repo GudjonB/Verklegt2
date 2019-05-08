@@ -4,7 +4,7 @@ from Users.models import Profiles
 class ProfileForm(ModelForm):
     class Meta:
         model = Profiles
-        exclude = ['id']
+        exclude = ['id', 'user']
         widgets = {
             'address': widgets.TextInput(attrs={'class': 'form-control' }),
             'zipCode': widgets.Select(attrs={'class': 'form-control'}),
