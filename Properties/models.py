@@ -14,18 +14,20 @@ class Categories(models.Model):
                                                            'invalid_category')])
 
     def __str__(self):
-       return self.category
+        return self.category
 
 
 class Zip(models.Model):
     zip = models.CharField(max_length=18,
                            validators=[RegexValidator(r'^[0-9a-zA-Z]*$',
                                                       'Only alphanumeric characters are allowed.',
-                                                      'invalid_zip')])
+                                                      'invalid_zip')],blank=True,null=True)
     city = models.CharField(max_length=189,
                             validators=[RegexValidator(r'^[a-zA-Z]*$',
                                                        'Only alphabetic characters are allowed.',
                                                        'invalid_city')])
+    def __str__(self):
+        return self.zip
 
 
 class Properties(models.Model):
@@ -45,6 +47,9 @@ class Properties(models.Model):
                                   )
     price = models.FloatField(validators=[MinValueValidator(0.0)])
 
+    def __str__(self):
+        return self.address
+
 
 class Description(models.Model):
     property = models.ForeignKey(Properties, on_delete=models.CASCADE)
@@ -52,6 +57,8 @@ class Description(models.Model):
                                    validators=[RegexValidator(r'^[0-9a-zA-Z]*$',
                                                               'Only alphanumeric characters are allowed.',
                                                               'invalid_description')])
+    def __str__(self):
+       return self.description
 
 
 class OpenHouses(models.Model):
@@ -63,7 +70,8 @@ class OpenHouses(models.Model):
 
 class PropertyImages(models.Model):
     property = models.ForeignKey(Properties, on_delete=models.CASCADE)
-    images = models.CharField(max_length=999, blank=True)
+    image = models.FileField(upload_to='images/properties/')
+
 
 
 class PropertyVisits(models.Model):

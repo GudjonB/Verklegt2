@@ -8,12 +8,13 @@ from Properties.models import Properties, Zip
 
 
 class Profiles(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, null=True)
     address = models.CharField(max_length=255,
                                validators=[RegexValidator(r'^[0-9a-zA-Z]*$',
                                                           'Only alphanumeric characters are allowed.',
                                                           'invalid_address')])
-    zipCode = models.ForeignKey(Zip, on_delete=models.CASCADE)
+
+    zipCode = models.ForeignKey(Zip, on_delete=models.CASCADE, null=True, blank=True)
     social = models.CharField(max_length=10,
                               validators=[RegexValidator(r'^[0-9]*$',
                                                          'Only numeric characters are allowed.',
