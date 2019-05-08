@@ -14,7 +14,7 @@ class Categories(models.Model):
                                                            'invalid_category')])
 
     def __str__(self):
-       return self.category
+        return self.category
 
 
 class Zip(models.Model):
@@ -45,6 +45,9 @@ class Properties(models.Model):
                                   )
     price = models.FloatField(validators=[MinValueValidator(0.0)])
 
+    def __str__(self):
+        return self.address
+
 
 class Description(models.Model):
     property = models.ForeignKey(Properties, on_delete=models.CASCADE)
@@ -63,10 +66,10 @@ class OpenHouses(models.Model):
 
 class PropertyImages(models.Model):
     property = models.ForeignKey(Properties, on_delete=models.CASCADE)
-    images = models.CharField(max_length=999, blank=True)
+    image = models.FileField(upload_to='images/properties/')
 
     def __str__(self):
-       return self.images
+        return self.images
 
 
 class PropertyVisits(models.Model):

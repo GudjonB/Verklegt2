@@ -1,4 +1,5 @@
 {%  extends 'base.html' %}
+
 {% block content %}
     <form class = "form form horizontal" action="{% url 'createProperties' %}" method="post">
         {% csrf_token %}
