@@ -19,7 +19,9 @@
                 </ul>
                 <div class="card-body">
                     <a href="#" class="card-link">Read more</a>
+                     {% if user.is_authenticated %}
                     <a href="#" class="card-link">Add to cart</a>
+                     {% endif %}
                 </div>
             </div>
         {% endfor %}

@@ -90,6 +90,7 @@
                 <li><a href="#">Contact</a></li>
             </ul>
         </div>
+        <div>
             <ul class="nav-right">
                 {% if user.is_authenticated %}
                     <!-- profile -->
@@ -99,7 +100,7 @@
                     <li><a href="{% url 'register' %}">Register</a></li>
                 {% endif %}
             </ul>
-
+        </div>
 
 </nav>
 <div class="bodyBlock">
