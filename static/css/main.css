@@ -6,6 +6,7 @@
     border-radius: 0;
     background-color: #7d7a7a;
 }
+
 .sticky {
     z-index: 10000;
     position: fixed;
@@ -29,30 +30,12 @@ footer {
     width:100%
 }
 
-.active-pink-2 input[type=text]:focus:not([readonly]) {
-    border-bottom: 1px solid #f48fb1;
-    box-shadow: 0 1px 0 0 #f48fb1;
-    width: 70%;
-}
-
-.form-control {
-    width: 70%;
-    margin: 40px auto;
-    border-radius: 0;
-    border-radius: 0;
-    border: none;
-    border-bottom: 1px #7d7a7a;
-    box-shadow: 0 1px 0 0;
-    text-align: center;
-}
-
 button:focus {
     outline: none;
     border: none;
 }
 input:focus {
     outline: none;
-    border: none;
 }
 
 .bodyBlock {
@@ -96,10 +79,19 @@ li > a {
     margin-bottom: 10em;
 }
 
-.navbar-toggle {
+.navbar-toggler {
     background-color: #7d7a7a;
     border:none;
 }
+.profile-toggler {
+    background-color: #7d7a7a;
+    border:none;
+    float: right;
+}
+.profile-collapse {
+    float: right;
+}
+
 
 .btn-floating {
     background-color: #f2f2f2;
@@ -151,6 +143,14 @@ ul {
 
 .animated-icon2 span {
     background: #e3f2fd;
+}
+
+.fa-user, .fa-user-alt-slash {
+    color: #e3f2fd;
+}
+
+#myProfile {
+    text-align: right;
 }
 
 
@@ -219,7 +219,5 @@ ul {
     top: 0;
     width: 100%;
 }
-.bodyBlock {
-    padding-top: 0;
-}
+
 

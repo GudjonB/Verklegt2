@@ -61,7 +61,24 @@
         <ul class="nav-right">
             {% if user.is_authenticated %}
                 <!-- profile -->
-                <li><a href="{% url 'logout' %}">Logout</a></li>
+                <div class="profile">
+                    <div class="navbar-header-profile">
+                        <button class="profile-toggler profile-button" type="button" data-toggle="collapse" data-target="#myProfile"
+                                aria-controls="navba" aria-expanded="false" aria-label="Toggle navigation">
+                            <div><i class="profIcon fas fa-user"></i></div>
+                        </button>
+                    </div>
+
+                    <div class="collapse profile-collapse" id="myProfile">
+                        <ul class="nav navbar-nav">
+                            <li><a href="{% url 'users-index' %}">Home</a></li>
+                            <li><a href="{% url 'allProperties' %}">Properties</a></li>
+                            <li><a href="{% url 'openHouses' %}">Open Houses</a></li>
+                            <li><a href="{% url 'logout' %}">Logout</a></li>
+                        </ul>
+                    </div>
+                </div>
+
             {% else %}
                 <li class="navRightLi"><a  href="{% url 'login' %}">Login</a></li>
                 <li class="navRightLi"><a  href="{% url 'register' %}">Register</a></li>

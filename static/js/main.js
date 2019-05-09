@@ -7,6 +7,7 @@ $(document).ready(function(){
   navbar = document.getElementById("navbar");
   // Get the offset position of the navbar
   sticky = navbar.offsetTop;
+  var width = navbar.offsetWidth;
   // Get Bodyblock
   bodyblock = document.getElementsByClassName("bodyBlock")[0];
 });
@@ -16,6 +17,12 @@ $(document).ready(function () {
   $('.second-button').on('click', function () {
 
     $('.animated-icon2').toggleClass('open');
+  });
+});
+
+$(document).ready(function () {
+  $('.profile-button').on('click', function () {
+    $(".profIcon").toggleClass("fa-user  fa-user-alt-slash");
   });
 });
 
