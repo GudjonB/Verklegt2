@@ -73,3 +73,9 @@ def add_open_houses(request):
         'form': form
     })
 
+  
+def delete_property(request, id):
+    properties = get_object_or_404(Properties, pk=id)
+    properties.deleted = True
+    properties.save()
+    return redirect('allProperties')

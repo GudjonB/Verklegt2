@@ -44,6 +44,7 @@ class Properties(models.Model):
                                                              'invalid_year')]
                                   )
     price = models.FloatField(validators=[MinValueValidator(0.0)])
+    deleted = models.BooleanField(default=False)
 
     def __str__(self):
         return self.address
