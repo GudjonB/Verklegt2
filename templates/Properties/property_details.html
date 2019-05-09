@@ -5,13 +5,16 @@
     <img class="property-img" src="{{ Properties.propertyimages_set.first}}" >
     <p><b>Price:</b> {{ Properties.price|intcomma }}</p>
 
+    <input type="button" class="btn-favorites" value="Add to Favorites" />
+    <img id="fav-img" src="/static/images/favorites_star.png">
+
     <h3>Property Details</h3>
     <p>{{ Properties.description_set.first.description }}</p>
 
     <p><b>Category:</b> {{ Properties.category_id.category}}</p>
     <p><b>City:</b> {{ Properties.zip.city }}</p>
     <p><b>Zip:</b> {{ Properties.zip.zip }}</p>
-    <p><b>Square feet:</b> {{ Properties.size|intcomma }}</p>
+    <p><b>Square meters:</b> {{ Properties.size|intcomma }}</p>
     <p><b>Bathrooms:</b> {{ Properties.bathrooms }}</p>
     <p><b>Rooms:</b> {{ Properties.rooms }}</p>
     {% if Properties.category_id != 6 %}

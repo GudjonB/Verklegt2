@@ -55,3 +55,18 @@ def get_open_houses(request):
 def get_new_properties(request):
     context = {'Properties': Properties.objects.all().order_by('-id')}
     return render(request, 'users/index.html', context)
+
+
+def add_open_houses(request):
+    if request.method == 'POST':
+        form = OpenHousesCreateForm(data=request.POST)
+        if form.is_valid():
+            properties = form.save()
+            description = Description(description=request.POST['description'], property=properties)
+            description.save()
+            return redirect('allProperties')
+    else:
+        form = PropertiesCreateForm()
+    return render(request, 'Properties/add_open_houses.html', {
+        'form': form
+    })

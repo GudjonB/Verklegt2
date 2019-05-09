@@ -223,7 +223,7 @@ ul {
     padding-top: 0;
 }
 
-#id_username, #id_password {
+#id_username, #id_password1, #id_password2 {
     border: 1px solid lightgrey;
 }
 
@@ -249,4 +249,25 @@ ul {
     color: #888888;
     font-size: 0.7rem;
     font-style: italic;
+}
+
+.btn-favorites {
+    background-color: #7C7B79;
+    border: none;
+    border-radius: 5px;
+    padding-bottom: 0.3rem;
+    padding-top: 0.3rem;
+    margin-bottom: 0.8rem;
+}
+
+#fav-img {
+    height: 2rem;
+    padding-bottom: 0.2rem;
+    color: #7C7B79;
+}
+
+.property-img {
+    width: 50%;
+    height: auto;
+    margin-bottom: 1rem;
 }
