@@ -1,8 +1,9 @@
 {% extends "base.html" %}
 {% block content %}
+    {% load humanize %}
     <h2>{{ Properties.address }}</h2>
     <img class="property-img" src="{{ Properties.propertyimages_set.first}}" >
-    <p><b>Price:</b> {{ Properties.price }}</p>
+    <p><b>Price:</b> {{ Properties.price|intcomma }}</p>
 
     <h3>Property Details</h3>
     <p>{{ Properties.description_set.first.description }}</p>
