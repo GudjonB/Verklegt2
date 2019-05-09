@@ -35,6 +35,10 @@ footer {
     width: 70%;
 }
 
+.container {
+    align-content: center;
+}
+
 .form-control {
     width: 70%;
     margin: 40px auto;

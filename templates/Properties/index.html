@@ -1,8 +1,191 @@
 {% extends 'base.html' %}
 
 
+{% block content %}
+    {% load humanize %}
+    <div class="container">
+        <div class="[ col-xs-12 ] search-params">
+            <h4>Property Search</h4>
+            <div class="multiselect">
+                {% for i in Categories %}
+                    <label class="checkbox-inline">
+                        <input type="checkbox" name="{{ i.category }}" value="{{ i.category }}"> {{ i.category }}<br>
+                    </label>
+                {% endfor %}
+            </div>
+            <span class="zips"><select class="multiselect components_zips" >
+                    <option selected disabled>Zip code</option>
+                {% for i in Zip %}
+                    <option value="{{ i.zip }}">{{ i.zip }}</option>
+                {% endfor %}
+                </select>
+                <span class="wise wb-zips"></span> </span> |
+            <a>Size (m<sup>2</sup>):</a>
+            <select class="size" name="size-from" id="size-from">
+                <option value="">&nbsp;</option>
+                <option value="10" >10</option>
+                <option value="20" >20</option>
+                <option value="30" >30</option>
+                <option value="40" >40</option>
+                <option value="50" >50</option>
+                <option value="60" >60</option>
+                <option value="70" >70</option>
+                <option value="80" >80</option>
+                <option value="90" >90</option>
+                <option value="100" >100</option>
+                <option value="125" >125</option>
+                <option value="150" >150</option>
+                <option value="175" >175</option>
+                <option value="200" >200</option>
+                <option value="250" >250</option>
+                <option value="300" >300</option>
+                <option value="350" >350</option>
+                <option value="400" >400</option>
+                <option value="450" >450</option>
+                <option value="500" >500</option>
+                <option value="600" >600</option>
+                <option value="700" >700</option>
+                <option value="800" >800</option>
+                <option value="900" >900</option>
+                <option value="1000" >1000</option>
+            </select>
+            <a> to </a>
+            <select class="size" name="size-to" id="size-to">
+                <option value="">&nbsp;</option>
+                <option value="10" >10</option>
+                <option value="20" >20</option>
+                <option value="30" >30</option>
+                <option value="40" >40</option>
+                <option value="50" >50</option>
+                <option value="60" >60</option>
+                <option value="70" >70</option>
+                <option value="80" >80</option>
+                <option value="90" >90</option>
+                <option value="100" >100</option>
+                <option value="125" >125</option>
+                <option value="150" >150</option>
+                <option value="175" >175</option>
+                <option value="200" >200</option>
+                <option value="250" >250</option>
+                <option value="300" >300</option>
+                <option value="350" >350</option>
+                <option value="400" >400</option>
+                <option value="450" >450</option>
+                <option value="500" >500</option>
+                <option value="600" >600</option>
+                <option value="700" >700</option>
+                <option value="800" >800</option>
+                <option value="900" >900</option>
+                <option value="1000+" >1000</option>
+            </select> |
+            <a>Rooms:</a>
+            <select class="rooms" name="rooms-from" id="rooms-from">
+                <option value="">&nbsp;</option>
+                <option value="1" >1</option>
+                <option value="2" >2</option>
+                <option value="3" >3</option>
+                <option value="4" >4</option>
+                <option value="5" >5</option>
+                <option value="6" >6</option>
+                <option value="7" >7</option>
+                <option value="8" >8</option>
+                <option value="9" >9</option>
+                <option value="10" >10</option>
+            </select>
+            <a> to </a>
+            <select class="rooms" name="rooms-to" id="rooms-to">
+                <option value="">&nbsp;</option>
+                <option value="1" >1</option>
+                <option value="2" >2</option>
+                <option value="3" >3</option>
+                <option value="4" >4</option>
+                <option value="5" >5</option>
+                <option value="6" >6</option>
+                <option value="7" >7</option>
+                <option value="8" >8</option>
+                <option value="9" >9</option>
+                <option value="10+" >10+</option>
+            </select> |
+            <a>Price (m.kr):</a>
+            <select class="price" name="price-from" id="price-from">
+                <option value="">&nbsp;</option>
+                <option value="0" >0</option>
+                <option value="5" >5</option>
+                <option value="10" >10</option>
+                <option value="15" >15</option>
+                <option value="20" >20</option>
+                <option value="25" >25</option>
+                <option value="30">30</option>
+                <option value="35" >35</option>
+                <option value="40" >40</option>
+                <option value="45" >45</option>
+                <option value="50" >50</option>
+                <option value="55" >55</option>
+                <option value="60" >60</option>
+                <option value="65" >65</option>
+                <option value="70" >70</option>
+                <option value="75" >75</option>
+                <option value="80" >80</option>
+                <option value="85" >85</option>
+                <option value="90" >90</option>
+                <option value="95" >95</option>
+                <option value="100" >100</option>
+                <option value="125" >125</option>
+                <option value="150" >150</option>
+                <option value="175" >175</option>
+                <option value="200" >200</option>
+                <option value="300" >300</option>
+                <option value="400" >400</option>
+                <option value="500" >500</option>
+                <option value="600" >600</option>
+                <option value="700" >700</option>
+                <option value="800" >800</option>
+                <option value="900" >900</option>
+                <option value="1000" >1000</option>
+            </select>
+            <a> to </a>
+            <select class="price" name="price-to" id="price-to">
+                <option value="">&nbsp;</option>
+                <option value="0" >0</option>
+                <option value="5" >5</option>
+                <option value="10" >10</option>
+                <option value="15" >15</option>
+                <option value="20" >20</option>
+                <option value="25" >25</option>
+                <option value="30">30</option>
+                <option value="35" >35</option>
+                <option value="40" >40</option>
+                <option value="45" >45</option>
+                <option value="50" >50</option>
+                <option value="55" >55</option>
+                <option value="60" >60</option>
+                <option value="65" >65</option>
+                <option value="70" >70</option>
+                <option value="75" >75</option>
+                <option value="80" >80</option>
+                <option value="85" >85</option>
+                <option value="90" >90</option>
+                <option value="95" >95</option>
+                <option value="100" >100</option>
+                <option value="125" >125</option>
+                <option value="150" >150</option>
+                <option value="175" >175</option>
+                <option value="200" >200</option>
+                <option value="300" >300</option>
+                <option value="400" >400</option>
+                <option value="500" >500</option>
+                <option value="600" >600</option>
+                <option value="700" >700</option>
+                <option value="800" >800</option>
+                <option value="900" >900</option>
+                <option value="1000+" >1000+</option>
+            </select>
+        </div>
+    </div>
+{% endblock %}
+
 {% block houses %}
-{% load humanize %}
+    {% load humanize %}
 
     <div class="propContainer">
         {% for i in Properties %}
@@ -20,9 +203,9 @@
                 </ul>
                 <div class="card-body">
                     <a href="/properties/{{ i.id }}" class="card-link">Read more</a>
-                     {% if user.is_authenticated %}
-                    <a href="/properties/{{ i.id }}" class="card-link">Add to cart</a>
-                     {% endif %}
+                    {% if user.is_authenticated %}
+                        <a href="/properties/{{ i.id }}" class="card-link">Add to cart</a>
+                    {% endif %}
                 </div>
             </div>
         {% endfor %}
@@ -32,7 +215,3 @@
 
 {% endblock %}
 
-{% block content %}
-
-
-{% endblock %}
