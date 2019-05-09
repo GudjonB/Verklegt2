@@ -21,6 +21,7 @@ def register(request):
         'form': UserCreationForm()
     })
 
+
 def profile(request):
     profile = Profiles.objects.filter(user=request.user).first()
     if request.method == 'PATCH':
