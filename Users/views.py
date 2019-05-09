@@ -15,6 +15,26 @@ def register(request):
     if request.method == 'POST':
         form = UserCreationForm(data=request.POST)
         if form.is_valid():
+            new_user = form.save()
+            new_profile = Profiles(user=new_user)
+            new_profile.save()
+            return redirect('login')
+    else:
+        form = UserCreationForm()
+    return render(request, 'Users/register.html', {
+        'form': form
+    })
+
+
+def profile(request):
+    return render(request, 'Users/profile.html')
+
+
+'''
+def register(request):
+    if request.method == 'POST':
+        form = UserCreationForm(data=request.POST)
+        if form.is_valid():
             form.save()
             return redirect('login')
     return render(request, 'Users/register.html', {
@@ -34,3 +54,5 @@ def profile(request):
     return render(request, 'Users/profile.html', {
         'form': ProfileForm(instance=profile)
     })
+    
+'''
