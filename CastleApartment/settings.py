@@ -113,7 +113,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-gb'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'GMT'
 
 USE_I18N = True
 
@@ -130,8 +130,8 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static")
 ]
 
-LOGIN_URL = '/Users/login'
-LOGIN_REDIRECT_URL = '/Users/profile'
+LOGIN_URL = '/users/login'
+LOGIN_REDIRECT_URL = '/users/profile'
 
 MEDIA_ROOT = BASE_DIR
 MEDIA_URL = '/images/'
