@@ -52,3 +52,7 @@ def getOpenHouses(request):
     return render(request, 'Properties/openHouses.html', context)
 
 
+def getNewProperties(request):
+    context = {'Properties': Properties.objects.all().order_by('-id')}
+    return render(request, 'Users/index.html', context)
+
