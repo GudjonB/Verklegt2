@@ -1,12 +1,15 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.forms import UserCreationForm
 
 from Users.forms.profile_form import ProfileForm
 from Users.models import Profiles
-from Properties.models import Properties
+from Properties.models import Properties, Zip
+import logging
+logger = logging.getLogger(__name__)
+# logger.error(form['address'].value())
 
 
-def index(request) :
+def index(request):
     context = {'Properties': Properties.objects.all().order_by('-id')}
     return render(request, 'Users/index.html', context)
 
@@ -27,32 +30,18 @@ def register(request):
 
 
 def profile(request):
-    return render(request, 'Users/profile.html')
-
-
-'''
-def register(request):
     if request.method == 'POST':
-        form = UserCreationForm(data=request.POST)
+        form = ProfileForm(data=request.POST, instance=request.user)
         if form.is_valid():
-            form.save()
-            return redirect('login')
-    return render(request, 'Users/register.html', {
-        'form': UserCreationForm()
-    })
+            my_profile = Profiles.objects.get(user_id=request.user.id)
+            my_profile.address = form['address'].value()
+            my_profile.social = form['social'].value()
+            # my_profile.zipCode = form['zipCode'].data
 
-
-def profile(request):
-    profile = Profiles.objects.filter(user=request.user).first()
-    if request.method == 'PATCH':
-        form = ProfileForm(instance=profile, data=request.PATCH)
-        if form.is_valid():
-            profile = form.save(commit=False)
-            profile.user_id = request.id
-            profile.save()
+            my_profile.save()
             return redirect('profile')
+    else:
+        form = ProfileForm(instance=request.user)
     return render(request, 'Users/profile.html', {
-        'form': ProfileForm(instance=profile)
+        'form': form
     })
-    
-'''
