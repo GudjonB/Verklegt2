@@ -23,6 +23,7 @@ $(document).ready(function () {
 $(document).ready(function () {
   $('.profile-button').on('click', function () {
     $(".profIcon").toggleClass("fa-user  fa-user-alt-slash");
+    $(".fa-shopping-cart").toggle();
   });
 });
 
