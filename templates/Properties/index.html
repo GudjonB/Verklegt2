@@ -14,14 +14,14 @@
                 </div>
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item">{{ i.category.category}}</li>
-                    <li class="list-group-item">{{ i.size }} m<sup>2</sup></li>
+                    <li class="list-group-item">{{ i.size|intcomma }} m<sup>2</sup></li>
                     <li class="list-group-item">{{ i.rooms }} Rooms</li>
                     <li class="list-group-item">{{ i.price|intcomma }}.- kr</li>
                 </ul>
                 <div class="card-body">
-                    <a href="#" class="card-link">Read more</a>
+                    <a href="/properties/{{ i.id }}" class="card-link">Read more</a>
                      {% if user.is_authenticated %}
-                    <a href="#" class="card-link">Add to cart</a>
+                    <a href="/properties/{{ i.id }}" class="card-link">Add to cart</a>
                      {% endif %}
                 </div>
             </div>
