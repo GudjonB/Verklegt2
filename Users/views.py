@@ -4,7 +4,7 @@ from django.contrib.auth.forms import UserCreationForm
 from Users.models import Profiles, CartItems, Favourites
 from Properties.models import Properties, Zip
 
-from Users.forms.profile_form import ProfileForm
+from Users.forms.profile_form import UpdateProfileForm
 
 import logging
 logger = logging.getLogger(__name__)
@@ -32,19 +32,34 @@ def register(request):
 
 
 def profile(request):
+    return render(request, 'Users/profile.html', {
+        'Profiles': get_object_or_404(Profiles, pk=Profiles.objects.get(user_id=request.user.id).id)
+    })
+
+
+def update_profile(request):
     if request.method == 'POST':
-        form = ProfileForm(data=request.POST, instance=request.user)
+        form = UpdateProfileForm(data=request.POST, instance=request.user)
         if form.is_valid():
             my_profile = Profiles.objects.get(user_id=request.user.id)
             my_profile.address = form['address'].value()
             my_profile.social = form['social'].value()
-            # my_profile.zipCode = form['zipCode'].data
+            zip_temp = Zip.objects.all().values()
+            zip_temp_id_list = []
+
+            for i in zip_temp:
+                zip_temp_id_list.append(i['id'])
+            if form['zipCode'].value() in zip_temp_id_list:
+                zip_id = form['zipCode'].value()
+                for j in zip_temp:
+                    if zip_id == j['id']:
+                        my_profile.zipCode = j['zip']
 
             my_profile.save()
             return redirect('profile')
     else:
-        form = ProfileForm(instance=request.user)
-    return render(request, 'Users/profile.html', {
+        form = UpdateProfileForm(instance=request.user)
+    return render(request, 'Users/update_profile.html', {
         'form': form
     })
 
