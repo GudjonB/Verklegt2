@@ -58,3 +58,10 @@ def get_open_houses(request):
 def get_new_properties(request):
     context = {'Properties': Properties.objects.all().order_by('-id')}
     return render(request, 'Users/index.html', context)
+
+  
+def delete_property(request, id):
+    properties = get_object_or_404(Properties, pk=id)
+    properties.deleted = True
+    properties.save()
+    return redirect('allProperties')
