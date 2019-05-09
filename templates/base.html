@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
     {% load static %}
+    <link rel="shortcut icon" type="image/png" href="{% static 'favicon.ico' %}"/>
     <link rel="stylesheet"  href="{% static  'css/main.css' %}">
     <script type="text/javascript" src="{% static 'js/main.js' %}"></script>
     <title>Castle Apartments!</title>
@@ -63,7 +64,7 @@
             <!-- profile -->
             <div id="rightnav">
 
-            <a type="button" class="btn-floating btn-fb"><i class="fas fa-shopping-cart"></i></a>
+            <a type="button" href="{% url 'cart' %}" class="btn-floating btn-fb"><i class="fas fa-shopping-cart"></i></a>
 
             <div>
                 <div class="navbar-header-profile">
@@ -76,9 +77,9 @@
                 <div class="collapse profile-collapse" id="myProfile">
                     <ul class="nav navbar-nav">
                         <li><a href="{% url 'allProperties' %}">My Properties</a></li>
-                        <li><a href="{% url 'openHouses' %}">My Favourites</a></li>
-                        <li><a href="{% url 'openHouses' %}">My Profile</a></li>
-                        <li><a href="{% url 'openHouses' %}">My Cart</a></li>
+                        <li><a href="{% url 'favourites' %}">My Favourites</a></li>
+                        <li><a href="{% url 'profile' %}">My Profile</a></li>
+                        <li><a href="{% url 'cart' %}">My Cart</a></li>
                         <li><a href="{% url 'logout' %}">Logout</a></li>
                     </ul>
                 </div>

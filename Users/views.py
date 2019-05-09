@@ -1,9 +1,11 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.forms import UserCreationForm
 
-from Users.forms.profile_form import ProfileForm
-from Users.models import Profiles
+from Users.models import Profiles, CartItems, Favourites
 from Properties.models import Properties, Zip
+
+from Users.forms.profile_form import ProfileForm
+
 import logging
 logger = logging.getLogger(__name__)
 # logger.error(form['address'].value())
@@ -45,3 +47,14 @@ def profile(request):
     return render(request, 'Users/profile.html', {
         'form': form
     })
+
+
+def cart(request):
+    Cart = {'Cart': CartItems.objects.filter(user_id=request.user.id)}
+    return render(request, 'Users/cart.html', Cart)
+
+
+def favourites(request):
+    context = {'fav': Favourites.objects.filter(user_id=request.user.id)}
+    return render(request, 'Users/Favourites.html', context)
+
