@@ -11,7 +11,7 @@
     <p><b>Category:</b> {{ Properties.category_id.category}}</p>
     <p><b>City:</b> {{ Properties.zip.city }}</p>
     <p><b>Zip:</b> {{ Properties.zip.zip }}</p>
-    <p><b>Square feet:</b> {{ Properties.size }}</p>
+    <p><b>Square feet:</b> {{ Properties.size|intcomma }}</p>
     <p><b>Bathrooms:</b> {{ Properties.bathrooms }}</p>
     <p><b>Rooms:</b> {{ Properties.rooms }}</p>
     {% if Properties.category_id != 6 %}
