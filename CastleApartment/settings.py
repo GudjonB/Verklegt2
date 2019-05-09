@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.humanize',
     'Users.apps.UsersConfig',
     'Properties.apps.PropertiesConfig',
 ]
@@ -110,9 +111,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'en-gb'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'GMT'
 
 USE_I18N = True
 
@@ -129,8 +130,8 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static")
 ]
 
-LOGIN_URL = '/Users/login'
-LOGIN_REDIRECT_URL = '/Users/profile'
+LOGIN_URL = '/users/login'
+LOGIN_REDIRECT_URL = '/users/profile'
 
 MEDIA_ROOT = BASE_DIR
 MEDIA_URL = '/images/'

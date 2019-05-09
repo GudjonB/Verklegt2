@@ -9,31 +9,47 @@
 {% endblock %}
 
 {% block houses %}
+{% load humanize %}
 
-
+    <section id="newest" class="pb-5">
     <div class="propContainer">
         <h5 class="section-title h1">Our latest properties for sale!</h5>
         <div class="newRow">
             <!-- Property-->
             <div class="card">
                 <div class="card-body text-center">
-                    <p><img class="card-img-top" src="{{ Properties.0.propertyimages_set.first }}" alt="card image"></p>
+
+                    <a href="../properties/{{ Properties.0.id}}"><img class="card-img-top" src="{{ Properties.0.propertyimages_set.first }}" alt="card image"></a>
                     <h4 class="card-title">{{ Properties.0.address }}</h4>
-                    <p class="card-text">{{ Properties.0.price }} .- Kr</p>
+                    <p class="card-text">{{ Properties.0.price|intcomma }} .- Kr</p>
+                    <a href="../properties/{{ Properties.0.id}}" class="card-link">Read more</a>
+                     {% if user.is_authenticated %}
+                    <a href="#" class="card-link">Add to cart</a>
+                     {% endif %}
+
                 </div>
             </div>
             <div class="card">
                 <div class="card-body text-center">
-                    <p><img class="card-img-top" src="{{ Properties.1.propertyimages_set.first }}" alt="card image"></p>
+                    <a href="../properties/{{ Properties.1.id}}"><img class="card-img-top" src="{{ Properties.1.propertyimages_set.first }}" alt="card image"></a>
                     <h4 class="card-title">{{ Properties.1.address }}</h4>
-                    <p class="card-text">{{ Properties.1.price }} .- Kr</p>
+                    <p class="card-text">{{ Properties.1.price|intcomma }} .- Kr</p>
+                    <a href="../properties/{{ Properties.1.id}}" class="card-link">Read more</a>
+                     {% if user.is_authenticated %}
+                    <a href="#" class="card-link">Add to cart</a>
+                     {% endif %}
                 </div>
             </div>
             <div class="card">
                 <div class="card-body text-center">
-                    <p><img class="card-img-top" src="{{ Properties.2.propertyimages_set.first }}" alt="card image"></p>
+
+                    <a href="../properties/{{ Properties.2.id}}"><img class="card-img-top" src="{{ Properties.2.propertyimages_set.first }}" alt="card image"></a>
                     <h4 class="card-title">{{ Properties.2.address }}</h4>
-                    <p class="card-text">{{ Properties.2.price }} .- Kr</p>
+                    <p class="card-text">{{ Properties.2.price|intcomma }} .- Kr</p>
+                    <a href="../properties/{{ Properties.2.id}}" class="card-link">Read more</a>
+                     {% if user.is_authenticated %}
+                    <a href="#" class="card-link">Add to cart</a>
+                     {% endif %}
                 </div>
             </div>
         </div>

@@ -3,9 +3,9 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path('', views.getAllProperties, name="allProperties"),
-    path('create', views.createProperties, name="createProperties"),
-    path('<int:id>', views.getPropertyById, name="propertyDetails"),
-    path('upload', views.uploadPropertiesImages, name="uploadPropertyImages"),
-    path('openHouses', views.getOpenHouses, name="openHouses")
+    path('', views.get_all_properties, name="allProperties"),
+    path('create', views.create_properties, name="create_properties"),
+    path('<int:id>', views.get_property_by_id, name="propertyDetails"),
+    path('upload', views.upload_properties_images, name="uploadPropertyImages"),
+    path('openHouses', views.get_open_houses, name="openHouses")
 ]
