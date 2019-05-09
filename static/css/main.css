@@ -223,3 +223,30 @@ ul {
     padding-top: 0;
 }
 
+#id_username, #id_password {
+    border: 1px solid lightgrey;
+}
+
+.btn-primary {
+    background-color: #7C7B79;
+    border: none;
+}
+
+.login-register {
+    padding-top: 2.5rem;
+    padding-bottom: 1.5rem;
+}
+
+.helptext {
+    content: ' ';
+    display: block;
+    color: #888888;
+    font-size: 0.7rem;
+    font-style: italic;
+}
+
+.form-horizontal li {
+    color: #888888;
+    font-size: 0.7rem;
+    font-style: italic;
+}

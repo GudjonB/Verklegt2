@@ -1,9 +1,9 @@
 {% extends "base.html" %}
 {% block content %}
-    <h1>Register</h1>
+    <h1 class="login-register">Register</h1>
     <form class="form form-horizontal" method="post">
         {% csrf_token %}
-        {{ form }}
+        {{ form.as_p }}
         <input type="submit" class="btn btn-primary" value="Sign up" />
     </form>
 
