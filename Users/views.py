@@ -3,7 +3,7 @@ from django.contrib.auth.forms import UserCreationForm
 
 from Users.forms.profile_form import ProfileForm
 from Users.forms.offers_form import OffersForm
-from Users.models import Profiles
+from Users.models import Profiles, CartItems
 from Properties.models import Properties
 
 
@@ -48,3 +48,8 @@ def make_offers(request):
     return render(request, 'Users/make_offers.html', {
         'form': form
     })
+
+
+def cart(request):
+    Cart = {'Cart': CartItems.objects.filter(user_id=request.user.id)}
+    return render(request, 'Users/cart.html', Cart)

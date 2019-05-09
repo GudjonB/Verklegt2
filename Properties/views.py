@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from Properties.forms.properties_form import PropertiesCreateForm
 from Properties.forms.open_houses_form import OpenHousesCreateForm
 from Properties.forms.properties_images_form import PropertiesImagesForm
-from Properties.models import Properties, Description, OpenHouses
+from Properties.models import Properties, Description, OpenHouses, Categories, Zip
 
 
 def index(request):
@@ -44,7 +44,10 @@ def upload_properties_images(request):
 
   
 def get_all_properties(request):
-    context = {'Properties': Properties.objects.all()}
+    context = {'Properties': Properties.objects.all(),
+               'Categories': Categories.objects.all(),
+               'Zip': Zip.objects.all()
+              }
     return render(request, 'Properties/index.html', context)
 
 
@@ -69,3 +72,4 @@ def add_open_houses(request):
     return render(request, 'Properties/add_open_houses.html', {
         'form': form
     })
+
