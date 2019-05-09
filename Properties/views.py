@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from Properties.forms.properties_form import PropertiesCreateForm
+from Properties.forms.open_houses_form import OpenHousesCreateForm
 from Properties.forms.properties_images_form import PropertiesImagesForm
 from Properties.models import Properties, Description, OpenHouses
 
@@ -61,12 +62,10 @@ def add_open_houses(request):
     if request.method == 'POST':
         form = OpenHousesCreateForm(data=request.POST)
         if form.is_valid():
-            properties = form.save()
-            description = Description(description=request.POST['description'], property=properties)
-            description.save()
-            return redirect('allProperties')
+            form.save()
+            return redirect('openHouses')
     else:
-        form = PropertiesCreateForm()
+        form = OpenHousesCreateForm()
     return render(request, 'Properties/add_open_houses.html', {
         'form': form
     })

@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm
 
 from Users.forms.profile_form import ProfileForm
+from Users.forms.offers_form import OffersForm
 from Users.models import Profiles
 from Properties.models import Properties
 
@@ -33,4 +34,17 @@ def profile(request):
             return redirect('profile')
     return render(request, 'Users/profile.html', {
         'form': ProfileForm(instance=profile)
+    })
+
+
+def make_offers(request):
+    if request.method == 'POST':
+        form = OffersForm(data=request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('propertyDetails')
+    else:
+        form = OffersForm()
+    return render(request, 'Users/make_offers.html', {
+        'form': form
     })

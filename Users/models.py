@@ -43,7 +43,8 @@ class Cards(models.Model):
 class Offers(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     property = models.ForeignKey(Properties, on_delete=models.CASCADE)
-    expiration = models.DateTimeField(validators=[MinValueValidator(datetime.date.today())])
+    expiration = models.DateTimeField(blank=True)
+    amount = models.IntegerField()
 
 
 class Favourites(models.Model):
