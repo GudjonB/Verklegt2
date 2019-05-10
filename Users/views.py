@@ -49,7 +49,11 @@ def update_profile(request):
             my_profile.save()
             return redirect('profile')
     else:
-        form = UpdateProfileForm()
+        profile = Profiles.objects.get(user_id=request.user.id)
+        form = UpdateProfileForm(initial={'address': profile.address,
+                                          'social': profile.social,
+                                          'zipCode': profile.zipCode,
+                                          'image': profile.image})
     return render(request, 'Users/update_profile.html', {
         'form': form
     })
