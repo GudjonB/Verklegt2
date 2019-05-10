@@ -4,7 +4,7 @@ from django.contrib.auth.forms import UserCreationForm
 from Users.models import Profiles, CartItems, Favourites
 from Properties.models import Properties, Zip
 
-from Users.forms.profile_form import ProfileForm
+#from Users.forms.profile_form import ProfileForm
 from Users.forms.offers_form import OffersForm
 from Users.models import Profiles, CartItems
 from Properties.models import Properties
