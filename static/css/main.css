@@ -301,3 +301,72 @@ ul {
 #offer {
     margin-bottom: 2rem;
 }
+
+.profile-head {
+    display: block;
+}
+
+.profile-img {
+    margin-right: 60%;
+    width: 20%;
+    margin-bottom: 1rem;
+}
+
+hr {
+    size: 6px;
+    width: 90%;
+    align: center;
+    color: #F2F2F2;
+}
+
+.profile-container {
+    display: flex;
+    flex-direction: row;
+    margin-left: 2rem;
+}
+
+#profile-fav-container {
+    margin-left: 20%;
+}
+
+#profile-fav {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+}
+
+#profile-fav-container hr {
+    width: 100%;
+}
+
+.btn-profile {
+    color: white;
+    background-color: #7C7B79;
+    border: none;
+    border-radius: 5px;
+    padding-bottom: 0.4rem;
+    padding-top: 0.4rem;
+    margin-bottom: 3rem;
+    margin-top: 1rem;
+
+}
+
+#profile-fav .card {
+    width: 12rem;
+    margin: 5px 5px;
+}
+
+#profile-fav .card-img-top {
+    height: 7rem;
+}
+
+#profile-fav .card-body {
+    padding-top: 10px;
+    padding-bottom: 0px;
+}
+
+#profile-fav .card-link {
+    font-size: 11px;
+}
+

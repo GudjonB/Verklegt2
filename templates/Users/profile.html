@@ -1,17 +1,53 @@
 {% extends 'base.html' %}
 {% block content %}
     {% load humanize %}
-    <h1>Profile</h1>
-    <h2>User Nr:    {{ Profiles.user_id }}</h2>
-    <h2>Profile ID: {{ Profiles.id }}</h2>
 
-    <img class="property-img" alt="profile_picture" src="{{ Profiles.image }}" >
+    <form class = "form form horizontal" action="{% url 'uploadPropertyImages' %}" method="post" enctype="multipart/form-data">
 
-    <p><b>Address:           </b> {{ Profiles.address }}</p>
+        <h1 class="profile-head">My Profile</h1>
+        <hr>
 
-    <p><b>Social Security Nr:</b> {{ Profiles.social }}</p>
+        <img class="profile-img" alt="profile_picture" src="{{ Profiles.image }}" >
 
-    <p><b>Zip:               </b> {{ Profiles.zipCode }}</p>
+        <!--
+        <h2>User Nr:    {{ Profiles.user_id }}</h2>
+        <h2>Profile ID: {{ Profiles.id }}</h2>
+        -->
+        <div class="profile-container">
+            <div id="profile-info">
+                <p class="profile-para"><b>Address:           </b> {{ Profiles.address }}</p>
 
-    <a href="/users/profileup" class="btn btn-danger">Edit Profile</a>
+                <p class="profile-para"><b>Social Security Nr:</b> {{ Profiles.social }}</p>
+
+                <p class="profile-para"><b>Zip:               </b> {{ Profiles.zipCode }}</p>
+            </div>
+            <div id="profile-fav-container">
+                <h3>My Favorites</h3>
+                <hr>
+                <!-- loopa yfir favorites -->
+                <div id="profile-fav">
+                    {% for i in fav %}
+                        <!--
+                        {% if i.user_id == Profiles.user_id %}
+                        <img src="{{ i.property.propertyimages_set.first }}">
+                        {% endif %}
+                        -->
+                        <div class="card" >
+                            <a href="/properties/{{ i.property_id }}"><img src="{{ i.property.propertyimages_set.first }}" class="card-img-top" alt="..."></a>
+                            <div class="card-body">
+                                <h5 class="card-title"><a href="/properties/{{ i.property_id }}">{{ i.property.address }}</a></h5>
+                                <!--<p class="card-text">{{ i.description_set.first }}</p>-->
+                            </div>
+                            <div class="card-body">
+                                <a href="/properties/{{ i.property_id }}" class="card-link">Read more</a>
+                                <a href="/properties/{{ i.property_id }}" class="card-link">Add to cart</a>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <a href="/users/profileup" class="btn btn-profile">Edit Profile</a>
+    </form>
 {% endblock %}
