@@ -10,14 +10,6 @@ from Properties.models import Properties, Zip
 
 
 class Profiles(models.Model):
-    first_name = models.CharField(max_length=155,
-                                  validators=[RegexValidator(r'^[a-zA-Z]*$',
-                                                             'Only alphabetic characters are allowed.',
-                                                             'invalid_name')])
-    last_name = models.CharField(max_length=155,
-                                 validators=[RegexValidator(r'^[a-zA-Z]*$',
-                                                            'Only alphabetic characters are allowed.',
-                                                            'invalid_name')])
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=255,
                             validators=[RegexValidator(r'^[0-9a-zA-Z]*$',
