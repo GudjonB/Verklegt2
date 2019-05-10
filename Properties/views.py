@@ -133,7 +133,7 @@ def filter(request):
             props = props.order_by('address')
 
 
-    return render(request, 'properties/index.html', {'query': query, 'Properties': props,
+    return render(request, 'properties/index.html', {'Properties': props,
                                                       'Categories': Categories.objects.all(),
                                                       'Zip': Zip.objects.all()
                                                       })
