@@ -67,11 +67,11 @@ def get_open_houses(request):
     context = {'OpenHouses' : OpenHouses.objects.all()}
     return render(request, 'Properties/open_houses.html', context)
 
-
+'''
 def get_new_properties(request):
     context = {'Properties': Properties.objects.all().order_by('-id')[:3]}
     return render(request, 'users/index.html', context)
-
+'''
 
 def add_open_houses(request):
     if request.method == 'POST':
