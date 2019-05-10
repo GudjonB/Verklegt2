@@ -30,7 +30,7 @@ def get_property_by_id(request, id):
 
 def upload_properties_images(request):
     if request.method == 'POST':
-        form = PropertiesImagesForm(request.POST, request.FILES)
+        form = PropertiesImagesForm(data=request.POST, files=request.FILES)
         if form.is_valid():
             form.save()
             return redirect('allProperties')

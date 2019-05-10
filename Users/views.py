@@ -39,17 +39,17 @@ def profile(request):
 
 def update_profile(request):
     if request.method == 'POST':
-        form = UpdateProfileForm(data=request.POST, instance=request.user)
+        form = UpdateProfileForm(data=request.POST, instance=request.user, files=request.FILES)
         if form.is_valid():
             my_profile = Profiles.objects.get(user_id=request.user.id)
             my_profile.address = form['address'].value()
             my_profile.social = form['social'].value()
             my_profile.zipCode_id = form['zipCode'].value()
-
+            my_profile.image = form['image'].value()
             my_profile.save()
             return redirect('profile')
     else:
-        form = UpdateProfileForm(instance=request.user)
+        form = UpdateProfileForm()
     return render(request, 'Users/update_profile.html', {
         'form': form
     })
