@@ -37,7 +37,8 @@ def register(request):
 def profile(request):
     return render(request, 'Users/profile.html', {
         'Profiles': get_object_or_404(Profiles, pk=Profiles.objects.get(user_id=request.user.id).id),
-        'fav': Favourites.objects.filter(user_id=request.user.id)
+        'fav': Favourites.objects.filter(user_id=request.user.id),
+        'fav_count': Favourites.objects.filter(user_id=request.user.id).count()
     })
 
 
