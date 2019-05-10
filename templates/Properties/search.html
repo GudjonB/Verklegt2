@@ -15,13 +15,14 @@
                     {% endfor %}
 
                 </div>
-                <!--Zip code:
-                <span class="zips"><select class="zip-codes" >
+                Zip code:
+                <span class="zips"><select class="zipcodes"  name="zipcodes" id="zip-codes">
                     <option selected disabled>-------</option>
                     {% for i in Zip %}
-                        <option name="zip" value="{{ i.id }}">{{ i.zip }}</option>
+                        <option value="{{ i.id }}">{{ i.zip }}</option>
                     {% endfor %}
-                </select>-->
+
+                </select>
                 Size (m<sup>2</sup>):
                 <select class="size" name="sizefrom" id="size-from">
                     <option value="">&nbsp;</option>
@@ -193,29 +194,28 @@
 
     <div class="propContainer">
         {% for i in props %}
-            <div class="card" >
-                <a href="/properties/{{ i.id }}"><img src="{{ i.propertyimages_set.first }}" class="card-img-top" alt="..."></a>
-                <div class="card-body">
-                    <h5 class="card-title"><a href="/properties/{{ i.id }}">{{ i.address }}</a></h5>
-                    <!--<p class="card-text">{{ i.description_set.first }}</p>-->
-                </div>
-                <ul class="list-group list-group-flush">
-                    <li class="list-group-item">{{ i.category.category}}</li>
-                    <li class="list-group-item">{{ i.size|intcomma }} m<sup>2</sup></li>
-                    <li class="list-group-item">{{ i.rooms }} Rooms</li>
-                    <li class="list-group-item">{{ i.price|intcomma }}.- kr</li>
-                </ul>
-                <div class="card-body">
-                    <a href="/properties/{{ i.id }}" class="card-link">Read more</a>
-                    {% if user.is_authenticated %}
+            {% if not i.deleted %}
+                <div class="card" >
+                    <a href="/properties/{{ i.id }}"><img src="{{ i.propertyimages_set.first }}" class="card-img-top" alt="..."></a>
+                    <div class="card-body">
+                        <h5 class="card-title"><a href="/properties/{{ i.id }}">{{ i.address }}</a></h5>
+                        <!--<p class="card-text">{{ i.description_set.first }}</p>-->
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">{{ i.category.category}}</li>
+                        <li class="list-group-item">{{ i.size|intcomma }} m<sup>2</sup></li>
+                        <li class="list-group-item">{{ i.rooms }} Rooms</li>
+                        <li class="list-group-item">{{ i.price|intcomma }}.- kr</li>
+                    </ul>
+                    <div class="card-body">
+                        <a href="/properties/{{ i.id }}" class="card-link">Read more</a>
+                         {% if user.is_authenticated %}
                         <a href="/properties/{{ i.id }}" class="card-link">Add to cart</a>
-                    {% endif %}
+                         {% endif %}
+                    </div>
                 </div>
-            </div>
+            {% endif %}
         {% endfor %}
     </div><br>
 
-
-
 {% endblock %}
-

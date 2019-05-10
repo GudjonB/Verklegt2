@@ -15,13 +15,14 @@
                     {% endfor %}
 
                 </div>
-                <!--Zip code:
-                <span class="zips"><select class="zip-codes" >
+                Zip code:
+                <span class="zips"><select class="zipcodes"  name="zipcodes" id="zip-codes">
                     <option selected disabled>-------</option>
                     {% for i in Zip %}
-                        <option name="zip" value="{{ i.id }}">{{ i.zip }}</option>
+                        <option value="{{ i.id }}">{{ i.zip }}</option>
                     {% endfor %}
-                </select>-->
+
+                </select>
                 Size (m<sup>2</sup>):
                 <select class="size" name="sizefrom" id="size-from">
                     <option value="">&nbsp;</option>

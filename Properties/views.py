@@ -63,6 +63,9 @@ def search(request):
     props = Properties.objects.all()
     if query.getlist('category'):
         props = Properties.objects.filter(Q(category__in=query.getlist('category')))
+    if query.get('zipcodes'):
+        tmp = Properties.objects.filter(Q(zip__in=query.get('zipcodes')))
+        props = tmp.intersection(props)
     if query.get('roomsfrom') and query.get('roomsto'):
         if '+' in query.get('roomsto'):
             tmp = Properties.objects.filter(Q(rooms__gte=query.get('roomsfrom')))
