@@ -85,3 +85,19 @@ def favourites(request):
     context = {'fav': Favourites.objects.filter(user_id=request.user.id)}
     return render(request, 'Users/Favourites.html', context)
 
+def add_to_favourite(request, id):
+    favourite = Favourites(property=get_object_or_404(Properties, pk=id), user=request.user)
+    favourite.save()
+    return redirect("propertyDetails",id)
+
+def remove_from_favourites(request, id):
+    favourite = Favourites.objects.filter(property_id=id, user=request.user)
+    favourite.delete()
+    return redirect('favouritesl')
+
+def add_to_cart(request, id):
+    item = CartItems(property=get_object_or_404(Properties, pk=id), user=request.user)
+    item.save()
+    return redirect("cart")
+
+

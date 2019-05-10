@@ -65,7 +65,7 @@ def get_open_houses(request):
 
 
 def get_new_properties(request):
-    context = {'Properties': Properties.objects.all().order_by('-id')}
+    context = {'Properties': Properties.objects.all().order_by('-id')[:3]}
     return render(request, 'users/index.html', context)
 
 
@@ -80,6 +80,7 @@ def add_open_houses(request):
     return render(request, 'Properties/add_open_houses.html', {
         'form': form
     })
+
 
 
 def search(request):

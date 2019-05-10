@@ -20,7 +20,8 @@
                 </ul>
                 <div class="card-body">
                     <a href="/properties/{{ i.property_id }}" class="card-link">Read more</a>
-                    <a href="/properties/{{ i.property_id }}" class="card-link">Add to cart</a>
+                    <a href="/users/addCartItem/{{ i.property_id }}" class="card-link">Add to cart</a>
+                    <a href="/users/removeFavourite/{{ i.property_id}}" class="btn btn-danger">Remove from favourites</a>
                 </div>
             </div>
         {% endfor %}

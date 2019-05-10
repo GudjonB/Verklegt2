@@ -64,29 +64,26 @@
             <!-- profile -->
             <div id="rightnav">
 
-            <a type="button" href="{% url 'cart' %}" class="btn-floating btn-fb"><i class="fas fa-shopping-cart"></i></a>
+                <a type="button" href="{% url 'cart' %}" class="btn-floating btn-fb"><i class="fas fa-shopping-cart"></i></a>
 
-            <div>
-                <div class="navbar-header-profile">
-                    <button class="profile-toggler profile-button" type="button" data-toggle="collapse" data-target="#myProfile"
-                            aria-controls="navba" aria-expanded="false" aria-label="Toggle navigation">
-                        <div><i class="profIcon fas fa-user"></i></div>
-                    </button>
+                <div>
+                    <div class="navbar-header-profile">
+                        <button class="profile-toggler profile-button" type="button" data-toggle="collapse" data-target="#myProfile"
+                                aria-controls="navba" aria-expanded="false" aria-label="Toggle navigation">
+                            <div><i class="profIcon fas fa-user"></i></div>
+                        </button>
+                    </div>
+
+                    <div class="collapse profile-collapse" id="myProfile">
+                        <ul class="nav navbar-nav">
+                            <li><a href="{% url 'allProperties' %}">My Properties</a></li>
+                            <li><a href="{% url 'favourites' %}">My Favourites</a></li>
+                            <li><a href="{% url 'profile' %}">My Profile</a></li>
+                            <li><a href="{% url 'cart' %}">My Cart</a></li>
+                            <li><a href="{% url 'logout' %}">Logout</a></li>
+                        </ul>
+                    </div>
                 </div>
-
-                <div class="collapse profile-collapse" id="myProfile">
-                    <ul class="nav navbar-nav">
-                        <li><a href="{% url 'allProperties' %}">My Properties</a></li>
-                        <li><a href="{% url 'favourites' %}">My Favourites</a></li>
-                        <li><a href="{% url 'profile' %}">My Profile</a></li>
-                        <li><a href="{% url 'cart' %}">My Cart</a></li>
-                        <li><a href="{% url 'logout' %}">Logout</a></li>
-                    </ul>
-                </div>
-            </div>
-
-
-
             </div>
 
         {% else %}
