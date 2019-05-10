@@ -3,32 +3,34 @@
     {% load humanize %}
         <h1 class="profile-head">My Profile</h1>
         <hr>
-        <img class="profile-img" alt="profile_picture" src="{{ Profiles.image_name }}" >
         <!--
         <h2>User Nr:    {{ Profiles.user_id }}</h2>
         <h2>Profile ID: {{ Profiles.id }}</h2>
         -->
         <div class="profile-container">
             <div id="profile-info">
-                <!-- Full name -->
+
+                <img class="profile-img" alt="profile_picture" src="{{ Profiles.image_name }}" >
+
                 <p class="profile-para"><b>Name:              </b> {{ Profiles.name }}</p>
+
                 <p class="profile-para"><b>Address:           </b> {{ Profiles.address }}</p>
 
                 <p class="profile-para"><b>Social Security Nr:</b> {{ Profiles.social }}</p>
 
                 <p class="profile-para"><b>Zip:               </b> {{ Profiles.zipCode }}</p>
+
+                <a href="/users/profileup" class="btn btn-profile">Edit Profile</a>
             </div>
             <div id="profile-fav-container">
                 <h3>My Favorites</h3>
                 <hr>
                 <!-- loopa yfir favorites -->
                 <div id="profile-fav">
+                    {% if fav_count == 0 %}
+                        <p>You have no favorite properties, Go and search!</p>
+                    {% endif %}
                     {% for i in fav %}
-                        <!--
-                        {% if i.user_id == Profiles.user_id %}
-                        <img src="{{ i.property.propertyimages_set.first }}">
-                        {% endif %}
-                        -->
                         <div class="card" >
                             <a href="/properties/{{ i.property_id }}"><img src="{{ i.property.propertyimages_set.first }}" class="card-img-top" alt="..."></a>
                             <div class="card-body">
@@ -45,6 +47,5 @@
             </div>
         </div>
 
-        <a href="/users/profileup" class="btn btn-profile">Edit Profile</a>
     </form>
 {% endblock %}
