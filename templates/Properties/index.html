@@ -5,7 +5,7 @@
     {% load humanize %}
     <div class="container">
         <div class="[ col-xs-12 ] search-params">
-            <form id="searchform" action="{% url 'search' %}" method="get" >
+            <form id="searchform" action="{% url 'filter' %}" method="get" >
                 <h4>Property Search</h4>
                 <div class="multiselect">
                     {% for i in Categories %}

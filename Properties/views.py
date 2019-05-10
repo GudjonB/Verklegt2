@@ -58,7 +58,7 @@ def get_new_properties(request):
     context = {'Properties': Properties.objects.all().order_by('-id')}
     return render(request, 'users/index.html', context)
 
-def search(request):
+def filter(request):
     query = request.GET
     props = Properties.objects.all()
     if query.getlist('category'):
@@ -87,7 +87,7 @@ def search(request):
             tmp = Properties.objects.filter(Q(price__gte=int(query.get('pricefrom'))*1000000),
                                             Q(price__lte=int(query.get('priceto'))*1000000))
         props = tmp.intersection(props)
-    return render(request, 'properties/search.html', {'query': query, 'props': props,
+    return render(request, 'properties/index.html', {'query': query, 'Properties': props,
                                                       'Categories': Categories.objects.all(),
                                                       'Zip': Zip.objects.all()
                                                       })
