@@ -48,16 +48,7 @@ def update_profile(request):
             my_profile = Profiles.objects.get(user_id=request.user.id)
             my_profile.address = form['address'].value()
             my_profile.social = form['social'].value()
-            zip_temp = Zip.objects.all().values()
-            zip_temp_id_list = []
-
-            for i in zip_temp:
-                zip_temp_id_list.append(i['id'])
-            if form['zipCode'].value() in zip_temp_id_list:
-                zip_id = form['zipCode'].value()
-                for j in zip_temp:
-                    if zip_id == j['id']:
-                        my_profile.zipCode = j['zip']
+            my_profile.zipCode_id = form['zipCode'].value()
 
             my_profile.save()
             return redirect('profile')
