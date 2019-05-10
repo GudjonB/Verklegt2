@@ -1,8 +1,13 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.db.models import Q
 from Properties.forms.properties_form import PropertiesCreateForm
+from Properties.forms.open_houses_form import OpenHousesCreateForm
 from Properties.forms.properties_images_form import PropertiesImagesForm
-from Properties.models import Properties, Description, OpenHouses, Categories, Zip
+from Properties.models import Properties, Description, OpenHouses, Categories, Zip, PropertySellers
+import logging
+logger = logging.getLogger(__name__)
+# logger.error(form['address'].value())
+
 def index(request):
     return render(request, 'Properties/index.html')
 
@@ -14,6 +19,11 @@ def create_properties(request):
             properties = form.save()
             description = Description(description=request.POST['description'], property=properties)
             description.save()
+            logger.error(request.user.id)
+            logger.error(properties.id)
+            logger.error(form['address'].value())
+            sellers = PropertySellers(user_id=request.user.id, property_id=properties.id)
+            sellers.save()
             return redirect('allProperties')
     else:
         form = PropertiesCreateForm()
@@ -58,6 +68,20 @@ def get_new_properties(request):
     context = {'Properties': Properties.objects.all().order_by('-id')}
     return render(request, 'users/index.html', context)
 
+
+def add_open_houses(request):
+    if request.method == 'POST':
+        form = OpenHousesCreateForm(data=request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('openHouses')
+    else:
+        form = OpenHousesCreateForm()
+    return render(request, 'Properties/add_open_houses.html', {
+        'form': form
+    })
+
+
 def search(request):
     query = request.GET
     props = Properties.objects.all().order_by('address')
@@ -71,31 +95,28 @@ def search(request):
 def filter(request):
     query = request.GET
     props = Properties.objects.all().order_by('-id')
-    if query.getlist('category'):
+    if query.getlist('category'): #check categories
         props = Properties.objects.filter(Q(category__in=query.getlist('category'))).order_by('category').order_by('address')
-    if query.get('zipcodes'):
+    if query.get('zipcodes'): #check zipcodes
         tmp = Properties.objects.filter(Q(zip__in=query.get('zipcodes')))
         props = tmp.intersection(props).order_by('address')
-    if query.get('roomsfrom') and query.get('roomsto'):
-        if '+' in query.get('roomsto'):
-            tmp = Properties.objects.filter(Q(rooms__gte=query.get('roomsfrom')))
-        else:
-            tmp = Properties.objects.filter(Q(rooms__gte=query.get('roomsfrom')),
-                                            Q(rooms__lte=query.get('roomsto')))
+    if query.get('roomsfrom'): #check min rooms
+        tmp = Properties.objects.filter(Q(rooms__gte=query.get('roomsfrom')))
         props = tmp.intersection(props).order_by('rooms')
-    if query.get('sizefrom') and query.get('sizeto'):
-        if '+' in query.get('sizeto'):
-            tmp = Properties.objects.filter(Q(size__gte=query.get('sizefrom')))
-        else:
-            tmp = Properties.objects.filter(Q(size__gte=query.get('sizefrom')),
-                                            Q(size__lte=query.get('sizeto')))
+    if query.get('roomsto') and '+' not in query.get('roomsto'):
+        tmp = Properties.objects.filter(Q(rooms__lte=query.get('roomsto')))
+        props = tmp.intersection(props).order_by('rooms')
+    if query.get('sizefrom'):
+        tmp = Properties.objects.filter(Q(size__gte=query.get('sizefrom')))
         props = tmp.intersection(props).order_by('size')
-    if query.get('pricefrom') and query.get('priceto'):
-        if '+' in query.get('priceto'):
-            tmp = Properties.objects.filter(Q(price__gte=int(query.get('pricefrom'))*1000000))
-        else:
-            tmp = Properties.objects.filter(Q(price__gte=int(query.get('pricefrom'))*1000000),
-                                            Q(price__lte=int(query.get('priceto'))*1000000))
+    if query.get('sizeto') and '+' not in query.get('sizeto'):
+        tmp = Properties.objects.filter(Q(size__lte=query.get('sizeto')))
+        props = tmp.intersection(props).order_by('size')
+    if query.get('pricefrom'):
+        tmp = Properties.objects.filter(Q(price__gte=query.get('pricefrom')))
+        props = tmp.intersection(props).order_by('price')
+    if query.get('priceto') and '+' not in query.get('priceto'):
+        tmp = Properties.objects.filter(Q(price__lte=query.get('priceto')))
         props = tmp.intersection(props).order_by('price')
     return render(request, 'properties/index.html', {'query': query, 'Properties': props,
                                                       'Categories': Categories.objects.all(),

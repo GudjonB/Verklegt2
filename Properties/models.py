@@ -88,3 +88,4 @@ class PropertyVisits(models.Model):
 class PropertySellers(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     property = models.ForeignKey(Properties, on_delete=models.CASCADE)
+
