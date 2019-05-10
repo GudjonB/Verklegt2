@@ -10,7 +10,6 @@
                 <a href="/properties/{{ i.property_id }}"><img src="{{ i.property.propertyimages_set.first }}" class="card-img-top" alt="..."></a>
                 <div class="card-body">
                     <h5 class="card-title"><a href="/properties/{{ i.property_id }}">{{ i.property.address }}</a></h5>
-                    <!--<p class="card-text">{{ i.description_set.first }}</p>-->
                 </div>
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item">{{ i.property.category }}</li>
@@ -20,7 +19,7 @@
                 </ul>
                 <div class="card-body">
                     <a href="/properties/{{ i.property_id }}" class="card-link">Read more</a>
-                    <a href="/properties/{{ i.property_id }}" class="card-link">Remove from cart</a>
+                    <a href="/users/removeCartItem/{{ i.property_id }}" class="card-link">Remove from cart</a>
                 </div>
             </div>
         {% endfor %}

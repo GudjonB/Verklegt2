@@ -93,11 +93,16 @@ def add_to_favourite(request, id):
 def remove_from_favourites(request, id):
     favourite = Favourites.objects.filter(property_id=id, user=request.user)
     favourite.delete()
-    return redirect('favouritesl')
+    return redirect('favourites')
 
 def add_to_cart(request, id):
     item = CartItems(property=get_object_or_404(Properties, pk=id), user=request.user)
     item.save()
+    return redirect("cart")
+
+def remove_from_cart(request, id):
+    item = CartItems.objects.filter(property_id=id, user=request.user)
+    item.delete()
     return redirect("cart")
 
 
