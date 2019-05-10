@@ -8,6 +8,14 @@ from Properties.models import Properties, Zip
 
 
 class Profiles(models.Model):
+    first_name = models.CharField(max_length=155,
+                                  validators=[RegexValidator(r'^[a-zA-Z]*$',
+                                                             'Only alphabetic characters are allowed.',
+                                                             'invalid_name')])
+    last_name = models.CharField(max_length=155,
+                                 validators=[RegexValidator(r'^[a-zA-Z]*$',
+                                                            'Only alphabetic characters are allowed.',
+                                                            'invalid_name')])
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     address = models.CharField(max_length=255,
                                validators=[RegexValidator(r'^[0-9a-zA-Z]*$',
@@ -47,7 +55,8 @@ class Cards(models.Model):
 class Offers(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     property = models.ForeignKey(Properties, on_delete=models.CASCADE)
-    expiration = models.DateTimeField(validators=[MinValueValidator(datetime.date.today())])
+    expiration = models.DateTimeField(blank=True)
+    amount = models.IntegerField()
 
 
 class Favourites(models.Model):

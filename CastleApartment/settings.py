@@ -84,7 +84,7 @@ DATABASES = {
         'USER': 'gtttwuro',
         'PASSWORD': 'gAKzNb52UaKqp_lmv76hoPdfL8V1TvP_',
         'HOST': 'balarama.db.elephantsql.com',
-        'PORT': '5432'
+        'PORT': '5432',
     }
 }
 
