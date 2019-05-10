@@ -42,7 +42,7 @@ def upload_properties_images(request):
 
 
 def get_all_properties(request):
-    context = {'Properties': Properties.objects.all(),
+    context = {'Properties': Properties.objects.all().order_by('-id'),
                'Categories': Categories.objects.all(),
                'Zip': Zip.objects.all()
                }
@@ -60,33 +60,33 @@ def get_new_properties(request):
 
 def filter(request):
     query = request.GET
-    props = Properties.objects.all()
+    props = Properties.objects.all().order_by('-id')
     if query.getlist('category'):
-        props = Properties.objects.filter(Q(category__in=query.getlist('category')))
+        props = Properties.objects.filter(Q(category__in=query.getlist('category'))).order_by('category')
     if query.get('zipcodes'):
         tmp = Properties.objects.filter(Q(zip__in=query.get('zipcodes')))
-        props = tmp.intersection(props)
+        props = tmp.intersection(props).order_by('address')
     if query.get('roomsfrom') and query.get('roomsto'):
         if '+' in query.get('roomsto'):
             tmp = Properties.objects.filter(Q(rooms__gte=query.get('roomsfrom')))
         else:
             tmp = Properties.objects.filter(Q(rooms__gte=query.get('roomsfrom')),
                                             Q(rooms__lte=query.get('roomsto')))
-        props = tmp.intersection(props)
+        props = tmp.intersection(props).order_by('rooms')
     if query.get('sizefrom') and query.get('sizeto'):
         if '+' in query.get('sizeto'):
             tmp = Properties.objects.filter(Q(size__gte=query.get('sizefrom')))
         else:
             tmp = Properties.objects.filter(Q(size__gte=query.get('sizefrom')),
                                             Q(size__lte=query.get('sizeto')))
-        props = tmp.intersection(props)
+        props = tmp.intersection(props).order_by('size')
     if query.get('pricefrom') and query.get('priceto'):
         if '+' in query.get('priceto'):
             tmp = Properties.objects.filter(Q(price__gte=int(query.get('pricefrom'))*1000000))
         else:
             tmp = Properties.objects.filter(Q(price__gte=int(query.get('pricefrom'))*1000000),
                                             Q(price__lte=int(query.get('priceto'))*1000000))
-        props = tmp.intersection(props)
+        props = tmp.intersection(props).order_by('price')
     return render(request, 'properties/index.html', {'query': query, 'Properties': props,
                                                       'Categories': Categories.objects.all(),
                                                       'Zip': Zip.objects.all()
