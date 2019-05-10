@@ -83,3 +83,8 @@ class PropertyVisits(models.Model):
     property = models.ForeignKey(Properties, on_delete=models.CASCADE)
     week_number = models.PositiveIntegerField(blank=True)
     counter = models.PositiveIntegerField(blank=True)
+
+
+class PropertySellers(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    property = models.ForeignKey(Properties, on_delete=models.CASCADE)
