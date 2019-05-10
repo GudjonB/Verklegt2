@@ -9,6 +9,7 @@
         <input type="text" placeholder="Search.." name="q">
         <button type="submit"><i class="fa fa-search"></i></button>
     </form>
+    <br>
     <div class="container">
         <div class="[ col-xs-12 ] search-params">
             <form id="filterform" action="{% url 'filter' %}" method="get" >
@@ -58,7 +59,7 @@
                     <option value="1000" >1000</option>
                 </select>
                 <a> to </a>
-                <select class="size" name="sizeto" id="size-to">
+                <select class="size" name="sizeto" id="size-to" >
                     <option value="">&nbsp;</option>
                     <option value="10" >10</option>
                     <option value="20" >20</option>
@@ -187,6 +188,21 @@
                     <option value="800" >800</option>
                     <option value="900" >900</option>
                     <option value="1000+" >1000+</option>
+                </select>
+
+                <div class="multiselect-time">
+                    <label class="radio-inline">Order by:
+                        <input type="radio" name="ordertime" value="Newest" > Newest
+                        <input type="radio" name="ordertime" value="Oldest" > Oldest<br>
+                    </label>
+                </div>
+                <select class="order-info" name="orderinfo" id="order-info">
+                    <option value="">&nbsp;</option>
+                    <option value="priceascending" >Price ascending</option>
+                    <option value="pricedescending" >Price descending</option>
+                    <option value="nameascending" >Name ascending</option>
+                    <option value="namedescending" >Name descending</option>
+
                 </select>
                 <input type="submit"value="Filter"/>
             </form>
