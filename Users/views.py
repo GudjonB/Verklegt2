@@ -46,6 +46,7 @@ def update_profile(request):
         form = UpdateProfileForm(data=request.POST, instance=request.user, files=request.FILES)
         if form.is_valid():
             my_profile = Profiles.objects.get(user_id=request.user.id)
+            my_profile.name = form['name'].value()
             my_profile.address = form['address'].value()
             my_profile.social = form['social'].value()
             my_profile.zipCode_id = form['zipCode'].value()
@@ -54,7 +55,8 @@ def update_profile(request):
             return redirect('profile')
     else:
         profile = Profiles.objects.get(user_id=request.user.id)
-        form = UpdateProfileForm(initial={'address': profile.address,
+        form = UpdateProfileForm(initial={'name': profile.name,
+                                          'address': profile.address,
                                           'social': profile.social,
                                           'zipCode': profile.zipCode,
                                           'image': profile.image})

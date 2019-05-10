@@ -25,7 +25,8 @@ class Profiles(models.Model):
                                                          'Only numeric characters are allowed.',
                                                          'invalid_social')])
     image = models.ImageField(upload_to='static/images/users/',
-                              default='static/images/users/little-robin-hood-boys-costume.jpg')
+                              default='static/images/users/little-robin-hood-boys-costume.jpg',
+                              blank=True, null=True)
 
     def image_name(self):
         return '/' + self.image.name
