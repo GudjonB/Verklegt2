@@ -89,5 +89,10 @@ def search(request):
                                                       'Zip': Zip.objects.all()
                                                       })
 
-
+  
+def delete_property(request, id):
+    properties = get_object_or_404(Properties, pk=id)
+    properties.deleted = True
+    properties.save()
+    return redirect('allProperties')
 
