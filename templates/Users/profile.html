@@ -1,12 +1,7 @@
 {% extends 'base.html' %}
 {% block content %}
     {% load humanize %}
-
-
-    <form class = "form form horizontal" action="{% url 'uploadPropertyImages' %}" method="post" enctype="multipart/form-data">
-
         <h1 class="profile-head">My Profile</h1>
-
         <hr>
         <img class="profile-img" alt="profile_picture" src="{{ Profiles.image_name }}" >
         <!--
@@ -16,7 +11,7 @@
         <div class="profile-container">
             <div id="profile-info">
                 <!-- Full name -->
-
+                <p class="profile-para"><b>Name:              </b> {{ Profiles.name }}</p>
                 <p class="profile-para"><b>Address:           </b> {{ Profiles.address }}</p>
 
                 <p class="profile-para"><b>Social Security Nr:</b> {{ Profiles.social }}</p>
