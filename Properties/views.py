@@ -65,10 +65,10 @@ def search(request):
         props = Properties.objects.filter(Q(category__in=query.getlist('category')))
     if query.get('roomsfrom') and query.get('roomsto'):
         if '+' in query.get('roomsto'):
-            tmp = Properties.objects.filter(Q(size__gte=query.get('roomsfrom')))
+            tmp = Properties.objects.filter(Q(rooms__gte=query.get('roomsfrom')))
         else:
-            tmp = Properties.objects.filter(Q(size__gte=query.get('roomsfrom')),
-                                            Q(size__lte=query.get('roomsto')))
+            tmp = Properties.objects.filter(Q(rooms__gte=query.get('roomsfrom')),
+                                            Q(rooms__lte=query.get('roomsto')))
         props = tmp.intersection(props)
     if query.get('sizefrom') and query.get('sizeto'):
         if '+' in query.get('sizeto'):
