@@ -1,9 +1,11 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <form class = "form form horizontal" action="{% url 'uploadPropertyImages' %}" method="post" enctype="multipart/form-data">
+    <h1>Upload Image</h1>
+    <form action="{% url 'uploadPropertyImages' %}" class="form form horizontal" enctype="multipart/form-data"
+          method="post">
         {% csrf_token %}
         {{ form }}
-        <input type="submit" value="Upload" class="btn btn-primary pull-right" style="clear:both; margin: 10px 0"/>
+        <input class="btn btn-primary pull-right" type="submit" value="Upload"/>
     </form>
 {% endblock %}
