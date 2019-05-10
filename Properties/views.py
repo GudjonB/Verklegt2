@@ -33,8 +33,12 @@ def create_properties(request):
 
 
 def get_property_by_id(request, id):
+    users_prop_list = []
+    for i in PropertySellers.objects.filter(user_id=request.user.id):
+        users_prop_list.append(i.property_id)
     return render(request, 'Properties/property_details.html', {
-        'Properties': get_object_or_404(Properties, pk=id)
+        'Properties': get_object_or_404(Properties, pk=id),
+        'UsersProperties': users_prop_list
     })
 
 
