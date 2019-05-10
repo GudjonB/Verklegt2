@@ -9,5 +9,6 @@ urlpatterns = [
     path('upload', views.upload_properties_images, name="uploadPropertyImages"),
     path('openHouses', views.get_open_houses, name="openHouses"),
     path('filter', views.filter, name="filter"),
+    path('search', views.search, name="search"),
     path('delete/<int:id>', views.delete_property, name='deleteProperty')
 ]

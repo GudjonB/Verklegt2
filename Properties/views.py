@@ -58,11 +58,21 @@ def get_new_properties(request):
     context = {'Properties': Properties.objects.all().order_by('-id')}
     return render(request, 'users/index.html', context)
 
+def search(request):
+    query = request.GET
+    props = Properties.objects.all().order_by('address')
+    if query.get('q'):
+        props = Properties.objects.filter(Q(address__icontains=query.get('q')))
+    return render(request, 'properties/index.html', {'query': query, 'Properties': props,
+                                                      'Categories': Categories.objects.all(),
+                                                      'Zip': Zip.objects.all()
+                                                      })
+
 def filter(request):
     query = request.GET
     props = Properties.objects.all().order_by('-id')
     if query.getlist('category'):
-        props = Properties.objects.filter(Q(category__in=query.getlist('category'))).order_by('category')
+        props = Properties.objects.filter(Q(category__in=query.getlist('category'))).order_by('category').order_by('address')
     if query.get('zipcodes'):
         tmp = Properties.objects.filter(Q(zip__in=query.get('zipcodes')))
         props = tmp.intersection(props).order_by('address')

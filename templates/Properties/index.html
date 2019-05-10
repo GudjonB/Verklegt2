@@ -1,12 +1,17 @@
 {% extends 'base.html' %}
 
 
+
 {% block content %}
     {% load humanize %}
+    <h4>Property Search</h4>
+    <form id="searchform" action="{% url 'search' %}" method="get" >
+        <input type="text" placeholder="Search.." name="q">
+        <button type="submit"><i class="fa fa-search"></i></button>
+    </form>
     <div class="container">
         <div class="[ col-xs-12 ] search-params">
-            <form id="searchform" action="{% url 'filter' %}" method="get" >
-                <h4>Property Search</h4>
+            <form id="filterform" action="{% url 'filter' %}" method="get" >
                 <div class="multiselect">
                     {% for i in Categories %}
                         <label class="checkbox-inline">
@@ -209,9 +214,9 @@
                     </ul>
                     <div class="card-body">
                         <a href="/properties/{{ i.id }}" class="card-link">Read more</a>
-                         {% if user.is_authenticated %}
-                        <a href="/properties/{{ i.id }}" class="card-link">Add to cart</a>
-                         {% endif %}
+                        {% if user.is_authenticated %}
+                            <a href="/properties/{{ i.id }}" class="card-link">Add to cart</a>
+                        {% endif %}
                     </div>
                 </div>
             {% endif %}
