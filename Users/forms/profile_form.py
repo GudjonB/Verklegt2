@@ -7,6 +7,7 @@ class UpdateProfileForm(ModelForm):
         model = Profiles
         exclude = ['id', 'user']  # TODO: image AND zipCode
         widgets = {
+            'name': widgets.TextInput(attrs={'class': 'form-control'}, ),
             'address': widgets.TextInput(attrs={'class': 'form-control'}, ),
             'zipCode': widgets.Select(attrs={'class': 'form-control'}, ),
             'social': widgets.TextInput(attrs={'class': 'form-control'}, ),

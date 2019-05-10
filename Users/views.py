@@ -11,7 +11,6 @@ from Properties.models import Properties
 from Users.forms.profile_form import UpdateProfileForm
 import logging
 logger = logging.getLogger(__name__)
-# logger.error(form['address'].value())
 
 
 def index(request):
@@ -47,6 +46,7 @@ def update_profile(request):
         form = UpdateProfileForm(data=request.POST, instance=request.user, files=request.FILES)
         if form.is_valid():
             my_profile = Profiles.objects.get(user_id=request.user.id)
+            my_profile.name = form['name'].value()
             my_profile.address = form['address'].value()
             my_profile.social = form['social'].value()
             my_profile.zipCode_id = form['zipCode'].value()
@@ -54,7 +54,12 @@ def update_profile(request):
             my_profile.save()
             return redirect('profile')
     else:
-        form = UpdateProfileForm()
+        profile = Profiles.objects.get(user_id=request.user.id)
+        form = UpdateProfileForm(initial={'name': profile.name,
+                                          'address': profile.address,
+                                          'social': profile.social,
+                                          'zipCode': profile.zipCode,
+                                          'image': profile.image})
     return render(request, 'Users/update_profile.html', {
         'form': form
     })

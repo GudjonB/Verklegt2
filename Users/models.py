@@ -4,11 +4,17 @@ import datetime
 from django.db import models
 from django.contrib.auth.models import User
 from Properties.models import Properties, Zip
+
+
 # Create your models here.
 
 
 class Profiles(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
+    name = models.CharField(max_length=255,
+                            validators=[RegexValidator(r'^[0-9a-zA-Z]*$',
+                                                       'Only alphanumeric characters are allowed.',
+                                                       'invalid name')])
     address = models.CharField(max_length=255,
                                validators=[RegexValidator(r'^[0-9a-zA-Z]*$',
                                                           'Only alphanumeric characters are allowed.',
@@ -19,7 +25,8 @@ class Profiles(models.Model):
                                                          'Only numeric characters are allowed.',
                                                          'invalid_social')])
     image = models.ImageField(upload_to='static/images/users/',
-                              default='static/images/users/little-robin-hood-boys-costume.jpg')
+                              default='static/images/users/little-robin-hood-boys-costume.jpg',
+                              blank=True, null=True)
 
     def image_name(self):
         return '/' + self.image.name
@@ -59,3 +66,4 @@ class Favourites(models.Model):
 class CartItems(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     property = models.ForeignKey(Properties, on_delete=models.CASCADE)
+
