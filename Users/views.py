@@ -11,7 +11,6 @@ from Properties.models import Properties
 from Users.forms.profile_form import UpdateProfileForm
 import logging
 logger = logging.getLogger(__name__)
-# logger.error(form['address'].value())
 
 
 def index(request):
