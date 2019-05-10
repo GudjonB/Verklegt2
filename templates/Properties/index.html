@@ -1,12 +1,17 @@
 {% extends 'base.html' %}
 
 
+
 {% block content %}
     {% load humanize %}
+    <h4>Property Search</h4>
+    <form id="searchform" action="{% url 'search' %}" method="get" >
+        <input type="text" placeholder="Search.." name="q">
+        <button type="submit"><i class="fa fa-search"></i></button>
+    </form>
     <div class="container">
         <div class="[ col-xs-12 ] search-params">
-            <form id="searchform" action="{% url 'search' %}" method="get" >
-                <h4>Property Search</h4>
+            <form id="filterform" action="{% url 'filter' %}" method="get" >
                 <div class="multiselect">
                     {% for i in Categories %}
                         <label class="checkbox-inline">
@@ -15,13 +20,14 @@
                     {% endfor %}
 
                 </div>
-                <!--Zip code:
-                <span class="zips"><select class="zip-codes" >
+                Zip code:
+                <span class="zips"><select class="zipcodes"  name="zipcodes" id="zip-codes">
                     <option selected disabled>-------</option>
                     {% for i in Zip %}
-                        <option name="zip" value="{{ i.id }}">{{ i.zip }}</option>
+                        <option value="{{ i.id }}">{{ i.zip }}</option>
                     {% endfor %}
-                </select>-->
+
+                </select>
                 Size (m<sup>2</sup>):
                 <select class="size" name="sizefrom" id="size-from">
                     <option value="">&nbsp;</option>
@@ -208,9 +214,9 @@
                     </ul>
                     <div class="card-body">
                         <a href="/properties/{{ i.id }}" class="card-link">Read more</a>
-                         {% if user.is_authenticated %}
-                        <a href="/properties/{{ i.id }}" class="card-link">Add to cart</a>
-                         {% endif %}
+                        {% if user.is_authenticated %}
+                            <a href="/properties/{{ i.id }}" class="card-link">Add to cart</a>
+                        {% endif %}
                     </div>
                 </div>
             {% endif %}

@@ -18,7 +18,11 @@ class Profiles(models.Model):
                               validators=[RegexValidator(r'^[0-9]*$',
                                                          'Only numeric characters are allowed.',
                                                          'invalid_social')])
-    image = models.CharField(max_length=999, blank=True)
+    image = models.ImageField(upload_to='static/images/users/',
+                              default='static/images/users/little-robin-hood-boys-costume.jpg')
+
+    def image_name(self):
+        return '/' + self.image.name
 
 
 class Cards(models.Model):

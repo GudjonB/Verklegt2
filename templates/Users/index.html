@@ -1,75 +1,77 @@
 {% extends 'base.html' %}
 
-{% block content %}
-
-
+{% block search %}
 
 {% endblock %}
 
 {% block houses %}
     {% load humanize %}
-
+    <form id="searchform" action="{% url 'search' %}" method="get" >
+        <input type="text" placeholder="Search.." name="q">
+        <button type="submit"><i class="fa fa-search"></i></button>
+    </form>
     <section id="newest" class="pb-5">
-    <div class="propContainer">
-        <h5 class="section-title h1">Our latest properties for sale!</h5>
-        <div class="newRow">
-            <!-- Property-->
-            <div class="card">
-                <a href="../properties/{{ Properties.0.id}}"><img class="card-img-top" src="{{ Properties.0.propertyimages_set.first }}" alt="card image"></a>
-                <div class="card-body">
+        <div class="propContainer">
+            <h5 class="section-title h1">Our latest properties for sale!</h5>
+            <div class="newRow">
+                <!-- Property-->
+                <div class="card">
+                    <a href="../properties/{{ Properties.0.id}}"><img class="card-img-top" src="{{ Properties.0.propertyimages_set.first }}" alt="card image"></a>
                     <div class="card-body">
-                        <h5 class="card-title">{{ Properties.0.address }}</h5>
-                    </div>
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item">{{ Properties.0.price|intcomma }} .- Kr</li>
-                        <li class="list-group-item">{{ Properties.0.size|intcomma }} m<sup>2</sup></li>
-                    </ul>
-                    <div class="card-body">
-                        <a href="../properties/{{ Properties.0.id}}" class="card-link">Read more</a>
-                        {% if user.is_authenticated %}
-                            <a href="#" class="card-link">Add to cart</a>
-                        {% endif %}
-                    </div>
-                </div>
-            </div>
-            <div class="card">
-                <a href="../properties/{{ Properties.1.id}}"><img class="card-img-top" src="{{ Properties.1.propertyimages_set.first }}" alt="card image"></a>
-                <div class="card-body">
-                    <div class="card-body">
-                        <h5 class="card-title">{{ Properties.1.address }}</h5>
-                    </div>
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item">{{ Properties.1.price|intcomma }} .- Kr</li>
-                        <li class="list-group-item">{{ Properties.1.size|intcomma }} m<sup>2</sup></li>
-                    </ul>
-                    <div class="card-body">
-                        <a href="../properties/{{ Properties.1.id}}" class="card-link">Read more</a>
-                        {% if user.is_authenticated %}
-                            <a href="#" class="card-link">Add to cart</a>
-                        {% endif %}
+                        <div class="card-body">
+                            <h5 class="card-title">{{ Properties.0.address }}</h5>
+                        </div>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">{{ Properties.0.price|intcomma }} .- Kr</li>
+                            <li class="list-group-item">{{ Properties.0.size|intcomma }} m<sup>2</sup></li>
+                        </ul>
+                        <div class="card-body">
+                            <a href="../properties/{{ Properties.0.id}}" class="card-link">Read more</a>
+                            {% if user.is_authenticated %}
+                                <a href="#" class="card-link">Add to cart</a>
+                            {% endif %}
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="card">
-                <a href="../properties/{{ Properties.2.id}}"><img class="card-img-top" src="{{ Properties.2.propertyimages_set.first }}" alt="card image"></a>
-                <div class="card-body">
+                <div class="card">
+                    <a href="../properties/{{ Properties.1.id}}"><img class="card-img-top" src="{{ Properties.1.propertyimages_set.first }}" alt="card image"></a>
                     <div class="card-body">
-                        <h5 class="card-title">{{ Properties.2.address }}</h5>
+                        <div class="card-body">
+                            <h5 class="card-title">{{ Properties.1.address }}</h5>
+                        </div>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">{{ Properties.1.price|intcomma }} .- Kr</li>
+                            <li class="list-group-item">{{ Properties.1.size|intcomma }} m<sup>2</sup></li>
+                        </ul>
+                        <div class="card-body">
+                            <a href="../properties/{{ Properties.1.id}}" class="card-link">Read more</a>
+                            {% if user.is_authenticated %}
+                                <a href="#" class="card-link">Add to cart</a>
+                            {% endif %}
+                        </div>
                     </div>
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item">{{ Properties.2.price|intcomma }} .- Kr</li>
-                        <li class="list-group-item">{{ Properties.2.size|intcomma }} m<sup>2</sup></li>
-                    </ul>
+                </div>
+                <div class="card">
+                    <a href="../properties/{{ Properties.2.id}}"><img class="card-img-top" src="{{ Properties.2.propertyimages_set.first }}" alt="card image"></a>
                     <div class="card-body">
-                        <a href="../properties/{{ Properties.2.id}}" class="card-link">Read more</a>
-                        {% if user.is_authenticated %}
-                            <a href="#" class="card-link">Add to cart</a>
-                        {% endif %}
+                        <div class="card-body">
+                            <h5 class="card-title">{{ Properties.2.address }}</h5>
+                        </div>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">{{ Properties.2.price|intcomma }} .- Kr</li>
+                            <li class="list-group-item">{{ Properties.2.size|intcomma }} m<sup>2</sup></li>
+                        </ul>
+                        <div class="card-body">
+                            <a href="../properties/{{ Properties.2.id}}" class="card-link">Read more</a>
+                            {% if user.is_authenticated %}
+                                <a href="#" class="card-link">Add to cart</a>
+                            {% endif %}
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+        <a href ="/properties/" class="see-all-props">See all properties</a>
 
 
 {% endblock %}
