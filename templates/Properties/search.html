@@ -192,7 +192,7 @@
     {% load humanize %}
 
     <div class="propContainer">
-        {% for i in Properties %}
+        {% for i in props %}
             <div class="card" >
                 <a href="/properties/{{ i.id }}"><img src="{{ i.propertyimages_set.first }}" class="card-img-top" alt="..."></a>
                 <div class="card-body">
