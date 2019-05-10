@@ -27,6 +27,9 @@ class Zip(models.Model):
                                                        'Only alphabetic characters are allowed.',
                                                        'invalid_city')])
 
+    def __str__(self):
+        return self.zip
+
 
 class Properties(models.Model):
     address = models.CharField(max_length=255,

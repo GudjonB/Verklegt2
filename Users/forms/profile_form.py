@@ -12,6 +12,6 @@ class UpdateProfileForm(ModelForm):
             'social': widgets.TextInput(attrs={'class': 'form-control'}),
             'image': widgets.FileInput(attrs={'class': 'form-control'}, ),
 
-            'zipCode': widgets.TextInput(attrs={'class': 'form-control'})
+            #'zipCode': widgets.TextInput(attrs={'class': 'form-control'})
             # 'image': widgets.TextInput(attrs={'class': 'form-control'})
         }
