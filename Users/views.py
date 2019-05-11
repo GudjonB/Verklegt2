@@ -5,9 +5,10 @@ from urllib.parse import urlparse
 
 from Properties.models import Properties, Zip, PropertySellers
 
-from Users.forms.offers_form import OffersForm
 from Users.models import Profiles, CartItems, Favourites
+from Users.forms.offers_form import OffersForm
 from Users.forms.profile_form import UpdateProfileForm
+from Users.forms.staff_form import StaffForm
 
 import logging
 logger = logging.getLogger(__name__)
