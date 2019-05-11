@@ -30,7 +30,13 @@
             </div>
         {% endfor %}
     </div><br>
-
-
+    {% if Cart %}
+        <a href ="#" class="checkout">Proceed to checkout</a>
+    {% else %}
+        <img class="card-img-top" alt="card image" src="/static/images/users/sad-house-20.gif" >
+        <br><br>
+        <p>It seems like your cart is empty!</p>
+        <a href ="/properties/">Click here to view available properties.</a>
+    {% endif %}
 
 {% endblock %}
