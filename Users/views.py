@@ -1,14 +1,14 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.forms import UserCreationForm
 
-from Properties.models import Properties, Zip, PropertySellers
+from urllib.parse import urlparse
 
-# from Users.forms.profile_form import ProfileForm
+from Properties.models import Properties, Zip, PropertySellers
 
 from Users.forms.offers_form import OffersForm
 from Users.models import Profiles, CartItems, Favourites
 from Users.forms.profile_form import UpdateProfileForm
-from urllib.parse import urlparse
+
 import logging
 logger = logging.getLogger(__name__)
 
@@ -92,20 +92,24 @@ def favourites(request):
                'Cart': [c.property for c in CartItems.objects.filter(user=request.user.id)]}
     return render(request, 'Users/Favourites.html', context)
 
+
 def add_to_favourite(request, id):
     favourite = Favourites(property=get_object_or_404(Properties, pk=id), user=request.user)
     favourite.save()
     return redirect(request.META.get('HTTP_REFERER'), id)
+
 
 def remove_from_favourites(request, id):
     favourite = Favourites.objects.filter(property_id=id, user=request.user)
     favourite.delete()
     return redirect(request.META.get('HTTP_REFERER'))
 
+
 def add_to_cart(request, id):
     item = CartItems(property=get_object_or_404(Properties, pk=id), user=request.user)
     item.save()
     return redirect(request.META.get('HTTP_REFERER'))
+
 
 
 def remove_from_cart(request, id):
@@ -120,3 +124,15 @@ def empty_cart(request):
     return redirect(request.META.get('HTTP_REFERER'))
 
 
+def add_staff(request):
+    if request.method == 'POST':
+        form = StaffForm(data=request.POST)
+        if form.is_valid:
+            user = get_object_or_404(User, pk=form['user'].value())
+            user.is_staff = True
+            user.save()
+    else:
+        form = StaffForm()
+    return render(request, 'Users/add_staff.html', {
+        'form': form
+    })
