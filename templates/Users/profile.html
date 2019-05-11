@@ -23,38 +23,6 @@
             <a href="/users/profileup" class="btn btn-profile">Edit Profile</a>
         </div>
 
-        {% if selling_count != 0 %}
-            <div id="profile-selling-container">
-                <h3>My Properties</h3>
-                <hr>
-                <div id="profile-selling">
-                    {% for i in selling %}
-                        {% if not i.property.deleted %}
-                            <div class="card" >
-                                <a href="/properties/{{ i.property_id }}">
-                                    {% if i.property.propertyimages_set.count == 0 %}
-                                        <img class="card-img-top" alt="card image" src="/static/images/properties/default_castle.jpg" >
-                                    {% else %}
-                                        <img class="card-img-top" alt="card image" src="{{ i.property.propertyimages_set.first}}" >
-                                    {% endif %}
-                                </a>
-                                <div class="card-body">
-                                    <h5 class="card-title"><a href="/properties/{{ i.property_id }}">{{ i.property.address }}</a></h5>
-                                    <!--<p class="card-text">{{ i.description_set.first }}</p>-->
-                                </div>
-                                <div class="card-body">
-                                    <a href="/properties/{{ i.property_id }}" class="card-link">View</a>
-                                    <a href="/properties/delete/{{ i.property_id }}" class="btn btn-danger">Delete Property</a>
-                                </div>
-                            </div>
-                        {% endif %}
-                    {% endfor %}
-                </div>
-            </div>
-        {% endif %}
-
-
-
         <div id="profile-fav-container">
             <h3>My Favorites</h3>
             <hr>
@@ -88,6 +56,36 @@
             </div>
         </div>
     </div>
+
+    {% if selling_count != 0 %}
+        <div id="profile-selling-container">
+            <h3>My Properties</h3>
+            <hr>
+            <div id="profile-selling">
+                {% for i in selling %}
+                    {% if not i.property.deleted %}
+                        <div class="card" >
+                            <a href="/properties/{{ i.property_id }}">
+                                {% if i.property.propertyimages_set.count == 0 %}
+                                    <img class="card-img-top" alt="card image" src="/static/images/properties/default_castle.jpg" >
+                                {% else %}
+                                    <img class="card-img-top" alt="card image" src="{{ i.property.propertyimages_set.first}}" >
+                                {% endif %}
+                            </a>
+                            <div class="card-body">
+                                <h5 class="card-title"><a href="/properties/{{ i.property_id }}">{{ i.property.address }}</a></h5>
+                                <!--<p class="card-text">{{ i.description_set.first }}</p>-->
+                            </div>
+                            <div class="card-body">
+                                <a href="/properties/{{ i.property_id }}" class="card-link">View</a>
+                                <a href="/properties/delete/{{ i.property_id }}" class="btn btn-danger">Delete Property</a>
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    {% endif %}
 
     </form>
 {% endblock %}
