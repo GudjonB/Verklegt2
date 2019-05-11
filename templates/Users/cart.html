@@ -8,19 +8,12 @@
         {% for i in Cart %}
             <div class="card" >
                 <a href="/properties/{{ i.id }}">
-                    {% if i.propertyimages_set.count == 0 %}
+                    {% if i.property.propertyimages_set.count == 0 %}
                         <img class="card-img-top" alt="card image" src="/static/images/properties/default_castle.jpg" >
                     {% else %}
                         <img class="card-img-top" alt="card image" src="{{ i.propertyimages_set.first}}" >
                     {% endif %}
                 </a>
-                    <a href="/properties/{{ i.id }}">
-                        {% if i.propertyimages_set.count == 0 %}
-                            <img class="card-img-top" alt="card image" src="/static/images/properties/default_castle.jpg" >
-                        {% else %}
-                            <img class="card-img-top" alt="card image" src="{{ i.propertyimages_set.first}}" >
-                        {% endif %}
-                    </a>
                 <div class="card-body">
                     <h5 class="card-title"><a href="/properties/{{ i.property_id }}">{{ i.property.address }}</a></h5>
                 </div>
