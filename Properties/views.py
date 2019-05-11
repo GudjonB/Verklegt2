@@ -92,7 +92,7 @@ def search(request):
     props = Properties.objects.all().order_by('address')
     if query.get('q'):
         props = Properties.objects.filter(Q(address__icontains=query.get('q')))
-    return render(request, 'properties/index.html', {'query': query, 'Properties': props,
+    return render(request, 'Properties/index.html', {'query': query, 'Properties': props,
                                                       'Categories': Categories.objects.all(),
                                                       'Zip': Zip.objects.all()
                                                       })
@@ -138,7 +138,7 @@ def filter(request):
             props = props.order_by('address')
 
 
-    return render(request, 'properties/index.html', {'Properties': props,
+    return render(request, 'Properties/index.html', {'Properties': props,
                                                       'Categories': Categories.objects.all(),
                                                       'Zip': Zip.objects.all()
                                                       })
