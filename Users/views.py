@@ -107,5 +107,10 @@ def remove_from_cart(request, id):
     item.delete()
     return redirect(request.META.get('HTTP_REFERER'))
 
+def empty_cart(request):
+    items = CartItems.objects.filter(user=request.user)
+    for item in items:
+        item.delete()
+    return redirect(request.META.get('HTTP_REFERER'))
 
 
