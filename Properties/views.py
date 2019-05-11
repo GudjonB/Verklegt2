@@ -107,7 +107,8 @@ def search(request):
         props = Properties.objects.filter(Q(address__icontains=query.get('q')))
     return render(request, 'Properties/index.html', {'query': query, 'Properties': props,
                                                       'Categories': Categories.objects.all(),
-                                                      'Zip': Zip.objects.all()
+                                                      'Zip': Zip.objects.all(),
+                                                      'Cart': [c.property for c in CartItems.objects.filter(user=request.user.id)]
                                                       })
 
 def filter(request):
@@ -153,7 +154,8 @@ def filter(request):
 
     return render(request, 'Properties/index.html', {'Properties': props,
                                                       'Categories': Categories.objects.all(),
-                                                      'Zip': Zip.objects.all()
+                                                      'Zip': Zip.objects.all(),
+                                                      'Cart': [c.property for c in CartItems.objects.filter(user=request.user.id)]
                                                       })
 
   
