@@ -4,7 +4,9 @@ from Properties.forms.properties_form import PropertiesCreateForm
 from Properties.forms.open_houses_form import OpenHousesCreateForm
 from Properties.forms.properties_images_form import PropertiesImagesForm
 from Properties.models import Properties, Description, OpenHouses, Categories, Zip, PropertySellers
+from Users.models import CartItems, Favourites
 import logging
+from urllib.parse import urlparse
 logger = logging.getLogger(__name__)
 # logger.error(form['address'].value())
 
@@ -38,8 +40,10 @@ def get_property_by_id(request, id):
     for i in PropertySellers.objects.filter(user_id=request.user.id):
         users_prop_list.append(i.property_id)
     return render(request, 'Properties/property_details.html', {
-        'Properties': get_object_or_404(Properties, pk=id),
-        'UsersProperties': users_prop_list
+        'Property': get_object_or_404(Properties, pk=id),
+        'UsersProperties': users_prop_list,
+        'Cart': [c.property for c in CartItems.objects.filter(user=request.user.id)],
+        'Favourites': [f.property for f in Favourites.objects.filter(user=request.user.id)]
     })
 
 
@@ -59,10 +63,21 @@ def upload_properties_images(request):
 def get_all_properties(request):
     context = {'Properties': Properties.objects.all().order_by('-id'),
                'Categories': Categories.objects.all(),
-               'Zip': Zip.objects.all()
+               'Zip': Zip.objects.all(),
+               'Cart': [c.property for c in CartItems.objects.filter(user=request.user.id)]
                }
     return render(request, 'Properties/index.html', context)
 
+
+def add_to_cart(request, id):
+    item = CartItems(property=get_object_or_404(Properties, pk=id), user=request.user)
+    item.save()
+    return redirect(request.META.get('HTTP_REFERER'))
+
+def remove_from_cart(request, id):
+    item = CartItems.objects.filter(property_id=id, user=request.user)
+    item.delete()
+    return redirect(request.META.get('HTTP_REFERER'))
 
 def get_open_houses(request):
     context = {'OpenHouses' : OpenHouses.objects.all()}
@@ -95,7 +110,8 @@ def search(request):
         props = Properties.objects.filter(Q(address__icontains=query.get('q')))
     return render(request, 'Properties/index.html', {'query': query, 'Properties': props,
                                                       'Categories': Categories.objects.all(),
-                                                      'Zip': Zip.objects.all()
+                                                      'Zip': Zip.objects.all(),
+                                                      'Cart': [c.property for c in CartItems.objects.filter(user=request.user.id)]
                                                       })
 
 def filter(request):
@@ -140,13 +156,19 @@ def filter(request):
 
     return render(request, 'Properties/index.html', {'Properties': props,
                                                       'Categories': Categories.objects.all(),
-                                                      'Zip': Zip.objects.all()
-                                                     })
+                                                      'Zip': Zip.objects.all(),
+                                                      'Cart': [c.property for c in CartItems.objects.filter(user=request.user.id)]
+                                                      })
 
-  
+
 def delete_property(request, id):
     properties = get_object_or_404(Properties, pk=id)
     properties.deleted = True
     properties.save()
+    selling = get_object_or_404(PropertySellers, property_id=id)
+    selling.delete()
+    logger.error(urlparse(request.META.get('HTTP_REFERER')).path)
+    if urlparse(request.META.get('HTTP_REFERER')).path == '/users/profile':
+        return redirect('profile')
     return redirect('allProperties')
 

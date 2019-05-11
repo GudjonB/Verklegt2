@@ -278,7 +278,6 @@ ul {
 }
 
 .btn-favorites {
-    background-color: #7C7B79;
     border: none;
     border-radius: 5px;
     padding-bottom: 0.3rem;
@@ -289,7 +288,6 @@ ul {
 #fav-img {
     height: 2rem;
     padding-bottom: 0.2rem;
-    color: #7C7B79;
 }
 
 .property-img {
@@ -382,3 +380,40 @@ hr {
     font-size: 11px;
 }
 
+
+/* SELLER PROFILE */
+#profile-selling-container {
+    margin-bottom: 1rem;
+    margin-right: 15%;
+    width: 70%
+}
+
+#profile-selling {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+}
+
+#profile-selling-container hr {
+    width: 100%;
+}
+
+#profile-selling .card {
+    width: 12rem;
+    margin: 5px 5px;
+}
+
+#profile-selling .card-img-top {
+    height: 7rem;
+}
+
+#profile-selling .card-body {
+    padding-top: 10px;
+    padding-bottom: 0px;
+}
+
+#profile-selling .card-link {
+    font-size: 11px;
+}
+/* END SELLER PROFILE */
