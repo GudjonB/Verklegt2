@@ -1,14 +1,12 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.forms import UserCreationForm
 
-from Users.models import Profiles, CartItems, Favourites
 from Properties.models import Properties, Zip, PropertySellers
 
 # from Users.forms.profile_form import ProfileForm
 
 from Users.forms.offers_form import OffersForm
 from Users.models import Profiles, CartItems, Favourites
-from Properties.models import Properties
 from Users.forms.profile_form import UpdateProfileForm
 from urllib.parse import urlparse
 import logging
