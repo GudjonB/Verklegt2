@@ -6,6 +6,7 @@ from Properties.forms.properties_images_form import PropertiesImagesForm
 from Properties.models import Properties, Description, OpenHouses, Categories, Zip, PropertySellers
 from Users.models import CartItems
 import logging
+from urllib.parse import urlparse
 logger = logging.getLogger(__name__)
 # logger.error(form['address'].value())
 
@@ -161,5 +162,10 @@ def delete_property(request, id):
     properties = get_object_or_404(Properties, pk=id)
     properties.deleted = True
     properties.save()
+    selling = get_object_or_404(PropertySellers, property_id=id)
+    selling.delete()
+    logger.error(urlparse(request.META.get('HTTP_REFERER')).path)
+    if urlparse(request.META.get('HTTP_REFERER')).path == '/users/profile':
+        return redirect('profile')
     return redirect('allProperties')
 
