@@ -24,14 +24,14 @@
                     <li class="list-group-item">{{ i.property.price|intcomma }}.- kr</li>
                 </ul>
                 <div class="card-body">
-                    <a href="/properties/{{ i.property_id }}" class="card-link">Read more</a>
                     <a href="/users/removeCartItem/{{ i.property_id }}" class="card-link">Remove from cart</a>
                 </div>
             </div>
         {% endfor %}
     </div><br>
     {% if Cart %}
-        <a href ="#" class="checkout">Proceed to checkout</a>
+        <a href ="/properties/" class="shop-more">Continue shopping</a><br><br>
+        <a href ="#" class="checkout">Proceed to checkout</a><br><br>
     {% else %}
         <img class="card-img-top" alt="card image" src="/static/images/users/sad-house-20.gif" >
         <br><br>
