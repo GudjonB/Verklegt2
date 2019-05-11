@@ -1,10 +1,14 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.forms import UserCreationForm
 
+from Properties.models import Properties, Zip, PropertySellers
+
+# from Users.forms.profile_form import ProfileForm
+
 from Users.forms.offers_form import OffersForm
 from Users.models import Profiles, CartItems, Favourites
-from Properties.models import Properties
 from Users.forms.profile_form import UpdateProfileForm
+from urllib.parse import urlparse
 import logging
 logger = logging.getLogger(__name__)
 
@@ -35,6 +39,8 @@ def profile(request):
         'Profiles': get_object_or_404(Profiles, pk=Profiles.objects.get(user_id=request.user.id).id),
         'fav': Favourites.objects.filter(user_id=request.user.id),
         'fav_count': Favourites.objects.filter(user_id=request.user.id).count(),
+        'selling': PropertySellers.objects.filter(user_id=request.user.id),
+        'selling_count': PropertySellers.objects.filter(user_id=request.user.id).count(),
         'Cart': [c.property for c in CartItems.objects.filter(user=request.user.id)]
     })
 
