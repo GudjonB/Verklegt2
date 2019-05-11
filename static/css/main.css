@@ -316,6 +316,7 @@ hr {
     width: 90%;
     align: center;
     color: #F2F2F2;
+    margin-bottom: 2rem;
 }
 
 .profile-container {
@@ -332,6 +333,7 @@ hr {
 #profile-fav-container {
     margin-bottom: 1rem;
     margin-right: 15%;
+    width: 70%
 }
 
 #profile-fav {
