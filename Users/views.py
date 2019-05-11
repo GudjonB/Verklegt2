@@ -95,12 +95,12 @@ def favourites(request):
 def add_to_favourite(request, id):
     favourite = Favourites(property=get_object_or_404(Properties, pk=id), user=request.user)
     favourite.save()
-    return redirect("propertyDetails",id)
+    return redirect(request.META.get('HTTP_REFERER'), id)
 
 def remove_from_favourites(request, id):
     favourite = Favourites.objects.filter(property_id=id, user=request.user)
     favourite.delete()
-    return redirect('favourites')
+    return redirect(request.META.get('HTTP_REFERER'))
 
 def add_to_cart(request, id):
     item = CartItems(property=get_object_or_404(Properties, pk=id), user=request.user)
@@ -113,5 +113,10 @@ def remove_from_cart(request, id):
     item.delete()
     return redirect(request.META.get('HTTP_REFERER'))
 
+def empty_cart(request):
+    items = CartItems.objects.filter(user=request.user)
+    for item in items:
+        item.delete()
+    return redirect(request.META.get('HTTP_REFERER'))
 
 

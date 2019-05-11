@@ -4,7 +4,7 @@ from Properties.forms.properties_form import PropertiesCreateForm
 from Properties.forms.open_houses_form import OpenHousesCreateForm
 from Properties.forms.properties_images_form import PropertiesImagesForm
 from Properties.models import Properties, Description, OpenHouses, Categories, Zip, PropertySellers
-from Users.models import CartItems
+from Users.models import CartItems, Favourites
 import logging
 from urllib.parse import urlparse
 logger = logging.getLogger(__name__)
@@ -39,9 +39,10 @@ def get_property_by_id(request, id):
     for i in PropertySellers.objects.filter(user_id=request.user.id):
         users_prop_list.append(i.property_id)
     return render(request, 'Properties/property_details.html', {
-        'Properties': get_object_or_404(Properties, pk=id),
+        'Property': get_object_or_404(Properties, pk=id),
         'UsersProperties': users_prop_list,
-        'Cart': [c.property for c in CartItems.objects.filter(user=request.user.id)]
+        'Cart': [c.property for c in CartItems.objects.filter(user=request.user.id)],
+        'Favourites': [f.property for f in Favourites.objects.filter(user=request.user.id)]
     })
 
 
@@ -108,7 +109,8 @@ def search(request):
         props = Properties.objects.filter(Q(address__icontains=query.get('q')))
     return render(request, 'Properties/index.html', {'query': query, 'Properties': props,
                                                       'Categories': Categories.objects.all(),
-                                                      'Zip': Zip.objects.all()
+                                                      'Zip': Zip.objects.all(),
+                                                      'Cart': [c.property for c in CartItems.objects.filter(user=request.user.id)]
                                                       })
 
 def filter(request):
@@ -154,7 +156,8 @@ def filter(request):
 
     return render(request, 'Properties/index.html', {'Properties': props,
                                                       'Categories': Categories.objects.all(),
-                                                      'Zip': Zip.objects.all()
+                                                      'Zip': Zip.objects.all(),
+                                                      'Cart': [c.property for c in CartItems.objects.filter(user=request.user.id)]
                                                       })
 
   
