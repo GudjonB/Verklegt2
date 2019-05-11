@@ -4,6 +4,7 @@ from Properties.forms.properties_form import PropertiesCreateForm
 from Properties.forms.open_houses_form import OpenHousesCreateForm
 from Properties.forms.properties_images_form import PropertiesImagesForm
 from Properties.models import Properties, Description, OpenHouses, Categories, Zip, PropertySellers
+from Users.models import CartItems
 import logging
 logger = logging.getLogger(__name__)
 # logger.error(form['address'].value())
@@ -38,7 +39,8 @@ def get_property_by_id(request, id):
         users_prop_list.append(i.property_id)
     return render(request, 'Properties/property_details.html', {
         'Properties': get_object_or_404(Properties, pk=id),
-        'UsersProperties': users_prop_list
+        'UsersProperties': users_prop_list,
+        'Cart': [c.property for c in CartItems.objects.filter(user=request.user.id)]
     })
 
 
@@ -58,10 +60,21 @@ def upload_properties_images(request):
 def get_all_properties(request):
     context = {'Properties': Properties.objects.all().order_by('-id'),
                'Categories': Categories.objects.all(),
-               'Zip': Zip.objects.all()
+               'Zip': Zip.objects.all(),
+               'Cart': [c.property for c in CartItems.objects.filter(user=request.user.id)]
                }
     return render(request, 'Properties/index.html', context)
 
+
+def add_to_cart(request, id):
+    item = CartItems(property=get_object_or_404(Properties, pk=id), user=request.user)
+    item.save()
+    return redirect(request.META.get('HTTP_REFERER'))
+
+def remove_from_cart(request, id):
+    item = CartItems.objects.filter(property_id=id, user=request.user)
+    item.delete()
+    return redirect(request.META.get('HTTP_REFERER'))
 
 def get_open_houses(request):
     context = {'OpenHouses' : OpenHouses.objects.all()}
