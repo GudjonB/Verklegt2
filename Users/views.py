@@ -14,7 +14,7 @@ logger = logging.getLogger(__name__)
 
 
 def index(request):
-    context = {'Properties': Properties.objects.all().order_by('-id')}
+    context = {'Properties': Properties.objects.all().order_by('-id')[:3]}
     return render(request, 'Users/index.html', context)
 
 
@@ -36,7 +36,8 @@ def register(request):
 def profile(request):
     return render(request, 'Users/profile.html', {
         'Profiles': get_object_or_404(Profiles, pk=Profiles.objects.get(user_id=request.user.id).id),
-        'fav': Favourites.objects.filter(user_id=request.user.id)
+        'fav': Favourites.objects.filter(user_id=request.user.id),
+        'fav_count': Favourites.objects.filter(user_id=request.user.id).count()
     })
 
 
@@ -85,4 +86,25 @@ def cart(request):
 def favourites(request):
     context = {'fav': Favourites.objects.filter(user_id=request.user.id)}
     return render(request, 'Users/Favourites.html', context)
+
+def add_to_favourite(request, id):
+    favourite = Favourites(property=get_object_or_404(Properties, pk=id), user=request.user)
+    favourite.save()
+    return redirect("propertyDetails",id)
+
+def remove_from_favourites(request, id):
+    favourite = Favourites.objects.filter(property_id=id, user=request.user)
+    favourite.delete()
+    return redirect('favourites')
+
+def add_to_cart(request, id):
+    item = CartItems(property=get_object_or_404(Properties, pk=id), user=request.user)
+    item.save()
+    return redirect("cart")
+
+def remove_from_cart(request, id):
+    item = CartItems.objects.filter(property_id=id, user=request.user)
+    item.delete()
+    return redirect("cart")
+
 

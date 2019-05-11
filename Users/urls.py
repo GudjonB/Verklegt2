@@ -11,6 +11,10 @@ urlpatterns = [
     path('profile', views.profile, name='profile'),
     path('makeOffers', views.make_offers, name='makeOffers'),
     path('cart', views.cart, name='cart'),
-    path('favourites', views.favourites, name='favourites')
+    path('favourites', views.favourites, name='favourites'),
+    path('addFavourite/<int:id>', views.add_to_favourite, name='addFavourite'),
+    path('removeFavourite/<int:id>', views.remove_from_favourites, name='removeFavourite'),
+    path('addCartItem/<int:id>', views.add_to_cart, name='addCartItem'),
+    path('removeCartItem/<int:id>', views.remove_from_cart, name='removeCartItem')
 ]
 

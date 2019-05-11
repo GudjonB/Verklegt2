@@ -33,8 +33,12 @@ def create_properties(request):
 
 
 def get_property_by_id(request, id):
+    users_prop_list = []
+    for i in PropertySellers.objects.filter(user_id=request.user.id):
+        users_prop_list.append(i.property_id)
     return render(request, 'Properties/property_details.html', {
-        'Properties': get_object_or_404(Properties, pk=id)
+        'Properties': get_object_or_404(Properties, pk=id),
+        'UsersProperties': users_prop_list
     })
 
 
@@ -63,11 +67,11 @@ def get_open_houses(request):
     context = {'OpenHouses' : OpenHouses.objects.all()}
     return render(request, 'Properties/open_houses.html', context)
 
-
+'''
 def get_new_properties(request):
-    context = {'Properties': Properties.objects.all().order_by('-id')}
-    return render(request, 'users/index.html', context)
-
+    context = {'Properties': Properties.objects.all().order_by('-id')[:3]}
+    return render(request, 'Users/index.html', context)
+'''
 
 def add_open_houses(request):
     if request.method == 'POST':
@@ -82,12 +86,13 @@ def add_open_houses(request):
     })
 
 
+
 def search(request):
     query = request.GET
     props = Properties.objects.all().order_by('address')
     if query.get('q'):
         props = Properties.objects.filter(Q(address__icontains=query.get('q')))
-    return render(request, 'properties/index.html', {'query': query, 'Properties': props,
+    return render(request, 'Properties/index.html', {'query': query, 'Properties': props,
                                                       'Categories': Categories.objects.all(),
                                                       'Zip': Zip.objects.all()
                                                       })
@@ -133,7 +138,7 @@ def filter(request):
             props = props.order_by('address')
 
 
-    return render(request, 'properties/index.html', {'Properties': props,
+    return render(request, 'Properties/index.html', {'Properties': props,
                                                       'Categories': Categories.objects.all(),
                                                       'Zip': Zip.objects.all()
                                                       })

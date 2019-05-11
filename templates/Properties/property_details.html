@@ -2,11 +2,17 @@
 {% block content %}
     {% load humanize %}
     <h2>{{ Properties.address }}</h2>
-    <img class="property-img" src="{{ Properties.propertyimages_set.first}}" >
+    {% if Properties.propertyimages_set.count == 0 %}
+        <img class="property-img" src="/static/images/properties/default_castle.jpg" >
+    {% else %}
+        <img class="property-img" src="{{ Properties.propertyimages_set.first}}" >
+    {% endif %}
+
     <p><b>Price:</b> {{ Properties.price|intcomma }}</p>
 
-    <input type="button" class="btn-favorites" value="Add to Favorites" />
-    <img id="fav-img" src="/static/images/favorites_star.png">
+    <a class="btn-favorites" href="/users/addFavourite/{{ Properties.id}}" >Add to Favorites</a>
+    <img id="fav-img" src="/static/images/favorites_star.png"></br>
+    <a href="/users/addCartItem/{{ Properties.id }}" class="card-link">Add to cart</a>
 
     <h3>Property Details</h3>
     <p>{{ Properties.description_set.first.description }}</p>
@@ -20,7 +26,7 @@
     {% if Properties.category_id != 6 %}
         <p><b>Year built:</b> {{ Properties.year_built }}</p>
     {% endif %}
-    {% if user.is_authenticated and user.is_staff %}
+    {% if user.is_authenticated and Properties.id in UsersProperties %}
         <a href="/properties/delete/{{ Properties.id}}" class="btn btn-danger">Delete Property</a>
     {% endif %}
 {% endblock %}
