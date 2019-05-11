@@ -10,5 +10,7 @@ urlpatterns = [
     path('addOpenHouses', views.add_open_houses, name="add_open_house"),
     path('filter', views.filter, name="filter"),
     path('search', views.search, name="search"),
-    path('delete/<int:id>', views.delete_property, name='deleteProperty')
+    path('delete/<int:id>', views.delete_property, name='deleteProperty'),
+    path('addCartItem/<int:id>', views.add_to_cart, name='addCartItem'),
+    path('removeCartItem/<int:id>', views.remove_from_cart, name='removeCartItem')
 ]
