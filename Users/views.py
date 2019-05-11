@@ -15,7 +15,7 @@ logger = logging.getLogger(__name__)
 
 def index(request):
     context = {'Properties': Properties.objects.all().order_by('-id')[:3]}
-    return render(request, 'users/index.html', context)
+    return render(request, 'Users/index.html', context)
 
 
 def register(request):

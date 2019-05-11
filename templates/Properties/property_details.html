@@ -2,7 +2,12 @@
 {% block content %}
     {% load humanize %}
     <h2>{{ Properties.address }}</h2>
-    <img class="property-img" src="{{ Properties.propertyimages_set.first}}" >
+    {% if Properties.propertyimages_set.count == 0 %}
+        <img class="property-img" src="/static/images/properties/default_castle.jpg" >
+    {% else %}
+        <img class="property-img" src="{{ Properties.propertyimages_set.first}}" >
+    {% endif %}
+
     <p><b>Price:</b> {{ Properties.price|intcomma }}</p>
 
     <a class="btn-favorites" href="/users/addFavourite/{{ Properties.id}}" >Add to Favorites</a>
