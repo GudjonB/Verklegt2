@@ -8,6 +8,7 @@ import logging
 logger = logging.getLogger(__name__)
 # logger.error(form['address'].value())
 
+
 def index(request):
     return render(request, 'Properties/index.html')
 
@@ -137,11 +138,10 @@ def filter(request):
         else:
             props = props.order_by('address')
 
-
     return render(request, 'Properties/index.html', {'Properties': props,
                                                       'Categories': Categories.objects.all(),
                                                       'Zip': Zip.objects.all()
-                                                      })
+                                                     })
 
   
 def delete_property(request, id):

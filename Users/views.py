@@ -1,14 +1,14 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.forms import UserCreationForm
 
-from Users.models import Profiles, CartItems, Favourites
-from Properties.models import Properties, Zip
+from Users.models import Profiles, CartItems, Favourites, User
 
-# from Users.forms.profile_form import ProfileForm
 from Users.forms.offers_form import OffersForm
-from Users.models import Profiles, CartItems
-from Properties.models import Properties
 from Users.forms.profile_form import UpdateProfileForm
+from Users.forms.staff_form import StaffForm
+
+from Properties.models import Properties
+
 import logging
 logger = logging.getLogger(__name__)
 
@@ -87,20 +87,24 @@ def favourites(request):
     context = {'fav': Favourites.objects.filter(user_id=request.user.id)}
     return render(request, 'Users/Favourites.html', context)
 
+
 def add_to_favourite(request, id):
     favourite = Favourites(property=get_object_or_404(Properties, pk=id), user=request.user)
     favourite.save()
     return redirect("propertyDetails",id)
+
 
 def remove_from_favourites(request, id):
     favourite = Favourites.objects.filter(property_id=id, user=request.user)
     favourite.delete()
     return redirect('favourites')
 
+
 def add_to_cart(request, id):
     item = CartItems(property=get_object_or_404(Properties, pk=id), user=request.user)
     item.save()
     return redirect("cart")
+
 
 def remove_from_cart(request, id):
     item = CartItems.objects.filter(property_id=id, user=request.user)
@@ -108,3 +112,15 @@ def remove_from_cart(request, id):
     return redirect("cart")
 
 
+def add_staff(request):
+    if request.method == 'POST':
+        form = StaffForm(data=request.POST)
+        if form.is_valid:
+            user = get_object_or_404(User, pk=form['user'].value())
+            user.is_staff = True
+            user.save()
+    else:
+        form = StaffForm()
+    return render(request, 'Users/add_staff.html', {
+        'form': form
+    })
