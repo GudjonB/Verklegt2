@@ -34,6 +34,43 @@ def create_properties(request):
     })
 
 
+def update_property(request, id):
+    if request.method == 'POST':
+        form = PropertiesCreateForm(data=request.POST, instance=request.user, files=request.FILES)
+        if form.is_valid():
+            property_to_update = get_object_or_404(Properties, pk=id)
+            description_to_update = get_object_or_404(Description, property_id=id)
+
+            property_to_update.address = form['address'].value()
+            property_to_update.zip_id = form['zip'].value()
+            property_to_update.category_id = form['category'].value()
+            property_to_update.size = form['size'].value()
+            property_to_update.rooms = form['rooms'].value()
+            property_to_update.bathrooms = form['bathrooms'].value()
+            property_to_update.year_built = form['year_built'].value()
+            property_to_update.price = form['price'].value()
+            description_to_update.description = form['description'].value()
+            property_to_update.save()
+            description_to_update.save()
+            return redirect('propertyDetails', id=id)
+    else:
+        property_to_update = Properties.objects.get(pk=id)
+        description_to_update = get_object_or_404(Description, property_id=id)
+        form = PropertiesCreateForm(initial={'address': property_to_update.address,
+                                             'zip': property_to_update.zip,
+                                             'category': property_to_update.category,
+                                             'size': property_to_update.size,
+                                             'rooms': property_to_update.rooms,
+                                             'bathrooms': property_to_update.bathrooms,
+                                             'year_built': property_to_update.year_built,
+                                             'price': property_to_update.price,
+                                             'description': description_to_update.description})
+    return render(request, 'Properties/update_property.html', {
+        'form': form,
+        'prop_id': id
+    })
+
+
 def get_property_by_id(request, id):
     users_prop_list = []
     for i in PropertySellers.objects.filter(user_id=request.user.id):
@@ -164,7 +201,6 @@ def delete_property(request, id):
     properties.save()
     selling = get_object_or_404(PropertySellers, property_id=id)
     selling.delete()
-    logger.error(urlparse(request.META.get('HTTP_REFERER')).path)
     if urlparse(request.META.get('HTTP_REFERER')).path == '/users/profile':
         return redirect('profile')
     return redirect('allProperties')

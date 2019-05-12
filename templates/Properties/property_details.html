@@ -36,5 +36,6 @@
     {% endif %}
     {% if user.is_authenticated and Properties.id in UsersProperties %}
         <a href="/properties/delete/{{ Properties.id}}" class="btn btn-danger">Delete Property</a>
+        <a href="/properties/update/{{ Properties.id}}" class="btn btn-danger">Edit Property</a>
     {% endif %}
 {% endblock %}
