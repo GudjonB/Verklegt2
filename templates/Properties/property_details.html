@@ -41,7 +41,8 @@
     {% if Property.category_id != 6 %}
         <p><b>Year built:</b> {{ Property.year_built }}</p>
     {% endif %}
-    {% if user.is_authenticated and Property.id in UsersProperty %}
-        <a href="/Properties/delete/{{ Property.id}}" class="btn btn-danger">Delete Property</a>
+    {% if user.is_authenticated and Property.id in UsersProperties %}
+        <a href="/properties/delete/{{ Property.id}}" class="btn btn-danger">Delete Property</a>
+        <a href="/properties/update/{{ Property.id}}" class="btn btn-danger">Edit Property</a>
     {% endif %}
 {% endblock %}
