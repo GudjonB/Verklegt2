@@ -1,15 +1,20 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.db.models import Q
+from django.core.files import File
 from Properties.forms.properties_form import PropertiesCreateForm
 from Properties.forms.open_houses_form import OpenHousesCreateForm
 from Properties.forms.properties_images_form import PropertiesImagesForm
-from Properties.models import Properties, Description, OpenHouses, Categories, Zip, PropertySellers
+from Properties.models import Properties, Description, OpenHouses, Categories, Zip, PropertySellers, PropertyImages
 from Users.models import CartItems, Favourites
+from Helpers.getData import clearFiles, getPropertyLinksAndZips, writeToCsv, readFromCsv, downloadImgs
 import logging
 from urllib.parse import urlparse
-logger = logging.getLogger(__name__)
-# logger.error(form['address'].value())
 
+
+logger = logging.getLogger(__name__)
+
+
+# logger.error(form['address'].value())
 
 def index(request):
     return render(request, 'Properties/index.html')
@@ -74,20 +79,24 @@ def add_to_cart(request, id):
     item.save()
     return redirect(request.META.get('HTTP_REFERER'))
 
+
 def remove_from_cart(request, id):
     item = CartItems.objects.filter(property_id=id, user=request.user)
     item.delete()
     return redirect(request.META.get('HTTP_REFERER'))
 
+
 def get_open_houses(request):
-    context = {'OpenHouses' : OpenHouses.objects.all()}
+    context = {'OpenHouses': OpenHouses.objects.all()}
     return render(request, 'Properties/open_houses.html', context)
+
 
 '''
 def get_new_properties(request):
     context = {'Properties': Properties.objects.all().order_by('-id')[:3]}
     return render(request, 'Users/index.html', context)
 '''
+
 
 def add_open_houses(request):
     if request.method == 'POST':
@@ -102,27 +111,29 @@ def add_open_houses(request):
     })
 
 
-
 def search(request):
     query = request.GET
     props = Properties.objects.all().order_by('address')
     if query.get('q'):
         props = Properties.objects.filter(Q(address__icontains=query.get('q')))
     return render(request, 'Properties/index.html', {'query': query, 'Properties': props,
-                                                      'Categories': Categories.objects.all(),
-                                                      'Zip': Zip.objects.all(),
-                                                      'Cart': [c.property for c in CartItems.objects.filter(user=request.user.id)]
-                                                      })
+                                                     'Categories': Categories.objects.all(),
+                                                     'Zip': Zip.objects.all(),
+                                                     'Cart': [c.property for c in
+                                                              CartItems.objects.filter(user=request.user.id)]
+                                                     })
+
 
 def filter(request):
     query = request.GET
     props = Properties.objects.all().order_by('-id')
-    if query.getlist('category'): #check categories
-        props = Properties.objects.filter(Q(category__in=query.getlist('category'))).order_by('category').order_by('address')
-    if query.get('zipcodes'): #check zipcodes
+    if query.getlist('category'):  # check categories
+        props = Properties.objects.filter(Q(category__in=query.getlist('category'))).order_by('category').order_by(
+            'address')
+    if query.get('zipcodes'):  # check zipcodes
         tmp = Properties.objects.filter(Q(zip__in=query.get('zipcodes')))
         props = tmp.intersection(props)
-    if query.get('roomsfrom'): #check min rooms
+    if query.get('roomsfrom'):  # check min rooms
         tmp = Properties.objects.filter(Q(rooms__gte=query.get('roomsfrom')))
         props = tmp.intersection(props)
     if query.get('roomsto') and '+' not in query.get('roomsto'):
@@ -155,10 +166,11 @@ def filter(request):
             props = props.order_by('address')
 
     return render(request, 'Properties/index.html', {'Properties': props,
-                                                      'Categories': Categories.objects.all(),
-                                                      'Zip': Zip.objects.all(),
-                                                      'Cart': [c.property for c in CartItems.objects.filter(user=request.user.id)]
-                                                      })
+                                                     'Categories': Categories.objects.all(),
+                                                     'Zip': Zip.objects.all(),
+                                                     'Cart': [c.property for c in
+                                                              CartItems.objects.filter(user=request.user.id)]
+                                                     })
 
 
 def delete_property(request, id):
@@ -172,3 +184,37 @@ def delete_property(request, id):
         return redirect('profile')
     return redirect('allProperties')
 
+
+def add_data_from_web(request):
+    clearFiles()
+    writeToCsv()
+    zips = readFromCsv('zip.csv')
+    descriptions = readFromCsv('description.csv')
+    props = readFromCsv('properties.csv')
+    categories = readFromCsv('categories.csv')
+
+    for i in range(len(props)):
+        zip, created = Zip.objects.get_or_create(zip=str(zips[i][0]),
+                                                 city=str(zips[i][1]))
+        category, created = Categories.objects.get_or_create(category=str(categories[i][0]))
+        property, created = Properties.objects.get_or_create(address=str(props[i][0]),
+                                                             zip_id=zip.id,
+                                                             category_id=category.id,
+                                                             size=props[i][1],
+                                                             rooms=props[i][2],
+                                                             bathrooms=props[i][3],
+                                                             year_built=props[i][4],
+                                                             price=props[i][5])
+        Description.objects.get_or_create(property=property,
+                                          description=descriptions[i][0])
+        imageCounter = 1
+        #while True:
+        #    try:
+        #        path = 'Images/' + str(props[i][5]) + '_mynd_' + str(imageCounter) + '.png'
+        #        PropertyImages.objects.get_or_create(property=property.id,
+        #                                             image=File(path).read())
+        #        imageCounter += 1
+        #    except FileNotFoundError:
+        #        break
+
+    return redirect('allProperties')
