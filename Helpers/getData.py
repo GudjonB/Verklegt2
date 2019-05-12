@@ -15,7 +15,7 @@ def clearFiles():
     f5.close()
 
 def getPropertyLinksAndZips():
-    page = urllib.request.urlopen('https://www.mbl.is/fasteignir/leit/?q=29d3fb5dde1aa8612160adf7ce54f1c6') #page to get links from
+    page = urllib.request.urlopen('https://www.mbl.is/fasteignir/leit/?page=11&q=80f323c5382397611e72800316f250d1') #page to get links from
     parse = bs(page, "lxml")                                                                                #parse the html from the link
     links = []
     zips = []
@@ -52,7 +52,9 @@ def writeToCsv():
             for td in i.findAll("td", {"class": "value"}):                  #look at the values of the attributes
                 if counter == 1:                                            #first attribute is the sales price
                     tempRealPrice = (td.text).strip()                       #if format is 'Tilboð'
-                    if "." in tempRealPrice:                                #if format is 'xx.xxx.xxx kr'
+                    if tempRealPrice == 'Tilboð':
+                        tempRealPrice = 0
+                    elif "." in tempRealPrice:                                #if format is 'xx.xxx.xxx kr'
                         tempRealPrice = ((td.text).split(".")[0]            #remove dots from string
                                          + (td.text).split(".")[1]
                                          + (td.text).split(".")[2]).strip()
@@ -84,8 +86,12 @@ def writeToCsv():
                     tempSize = int((td.text).split(" ")[0].split(".")[0].strip())  #cut out the "m^2" and "."
                 elif counter == 8:                      #8th attribute is rooms
                     tempRooms = (td.text).strip()
+                    if tempRooms == 'Óuppgefið':
+                        tempRooms = 0
                 elif counter == 11:                     #11th attribute is bathrooms
                     tempBathrooms = (td.text).strip()
+                    if tempBathrooms == 'Óuppgefið':
+                        tempBathrooms = 0
                 counter += 1
 
 
