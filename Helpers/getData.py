@@ -3,15 +3,15 @@ import urllib.request
 import csv
 
 def clearFiles():
-    f1 = open('zip.csv', "w+") #open with write permission to clear file
+    f1 = open('properties/csv/zip.csv', "w+") #open with write permission to clear file
     f1.close()
-    f2 = open('categories.csv', "w+")
+    f2 = open('properties/csv/categories.csv', "w+")
     f2.close()
-    f3 = open('properties.csv', "w+")
+    f3 = open('properties/csv/properties.csv', "w+")
     f3.close()
-    f4 = open('propertyImgs.csv', "w+")
+    f4 = open('properties/csv/propertyImgs.csv', "w+")
     f4.close()
-    f5 = open('description.csv', "w+")
+    f5 = open('properties/csv/description.csv', "w+")
     f5.close()
 
 def getPropertyLinksAndZips():
@@ -78,6 +78,8 @@ def writeToCsv():
                         tempCategory = 'Villa'
                     elif tempCategory == 'Hæðir':
                         tempCategory = 'Multiple floors'
+                    elif tempCategory == 'Sumarhús':
+                        tempCategory = 'Summer house'
                 elif counter == 6:                      #6th attribute is year built
                     tempYearBuilt = (td.text).strip()
                     if str(tempYearBuilt) == 'None':    #if no year built is determined use default
@@ -110,29 +112,26 @@ def writeToCsv():
                 tempImgs.append(img['src'])
 
         #write to csv
-        with open('zip.csv', 'a') as f1:
+        with open('properties/csv/zip.csv', 'a') as f1:
             writer = csv.writer(f1, delimiter=',', lineterminator='\n', )
             row = [zips[0], tempLocation]
             zips.pop(0)
             writer.writerow(row)
-        with open('categories.csv', 'a') as f2:
+        with open('properties/csv/categories.csv', 'a') as f2:
             writer = csv.writer(f2, delimiter=',', lineterminator='\n', )
             row = [tempCategory]
             writer.writerow(row)
-        with open('properties.csv', 'a') as f3:
+        with open('properties/csv/properties.csv', 'a') as f3:
             writer = csv.writer(f3, delimiter=',', lineterminator='\n', )
             row = [tempAddress, tempSize, tempRooms, tempBathrooms, tempYearBuilt, tempPrice]
             writer.writerow(row)
-        with open('propertyImgs.csv', 'a') as f4:
+        with open('properties/csv/propertyImgs.csv', 'a') as f4:
             writer = csv.writer(f4, delimiter=',', lineterminator='\n', )
-            n = 0
+
             for img in tempImgs:
                 row = [tempPrice, img]
                 writer.writerow(row)
-                n += 1
-                if n == 3:
-                    break
-        with open('description.csv', 'a', encoding="utf-8") as f5:
+        with open('properties/csv/description.csv', 'a', encoding="utf-8") as f5:
             writer = csv.writer(f5, delimiter=',', lineterminator='\n', )
             row = [tempDescr]
             writer.writerow(row)
@@ -141,8 +140,8 @@ def writeToCsv():
 
 def readFromCsv(filename):
     retData = []
-    if filename == 'description.csv':
-        with open(filename, 'r', encoding="utf-8") as f:
+    if filename == 'properties/csv/description.csv':
+        with open(filename, 'r', encoding="utf-8") as f: #description has special characters
             writer = csv.reader(f)
             for row in writer:
                 retData.append(row)
@@ -151,14 +150,5 @@ def readFromCsv(filename):
             writer = csv.reader(f)
             for row in writer:
                 retData.append(row)
-    return retData
-
-def downloadImgs(data):
-    j = 0
-    for i in range(len(data)):
-        nameCounter = 1
-        while nameCounter != 4:
-            urllib.request.urlretrieve(data[j-1][1],'../Properties/Images/' + data[j-1][0] + '_mynd_' + str(nameCounter) + '.png')
-            nameCounter += 1
-        j += 1
+    return retData #return csv rows in data array for easier accessibility
 

@@ -1,14 +1,14 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.db.models import Q
-from django.core.files import File
+
 from Properties.forms.properties_form import PropertiesCreateForm
 from Properties.forms.open_houses_form import OpenHousesCreateForm
 from Properties.forms.properties_images_form import PropertiesImagesForm
 from Properties.models import Properties, Description, OpenHouses, Categories, Zip, PropertySellers, PropertyImages
 from Users.models import CartItems, Favourites
-from Helpers.getData import clearFiles, getPropertyLinksAndZips, writeToCsv, readFromCsv, downloadImgs
+from Helpers.getData import clearFiles, writeToCsv, readFromCsv
 import logging
-from urllib.parse import urlparse
+import urllib
 
 
 logger = logging.getLogger(__name__)
@@ -188,11 +188,13 @@ def delete_property(request, id):
 def add_data_from_web(request):
     clearFiles()
     writeToCsv()
-    zips = readFromCsv('zip.csv')
-    descriptions = readFromCsv('description.csv')
-    props = readFromCsv('properties.csv')
-    categories = readFromCsv('categories.csv')
-
+    zips = readFromCsv('properties/csv/zip.csv')
+    descriptions = readFromCsv('properties/csv/description.csv')
+    props = readFromCsv('properties/csv/properties.csv')
+    categories = readFromCsv('properties/csv/categories.csv')
+    imgs = readFromCsv('properties/csv/propertyImgs.csv')
+    print(imgs)
+    j = 0
     for i in range(len(props)):
         zip, created = Zip.objects.get_or_create(zip=str(zips[i][0]),
                                                  city=str(zips[i][1]))
@@ -207,14 +209,14 @@ def add_data_from_web(request):
                                                              price=props[i][5])
         Description.objects.get_or_create(property=property,
                                           description=descriptions[i][0])
+
         imageCounter = 1
-        #while True:
-        #    try:
-        #        path = 'Images/' + str(props[i][5]) + '_mynd_' + str(imageCounter) + '.png'
-        #        PropertyImages.objects.get_or_create(property=property.id,
-        #                                             image=File(path).read())
-        #        imageCounter += 1
-        #    except FileNotFoundError:
-        #        break
+        while imageCounter != 4:
+            filename = 'static/images/properties/' + str(props[i][5]) + '_mynd_' + str(imageCounter) + '.jpg'
+            urllib.request.urlretrieve(imgs[j][1] , filename)
+            PropertyImages.objects.get_or_create(property=property,
+                                                 image=filename)
+            imageCounter += 1
+            j += 1
 
     return redirect('allProperties')
