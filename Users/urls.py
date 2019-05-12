@@ -15,6 +15,8 @@ urlpatterns = [
     path('addFavourite/<int:id>', views.add_to_favourite, name='addFavourite'),
     path('removeFavourite/<int:id>', views.remove_from_favourites, name='removeFavourite'),
     path('addCartItem/<int:id>', views.add_to_cart, name='addCartItem'),
-    path('removeCartItem/<int:id>', views.remove_from_cart, name='removeCartItem')
+    path('removeCartItem/<int:id>', views.remove_from_cart, name='removeCartItem'),
+    path('add_staff', views.add_staff, name="addStaff"),
+    path('emptyCart/', views.empty_cart, name='emptyCart')
 ]
 
