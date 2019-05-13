@@ -5,8 +5,9 @@ from Users.models import CheckoutInfo
 class CheckoutInfoForm(ModelForm):
     class Meta:
         model = CheckoutInfo
-        exclude = ['id', 'user']
+        exclude = ['id']
         widgets = {
+            'user': widgets.Select(attrs={'class': 'form-control'}, ),
             'name': widgets.TextInput(attrs={'class': 'form-control'}, ),
             'mobile': widgets.TextInput(attrs={'class': 'form-control'}, ),
             'street_name': widgets.TextInput(attrs={'class': 'form-control'}, ),

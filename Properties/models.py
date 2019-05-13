@@ -55,7 +55,7 @@ class Properties(models.Model):
 
 class Description(models.Model):
     property = models.ForeignKey(Properties, on_delete=models.CASCADE)
-    description = models.CharField(max_length=999, blank=True,
+    description = models.CharField(max_length=4000, blank=True,
                                    validators=[RegexValidator(r'^[0-9a-zA-Z]*$',
                                                               'Only alphanumeric characters are allowed.',
                                                               'invalid_description')])

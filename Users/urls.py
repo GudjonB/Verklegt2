@@ -19,6 +19,9 @@ urlpatterns = [
     path('removeCartItem/<int:id>', views.remove_from_cart, name='removeCartItem'),
     path('checkout', views.proceed_to_checkout, name='checkout'),
     path('checkoutReadOnly', views.read_only_checkout, name='checkoutReadOnly'),
-    path('checkoutCardInfo', views.card_info_checkout, name='checkoutCardInfo')
+    path('checkoutCardInfo', views.card_info_checkout, name='checkoutCardInfo'),
+    path('add_staff', views.add_staff, name="addStaff"),
+    path('emptyCart/', views.empty_cart, name='emptyCart'),
+    path('emptyCartPurchase', views.empty_cart_purchased, name='emptyCartPurchase')
 ]
 

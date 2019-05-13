@@ -1,32 +1,48 @@
 {% extends "base.html" %}
 {% block content %}
     {% load humanize %}
-    <h2>{{ Properties.address }}</h2>
-    {% if Properties.propertyimages_set.count == 0 %}
-        <img class="property-img" src="/static/images/properties/default_castle.jpg" >
+    <h2>{{ Property.address }}</h2>
+    {% if Property.propertyimages_set.count == 0 %}
+        <img class="property-img" src="/static/images/Properties/default_castle.jpg" >
     {% else %}
-        <img class="property-img" src="{{ Properties.propertyimages_set.first}}" >
+        <img class="property-img" src="{{ Property.propertyimages_set.first}}" >
     {% endif %}
 
-    <p><b>Price:</b> {{ Properties.price|intcomma }}</p>
+    <p><b>Price:</b> {{ Property.price|intcomma }}</p>
+    
 
-    <a class="btn-favorites" href="/users/addFavourite/{{ Properties.id}}" >Add to Favorites</a>
-    <img id="fav-img" src="/static/images/favorites_star.png"></br>
-    <a href="/users/addCartItem/{{ Properties.id }}" class="card-link">Add to cart</a>
+    {% if user.is_authenticated %}
+        {% if Property in Favourites %}
+            <img id="fav-img" src="/static/images/favorites_star_yellow.png"></br>
+            <a class="btn-favorites" href="/users/removeFavourite/{{ Property.id}}" >Remove from favourites</a>
+        {% else %}
+            <img id="fav-img" src="/static/images/favorites_star.png"></br>
+            <a class="btn-favorites" href="/users/addFavourite/{{ Property.id}}" >Add to favourites</a>
+        {% endif %}
+        <br><br>
+        {% if Property in Cart %}
+            <a href="/users/removeCartItem/{{ Property.id }}" class="card-link">Remove from cart</a>
+        {% else %}
+            <a href="/users/addCartItem/{{ Property.id }}" class="card-link">Add to cart</a>
+        {% endif %}
+    {% else %}
+        <a href="../users/login" class="card-link">Add to cart</a>
+    {% endif %}
 
     <h3>Property Details</h3>
-    <p>{{ Properties.description_set.first.description }}</p>
+    <p>{{ Property.description_set.first.description }}</p>
 
-    <p><b>Category:</b> {{ Properties.category_id.category}}</p>
-    <p><b>City:</b> {{ Properties.zip.city }}</p>
-    <p><b>Zip:</b> {{ Properties.zip.zip }}</p>
-    <p><b>Square meters:</b> {{ Properties.size|intcomma }}</p>
-    <p><b>Bathrooms:</b> {{ Properties.bathrooms }}</p>
-    <p><b>Rooms:</b> {{ Properties.rooms }}</p>
-    {% if Properties.category_id != 6 %}
-        <p><b>Year built:</b> {{ Properties.year_built }}</p>
+    <p><b>Category:</b> {{ Property.category_id.category}}</p>
+    <p><b>City:</b> {{ Property.zip.city }}</p>
+    <p><b>Zip:</b> {{ Property.zip.zip }}</p>
+    <p><b>Square meters:</b> {{ Property.size|intcomma }}</p>
+    <p><b>Bathrooms:</b> {{ Property.bathrooms }}</p>
+    <p><b>Rooms:</b> {{ Property.rooms }}</p>
+    {% if Property.category_id != 6 %}
+        <p><b>Year built:</b> {{ Property.year_built }}</p>
     {% endif %}
-    {% if user.is_authenticated and Properties.id in UsersProperties %}
-        <a href="/properties/delete/{{ Properties.id}}" class="btn btn-danger">Delete Property</a>
+    {% if user.is_authenticated and Property.id in UsersProperties %}
+        <a href="/properties/delete/{{ Property.id}}" class="btn btn-danger">Delete Property</a>
+        <a href="/properties/update/{{ Property.id}}" class="btn btn-danger">Edit Property</a>
     {% endif %}
 {% endblock %}

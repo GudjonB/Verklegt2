@@ -1,22 +1,24 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.forms import UserCreationForm
 
-from Users.models import Profiles, CartItems, Favourites
-from Properties.models import Properties, Zip
+from urllib.parse import urlparse
 
-# from Users.forms.profile_form import ProfileForm
+from Properties.models import Properties, Zip, PropertySellers
+
 from Users.forms.offers_form import OffersForm
-from Users.models import Profiles, CartItems, CheckoutInfo, Cards
+from Users.models import Profiles, CartItems, Favourites, CheckoutInfo, Cards, User
 from Properties.models import Properties
 from Users.forms.profile_form import UpdateProfileForm
 from Users.forms.checkout_form import CheckoutInfoForm
 from Users.forms.card_info_checkout_form import CardInfoForm
+from Users.forms.staff_form import StaffForm
 import logging
 logger = logging.getLogger(__name__)
 
 
 def index(request):
-    context = {'Properties': Properties.objects.all().order_by('-id')[:3]}
+    context = {'Properties': Properties.objects.all().order_by('-id')[:3],
+               'Cart': [c.property for c in CartItems.objects.filter(user=request.user.id)]}
     return render(request, 'Users/index.html', context)
 
 
@@ -39,7 +41,10 @@ def profile(request):
     return render(request, 'Users/profile.html', {
         'Profiles': get_object_or_404(Profiles, pk=Profiles.objects.get(user_id=request.user.id).id),
         'fav': Favourites.objects.filter(user_id=request.user.id),
-        'fav_count': Favourites.objects.filter(user_id=request.user.id).count()
+        'fav_count': Favourites.objects.filter(user_id=request.user.id).count(),
+        'selling': PropertySellers.objects.filter(user_id=request.user.id),
+        'selling_count': PropertySellers.objects.filter(user_id=request.user.id).count(),
+        'Cart': [c.property for c in CartItems.objects.filter(user=request.user.id)]
     })
 
 
@@ -86,64 +91,102 @@ def cart(request):
 
 
 def favourites(request):
-    context = {'fav': Favourites.objects.filter(user_id=request.user.id)}
+    context = {'fav': Favourites.objects.filter(user_id=request.user.id),
+               'Cart': [c.property for c in CartItems.objects.filter(user=request.user.id)]}
     return render(request, 'Users/Favourites.html', context)
+
 
 def add_to_favourite(request, id):
     favourite = Favourites(property=get_object_or_404(Properties, pk=id), user=request.user)
     favourite.save()
-    return redirect("propertyDetails",id)
+    return redirect(request.META.get('HTTP_REFERER'), id)
+
 
 def remove_from_favourites(request, id):
     favourite = Favourites.objects.filter(property_id=id, user=request.user)
     favourite.delete()
-    return redirect('favourites')
+    return redirect(request.META.get('HTTP_REFERER'))
+
 
 def remove_from_favorites_profile(request, id):
     favourite = Favourites.objects.filter(property_id=id, user=request.user)
     favourite.delete()
     return redirect('profile')
 
+
 def add_to_cart(request, id):
     item = CartItems(property=get_object_or_404(Properties, pk=id), user=request.user)
     item.save()
-    return redirect("cart")
+    return redirect(request.META.get('HTTP_REFERER'))
+
 
 def remove_from_cart(request, id):
     item = CartItems.objects.filter(property_id=id, user=request.user)
     item.delete()
-    return redirect("cart")
+    return redirect(request.META.get('HTTP_REFERER'))
+
 
 def proceed_to_checkout(request):
     if request.method == 'POST':
-        form = CheckoutInfoForm(data=request.POST)
+        form = CheckoutInfoForm(data=request.POST) #, instance=request.user)
         if form.is_valid():
-            my_checkout = CheckoutInfo.objects.get(user_id=request.user.id)
-            my_checkout.save()
+            form.save()
             return redirect('checkoutCardInfo')
     else:
         form = CheckoutInfoForm()
+            #initial={'user': request.user,
+            #                             'name': request.user.profiles.name,
+            #                             'social': request.user.profiles.social
+            #                             })
     return render(request, 'Users/checkout.html', {
         'form': form
     })
 
 
 def read_only_checkout(request):
-    return render(request, 'Users/read_only_checkout.html', {
-        'info': get_object_or_404(CheckoutInfo, pk=CheckoutInfo.objects.get(user_id=request.user.id).id),
-        'cardInfo': get_object_or_404(Cards, pk=Cards.objects.get(user_id=request.user.id).id)
-    })
+    read_only = {'info': CheckoutInfo.objects.filter(user_id=request.user.id),
+                 'cardInfo': CheckoutInfo.objects.filter(user_id=request.user.id)}
+    return render(request, 'Users/read_only_checkout.html', read_only)
 
 
 def card_info_checkout(request):
     if request.method == 'POST':
         form = CardInfoForm(data=request.POST)
         if form.is_valid():
-            my_info = CardInfoForm.objects.get(user_id=request.user.id)
-            my_info.save()
+            form.save()
             return redirect('checkoutReadOnly')
     else:
-        form = CardInfoForm()
+        form = CardInfoForm() # initial={'user': request.user,
+                              #       'name': request.user.profiles.name
+                              #       })
     return render(request, 'Users/card_info_checkout.html', {
+        'form': form
+    })
+
+
+def empty_cart(request):
+    items = CartItems.objects.filter(user=request.user)
+    for item in items:
+        item.delete()
+    return redirect(request.META.get('HTTP_REFERER'))
+
+
+def empty_cart_purchased(request):
+    items = CartItems.objects.filter(user=request.user)
+    for item in items:
+        item.delete()
+    return redirect('/')
+
+
+def add_staff(request):
+    if request.method == 'POST':
+        form = StaffForm(data=request.POST)
+        if form.is_valid:
+            user = get_object_or_404(User, pk=form['user'].value())
+            user.is_staff = True
+            user.save()
+    else:
+        form = StaffForm()
+    return render(request, 'Users/add_staff.html', {
         'form': form
     })

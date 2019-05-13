@@ -2,9 +2,10 @@
 
 {% block content %}
     <h1>Payment Information</h1>
-    <form class = "form form horizontal" action="{% url 'checkout' %}" method="post">
+    <form class = "form form horizontal" action="{% url 'checkoutCardInfo' %}" method="post">
         {% csrf_token %}
         {{ form }}
-        <input type="submit" value="Confirm" class="btn btn-primary pull-right" style="clear:both; margin: 10px 0"/>
+        <input type="button" onclick="location.href='/users/checkout'" value="Prev" class="btn btn-primary pull-right" style="clear:both; margin-bottom: 20px; margin-right: 50%"/>
+        <input type="submit" value="Next" class="btn btn-primary pull-right" style="clear:both; margin: 10px 0"/>
     </form>
 {% endblock %}

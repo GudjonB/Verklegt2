@@ -5,8 +5,9 @@ from Users.models import Cards
 class CardInfoForm(ModelForm):
     class Meta:
         model = Cards
-        exclude = ['id', 'user']
+        exclude = ['id']
         widgets = {
+            'user': widgets.Select(attrs={'class': 'form-control'}, ),
             'number': widgets.TextInput(attrs={'class': 'form-control'}, ),
             'cvc': widgets.TextInput(attrs={'class': 'form-control'}, ),
             'expiration': widgets.TextInput(attrs={'class': 'form-control'}, ),

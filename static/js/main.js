@@ -1,6 +1,8 @@
 var navbar;
 var sticky;
 var bodyblock;
+var confirmationButton;
+var cartItems;
 
 $(document).ready(function(){
   // Get the navbar
@@ -10,6 +12,7 @@ $(document).ready(function(){
   var width = navbar.offsetWidth;
   // Get Bodyblock
   bodyblock = document.getElementsByClassName("bodyBlock")[0];
+  confirmationButton = document.getElementById("confirmButton");
 });
 
 
@@ -41,3 +44,7 @@ window.addEventListener("scroll", event => {
         bodyblock.style.paddingTop="";
       }}
 );
+
+function purchaseConfirmed() {
+    alert("Congratulations with your new property!");
+}

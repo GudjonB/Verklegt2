@@ -2,23 +2,27 @@
 {% block content %}
 
     <h1>Is everything correct?</h1>
-<!--
-    <p><b>Name:</b> {{ info.name }}</p>
+
+    <p><b>Name:</b> {{ cardInfo. }}</p>
     <p><b>Mobile:</b> {{ info.mobile }}</p>
     <p><b>Address</b> {{ info.street_name }} {{ info.house_number }}</p>
     <p><b>Country:</b> {{ info.country }}</p>
     <p><b>City:</b> {{ info.city }}</p>
     <p><b>Zip Code:</b> {{ info.zipCode }}</p>
     <p><b>Social Security Number:</b> {{ info.social }}</p>
--->
+
     <!--Card Info-->
 
-<!--
-    <p><b>Name:</b> {{ cardInfo.name }}</p>
+    <p><b>Cardholder Name:</b> {{ cardInfo.name }}</p>
     <p><b>Card Number:</b> {{ cardInfo.number }}</p>
     <p><b>cvc:</b> {{ cardInfo.cvc }}</p>
     <p><b>expiration</b> {{ cardInfo.expiration }}</p>
--->
-    <input type="submit" value="Confirm" class="btn btn-primary pull-right" style="clear:both; margin: 10px 0"/>
+    <br>
+
+    <input type="button" onclick="location.href='/users/checkout'" value="Prev" class="btn btn-primary pull-right"
+           style="clear:both; margin-bottom: 20px; margin-right: 50%"/>
+    <input id="confirmButton" type="button" onclick="purchaseConfirmed();location.href='/users/emptyCartPurchase';
+    location.href='/properties/deletePurchasedProperties'" value="Confirm Purchase" class="btn btn-primary pull-right" style="clear:both; margin: 10px 0"/>
+
 
 {% endblock %}
