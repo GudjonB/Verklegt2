@@ -1,6 +1,8 @@
 var navbar;
 var sticky;
 var bodyblock;
+var confirmationButton;
+var cartItems;
 
 $(document).ready(function(){
   // Get the navbar
@@ -10,21 +12,23 @@ $(document).ready(function(){
   var width = navbar.offsetWidth;
   // Get Bodyblock
   bodyblock = document.getElementsByClassName("bodyBlock")[0];
+  confirmationButton = document.getElementById("confirmButton");
+
 });
 
 
 $(document).ready(function () {
-  $('.second-button').on('click', function () {
+    $('.second-button').on('click', function () {
 
-    $('.animated-icon2').toggleClass('open');
-  });
+        $('.animated-icon2').toggleClass('open');
+    });
 });
 
 $(document).ready(function () {
-  $('.profile-button').on('click', function () {
-    $(".profIcon").toggleClass("fa-user  fa-user-alt-slash");
-    $(".fa-shopping-cart").toggle();
-  });
+    $('.profile-button').on('click', function () {
+        $(".profIcon").toggleClass("fa-user  fa-user-alt-slash");
+        $(".fa-shopping-cart").toggle();
+    });
 });
 
 
@@ -32,12 +36,18 @@ $(document).ready(function () {
 
 window.addEventListener("scroll", event => {
 
-      if (window.pageYOffset >= sticky) {
+    if (window.pageYOffset >= sticky) {
         navbar.classList.add("sticky");
         bodyblock.style.paddingTop="100px";
-      }
-      else {
+    }
+    else {
         navbar.classList.remove("sticky");
         bodyblock.style.paddingTop="";
-      }}
+
+    }}
 );
+
+
+function purchaseConfirmed() {
+    alert("Congratulations with your new property!");
+}
