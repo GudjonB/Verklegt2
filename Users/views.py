@@ -1,9 +1,14 @@
+
+from datetime import timedelta
 from django.shortcuts import render, redirect, get_object_or_404, render_to_response
+
 from django.contrib.auth.forms import UserCreationForm
 
 from urllib.parse import urlparse
 
-from Properties.models import Properties, Zip, PropertySellers
+from django.utils.datetime_safe import date
+
+from Properties.models import Properties, Zip, PropertySellers, PropertyVisits
 
 from Users.models import Profiles, CartItems, Favourites
 from Users.forms.offers_form import OffersForm
@@ -26,8 +31,13 @@ def error_500_view(request):
 
 
 def index(request):
+    enddate = date.today()
+    monthStartdate = enddate - timedelta(days=30)
+    weekStartdate = enddate - timedelta(days=7)
     context = {'Properties': Properties.objects.all().order_by('-id')[:3],
-               'Cart': [c.property for c in CartItems.objects.filter(user=request.user.id)]}
+               'Cart': [c.property for c in CartItems.objects.filter(user=request.user.id)],
+               'monthVisits': PropertyVisits.objects.filter(date__date__range=[monthStartdate, enddate]).order_by('-counter')[:3],
+               'weekVisits': PropertyVisits.objects.filter(date__date__range=[weekStartdate, enddate]).order_by('-counter')[:3]}
     return render(request, 'Users/index.html', context)
 
 

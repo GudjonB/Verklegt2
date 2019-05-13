@@ -9,6 +9,7 @@
     {% endif %}
 
     <p><b>Price:</b> {{ Property.price|intcomma }}</p>
+    <p><b>Totel Visits:</b> {{ PropertyVisits.count }}</p>
     
 
     {% if user.is_authenticated %}
