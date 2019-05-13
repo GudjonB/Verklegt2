@@ -13,6 +13,9 @@ urlpatterns = [
     path('delete/<int:id>', views.delete_property, name='deleteProperty'),
     path('deletePurchasedProperties', views.delete_purchased_properties, name='deletePurchasedProperty'),
     path('update/<int:id>', views.update_property, name='update_property'),
+    path('imagesedit/<int:id>', views.update_property_images, name='update_property_images'),
+    path('addimage/<int:id>', views.add_property_image, name='add_property_image'),
+    path('deleteimage/<int:id>', views.delete_property_image, name='delete_property_image'),
 
     path('search', views.search, name="search"),
     path('filter', views.filter, name="filter"),

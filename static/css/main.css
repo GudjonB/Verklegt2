@@ -296,7 +296,7 @@ ul {
 }
 
 .property-img {
-    width: 50%;
+    width: 25%;
     height: auto;
     margin-bottom: 1rem;
 }
@@ -422,6 +422,15 @@ hr {
     font-size: 11px;
 }
 
+/* END SELLER PROFILE */
+
+.edit-img {
+    width: 12rem;
+    display: inline;
+    padding-bottom: 14px;
+}
+
+
 .carousel-inner img {
     width: 50%;
 }
@@ -444,4 +453,3 @@ hr {
 
 
 
-/* END SELLER PROFILE */
