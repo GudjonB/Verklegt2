@@ -38,8 +38,7 @@ def index(request):
     weekStartdate = enddate - timedelta(days=7)
     context = {'Properties': Properties.objects.all().order_by('-id')[:3],
                'Cart': [c.property for c in CartItems.objects.filter(user=request.user.id)],
-               'monthVisits': PropertyVisits.objects.filter(date__date__range=[monthStartdate, enddate])\
-                                  .annotate(counterSum=Sum('counter')).order_by('-counter')[:3],
+               'monthVisits': PropertyVisits.objects.filter(date__date__range=[monthStartdate, enddate]).values('property').annotate(counterSum=Sum('counter')).order_by('-counterSum')[:3],
                'weekVisits': PropertyVisits.objects.filter(date__date__range=[weekStartdate, enddate])\
                                  .order_by('-counter')[:3]}
     return render(request, 'Users/index.html', context)
