@@ -212,12 +212,12 @@ def filter(request):
     if query.get('priceto') and '+' not in query.get('priceto'):
         tmp = Properties.objects.filter(Q(price__lte=query.get('priceto')))
         props = tmp.intersection(props)
-    if query.get('ordertime') == 'Newest':
-        props = props.order_by('-id')
-    if query.get('ordertime') == 'Oldest':
-        props = props.order_by('id')
     if query.get('orderinfo'):
-        if query.get('orderinfo') == 'priceascending':
+        if query.get('orderinfo') == 'newestfirst':
+            props = props.order_by('-id')
+        elif query.get('orderinfo') == 'oldestfirst':
+            props = props.order_by('id')
+        elif query.get('orderinfo') == 'priceascending':
             props = props.order_by('price')
         elif query.get('orderinfo') == 'pricedescending':
             props = props.order_by('-price')
@@ -261,7 +261,6 @@ def add_data_from_web(request):
     categories = readFromCsv('properties/csv/categories.csv')
     imgs = readFromCsv('properties/csv/propertyImgs.csv')
     print(imgs)
-    j = 0
     for i in range(len(props)):
         zip, created = Zip.objects.get_or_create(zip=str(zips[i][0]),
                                                  city=str(zips[i][1]))
@@ -278,12 +277,11 @@ def add_data_from_web(request):
                                           description=descriptions[i][0])
 
         imageCounter = 1
-        while imageCounter != 4:
+        while imageCounter != 6:
             filename = 'static/images/properties/' + str(props[i][5]) + '_mynd_' + str(imageCounter) + '.jpg'
-            urllib.request.urlretrieve(imgs[j][1] , filename)
+            urllib.request.urlretrieve(imgs[i+imageCounter][1], filename)
             PropertyImages.objects.get_or_create(property=property,
                                                  image=filename)
             imageCounter += 1
-            j += 1
 
     return redirect('allProperties')

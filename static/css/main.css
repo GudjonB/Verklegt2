@@ -58,13 +58,14 @@ input:focus {
     text-align: center;
 }
 
+
 .nav-right {
     list-style-type: none;
     margin: 0;
     padding: 0;
 }
 ul.nav-right li {
-  display:inline;
+    display:inline;
     float: right;
 }
 
@@ -350,7 +351,7 @@ hr {
 }
 
 .profile-para {
-   /* width: 20rem;*/
+    /* width: 20rem;*/
 
 }
 
@@ -420,4 +421,27 @@ hr {
 #profile-selling .card-link {
     font-size: 11px;
 }
+
+.carousel-inner img {
+    width: 50%;
+}
+
+.carousel-control-next, .carousel-control-prev {
+    height: 60px;
+    width: 60px;
+    outline: black;
+    background-size: 50%, 50%;
+    background-color: gray;
+    border-radius: 25%;
+    margin: auto 0;
+}
+.carousel-control-next {
+    right: 15%;
+}
+.carousel-control-prev {
+    left: 15%;
+}
+
+
+
 /* END SELLER PROFILE */
