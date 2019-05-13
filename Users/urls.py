@@ -20,3 +20,5 @@ urlpatterns = [
     path('emptyCart/', views.empty_cart, name='emptyCart')
 ]
 
+handler404 = 'Users.views.error_404_view'
+handler500 = 'Users.views.error_500_view'

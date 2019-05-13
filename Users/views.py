@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404, render_to_response
 from django.contrib.auth.forms import UserCreationForm
 
 from urllib.parse import urlparse
@@ -12,6 +12,17 @@ from Users.forms.staff_form import StaffForm
 
 import logging
 logger = logging.getLogger(__name__)
+
+def error_404_view(request, exception, template_name="404.html"):
+    response = render_to_response("404.html")
+    response.status_code = 404
+    return response
+
+
+def error_500_view(request):
+    response = render_to_response("404.html")
+    response.status_code = 500
+    return response
 
 
 def index(request):
