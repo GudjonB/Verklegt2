@@ -7,7 +7,7 @@ class CheckoutInfoForm(ModelForm):
         model = CheckoutInfo
         exclude = ['id']
         widgets = {
-            'user': widgets.Select(attrs={'class': 'form-control'}, ),
+            'user': widgets.HiddenInput(attrs={'class': 'form-control'}, ),
             'name': widgets.TextInput(attrs={'class': 'form-control'}, ),
             'mobile': widgets.TextInput(attrs={'class': 'form-control'}, ),
             'street_name': widgets.TextInput(attrs={'class': 'form-control'}, ),

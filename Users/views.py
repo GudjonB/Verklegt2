@@ -155,16 +155,15 @@ def remove_from_cart(request, id):
 
 def proceed_to_checkout(request):
     if request.method == 'POST':
-        form = CheckoutInfoForm(data=request.POST) #, instance=request.user)
+        form = CheckoutInfoForm(data=request.POST)
         if form.is_valid():
             form.save()
             return redirect('checkoutCardInfo')
     else:
-        form = CheckoutInfoForm()
-            #initial={'user': request.user,
-            #                             'name': request.user.profiles.name,
-            #                             'social': request.user.profiles.social
-            #                             })
+        form = CheckoutInfoForm(initial={'user': request.user,
+                                         'name': request.user.profiles.name,
+                                         'social': request.user.profiles.social
+                                         })
     return render(request, 'Users/checkout.html', {
         'form': form
     })
