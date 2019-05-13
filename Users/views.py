@@ -162,8 +162,8 @@ def proceed_to_checkout(request):
 
 
 def read_only_checkout(request):
-    read_only = {'info': CheckoutInfo.objects.filter(user_id=request.user.id),
-                 'cardInfo': CheckoutInfo.objects.filter(user_id=request.user.id)}
+    read_only = {'info': CheckoutInfo.objects.filter(user_id=request.user.id).order_by("-id").first(),
+                 'cardInfo': Cards.objects.filter(user_id=request.user.id).order_by("-id").first()}
     return render(request, 'Users/read_only_checkout.html', read_only)
 
 
