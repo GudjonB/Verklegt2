@@ -18,18 +18,62 @@ class Profiles(models.Model):
     address = models.CharField(max_length=255,
                                validators=[RegexValidator(r'^[0-9a-zA-Z]*$',
                                                           'Only alphanumeric characters are allowed.',
-                                                          'invalid_address')])
+                                                          'invalid address')])
     zipCode = models.ForeignKey(Zip, on_delete=models.CASCADE, null=True, blank=True)
     social = models.CharField(max_length=10,
                               validators=[RegexValidator(r'^[0-9]*$',
                                                          'Only numeric characters are allowed.',
-                                                         'invalid_social')])
+                                                         'invalid social')])
     image = models.ImageField(upload_to='static/images/users/',
                               default='static/images/users/little-robin-hood-boys-costume.jpg',
                               blank=True, null=True)
 
     def image_name(self):
         return '/' + self.image.name
+
+
+class Country(models.Model):
+    country = models.CharField(max_length=155,
+                               validators=[RegexValidator(r'^[a-zA-Z]*$',
+                                                          'Only alphabetic characters are allowed.',
+                                                          'invalid country')])
+
+    def __str__(self):
+        return self.country
+
+
+class CheckoutInfo(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    name = models.CharField(max_length=255,
+                            validators=[RegexValidator(r'^[0-9a-zA-Z]*$',
+                                                       'Only alphanumeric characters are allowed.',
+                                                       'invalid name')])
+    mobile = models.CharField(max_length=7,
+                              validators=[RegexValidator(r'^[0-9]*$',
+                                                         'Only numeric characters are allowed.',
+                                                         'invalid mobile')])
+    street_name = models.CharField(max_length=255,
+                                   validators=[RegexValidator(r'^[0-9a-zA-Z]*$',
+                                                              'Only alphanumeric characters are allowed.',
+                                                              'invalid street name')])
+    house_number = models.CharField(max_length=155,
+                                    validators=[RegexValidator(r'^[0-9a-zA-Z]*$',
+                                                               'Only alphanumeric characters are allowed.',
+                                                               'invalid house number')])
+    country = models.ForeignKey(Country, on_delete=models.CASCADE, default='Iceland')
+    city = models.CharField(max_length=255,
+                            validators=[RegexValidator(r'^[a-zA-Z]*$',
+                                                       'Only alphabetic characters are allowed.',
+                                                       'invalid_name')])
+    zipCode = models.CharField(max_length=155,
+                               validators=[RegexValidator(r'^[0-9a-zA-Z]*$',
+                                                          'Only alphanumeric characters are allowed.',
+                                                          'invalid zip')])
+    social = models.CharField(max_length=10,
+                              validators=[RegexValidator(r'^[0-9]*$',
+                                                         'Only numeric characters are allowed.',
+                                                         'invalid_social')])
 
 
 class Cards(models.Model):

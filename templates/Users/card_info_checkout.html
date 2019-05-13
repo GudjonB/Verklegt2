@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Payment Information</h1>
+    <form class = "form form horizontal" action="{% url 'checkout' %}" method="post">
+        {% csrf_token %}
+        {{ form }}
+        <input type="submit" value="Confirm" class="btn btn-primary pull-right" style="clear:both; margin: 10px 0"/>
+    </form>
+{% endblock %}

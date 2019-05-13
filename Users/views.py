@@ -6,9 +6,11 @@ from Properties.models import Properties, Zip
 
 # from Users.forms.profile_form import ProfileForm
 from Users.forms.offers_form import OffersForm
-from Users.models import Profiles, CartItems
+from Users.models import Profiles, CartItems, CheckoutInfo, Cards
 from Properties.models import Properties
 from Users.forms.profile_form import UpdateProfileForm
+from Users.forms.checkout_form import CheckoutInfoForm
+from Users.forms.card_info_checkout_form import CardInfoForm
 import logging
 logger = logging.getLogger(__name__)
 
@@ -97,6 +99,11 @@ def remove_from_favourites(request, id):
     favourite.delete()
     return redirect('favourites')
 
+def remove_from_favorites_profile(request, id):
+    favourite = Favourites.objects.filter(property_id=id, user=request.user)
+    favourite.delete()
+    return redirect('profile')
+
 def add_to_cart(request, id):
     item = CartItems(property=get_object_or_404(Properties, pk=id), user=request.user)
     item.save()
@@ -107,4 +114,36 @@ def remove_from_cart(request, id):
     item.delete()
     return redirect("cart")
 
+def proceed_to_checkout(request):
+    if request.method == 'POST':
+        form = CheckoutInfoForm(data=request.POST)
+        if form.is_valid():
+            my_checkout = CheckoutInfo.objects.get(user_id=request.user.id)
+            my_checkout.save()
+            return redirect('checkoutCardInfo')
+    else:
+        form = CheckoutInfoForm()
+    return render(request, 'Users/checkout.html', {
+        'form': form
+    })
 
+
+def read_only_checkout(request):
+    return render(request, 'Users/read_only_checkout.html', {
+        'info': get_object_or_404(CheckoutInfo, pk=CheckoutInfo.objects.get(user_id=request.user.id).id),
+        'cardInfo': get_object_or_404(Cards, pk=Cards.objects.get(user_id=request.user.id).id)
+    })
+
+
+def card_info_checkout(request):
+    if request.method == 'POST':
+        form = CardInfoForm(data=request.POST)
+        if form.is_valid():
+            my_info = CardInfoForm.objects.get(user_id=request.user.id)
+            my_info.save()
+            return redirect('checkoutReadOnly')
+    else:
+        form = CardInfoForm()
+    return render(request, 'Users/card_info_checkout.html', {
+        'form': form
+    })
