@@ -1,24 +1,42 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404, render_to_response
 from django.contrib.auth.forms import UserCreationForm
+from django.utils.datetime_safe import date
 
+from datetime import timedelta
 from urllib.parse import urlparse
 
-from Properties.models import Properties, Zip, PropertySellers
+from Properties.models import Properties, Zip, PropertySellers, PropertyVisits
 
-from Users.forms.offers_form import OffersForm
 from Users.models import Profiles, CartItems, Favourites, CheckoutInfo, Cards, User
-from Properties.models import Properties
+from Users.forms.offers_form import OffersForm
 from Users.forms.profile_form import UpdateProfileForm
 from Users.forms.checkout_form import CheckoutInfoForm
 from Users.forms.card_info_checkout_form import CardInfoForm
 from Users.forms.staff_form import StaffForm
+
 import logging
 logger = logging.getLogger(__name__)
 
+def error_404_view(request, exception, template_name="404.html"):
+    response = render_to_response("404.html")
+    response.status_code = 404
+    return response
+
+
+def error_500_view(request):
+    response = render_to_response("404.html")
+    response.status_code = 500
+    return response
+
 
 def index(request):
+    enddate = date.today()
+    monthStartdate = enddate - timedelta(days=30)
+    weekStartdate = enddate - timedelta(days=7)
     context = {'Properties': Properties.objects.all().order_by('-id')[:3],
-               'Cart': [c.property for c in CartItems.objects.filter(user=request.user.id)]}
+               'Cart': [c.property for c in CartItems.objects.filter(user=request.user.id)],
+               'monthVisits': PropertyVisits.objects.filter(date__date__range=[monthStartdate, enddate]).order_by('-counter')[:3],
+               'weekVisits': PropertyVisits.objects.filter(date__date__range=[weekStartdate, enddate]).order_by('-counter')[:3]}
     return render(request, 'Users/index.html', context)
 
 

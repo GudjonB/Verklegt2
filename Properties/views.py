@@ -1,12 +1,15 @@
+from urllib.parse import urlparse
+
 from django.shortcuts import render, redirect, get_object_or_404
-from django.db.models import Q
+from django.db.models import Q, Sum
 
 from Properties.forms.properties_form import PropertiesCreateForm
 from Properties.forms.open_houses_form import OpenHousesCreateForm
 from Properties.forms.properties_images_form import PropertiesImagesForm
-from Properties.models import Properties, Description, OpenHouses, Categories, Zip, PropertySellers, PropertyImages
+from Properties.models import .
 from Users.models import CartItems, Favourites
 from Helpers.getData import clearFiles, writeToCsv, readFromCsv
+from datetime import datetime
 import logging
 import urllib
 
@@ -22,16 +25,15 @@ def index(request):
 
 def create_properties(request):
     if request.method == 'POST':
-        form = PropertiesCreateForm(data=request.POST)
+        form = PropertiesCreateForm(request.POST, request.FILES)
         if form.is_valid():
             properties = form.save()
             description = Description(description=request.POST['description'], property=properties)
             description.save()
-            logger.error(request.user.id)
-            logger.error(properties.id)
-            logger.error(form['address'].value())
             sellers = PropertySellers(user_id=request.user.id, property_id=properties.id)
             sellers.save()
+            images = PropertyImages(image=form.cleaned_data['image'], property_id=properties.id)
+            images.save()
             return redirect('allProperties')
     else:
         form = PropertiesCreateForm()
@@ -40,12 +42,22 @@ def create_properties(request):
     })
 
 
+def create_properties_images(request):
+    if request.method == 'POST':
+        form = PropertiesImagesForm(data=request.POST)
+        if form.is_valid():
+            form.save()
+    else:
+        form = PropertiesImagesForm()
+
+
 def update_property(request, id):
     if request.method == 'POST':
         form = PropertiesCreateForm(data=request.POST, instance=request.user, files=request.FILES)
         if form.is_valid():
             property_to_update = get_object_or_404(Properties, pk=id)
             description_to_update = get_object_or_404(Description, property_id=id)
+            property_image_to_update = get_object_or_404(PropertyImages, property_id=id)
 
             property_to_update.address = form['address'].value()
             property_to_update.zip_id = form['zip'].value()
@@ -55,13 +67,16 @@ def update_property(request, id):
             property_to_update.bathrooms = form['bathrooms'].value()
             property_to_update.year_built = form['year_built'].value()
             property_to_update.price = form['price'].value()
+            property_image_to_update.image = form['image'].value()
             description_to_update.description = form['description'].value()
             property_to_update.save()
             description_to_update.save()
+            property_image_to_update.save()
             return redirect('propertyDetails', id=id)
     else:
         property_to_update = Properties.objects.get(pk=id)
         description_to_update = get_object_or_404(Description, property_id=id)
+        property_image_to_update = get_object_or_404(PropertyImages, property_id=id)
         form = PropertiesCreateForm(initial={'address': property_to_update.address,
                                              'zip': property_to_update.zip,
                                              'category': property_to_update.category,
@@ -70,6 +85,7 @@ def update_property(request, id):
                                              'bathrooms': property_to_update.bathrooms,
                                              'year_built': property_to_update.year_built,
                                              'price': property_to_update.price,
+                                             'image': property_image_to_update.image.name,
                                              'description': description_to_update.description})
     return render(request, 'Properties/update_property.html', {
         'form': form,
@@ -81,11 +97,19 @@ def get_property_by_id(request, id):
     users_prop_list = []
     for i in PropertySellers.objects.filter(user_id=request.user.id):
         users_prop_list.append(i.property_id)
-    return render(request, 'Properties/property_details.html', {
-        'Property': get_object_or_404(Properties, pk=id),
+    propertyVisit = PropertyVisits.objects.filter(property_id=id).order_by('-id').first()
+    if propertyVisit and propertyVisit.date.strftime('%W') == datetime.now().strftime('%W') and propertyVisit.date.strftime('%Y') == datetime.now().strftime('%Y'):
+        propertyVisit.counter = propertyVisit.counter + 1
+        propertyVisit.save()
+    else :
+        propertyVisit = PropertyVisits(property_id=id, counter=1)
+        propertyVisit.save()
+    return render(request, 'Properties/property_details.html',
+        {'Property': get_object_or_404(Properties, pk=id),
         'UsersProperties': users_prop_list,
         'Cart': [c.property for c in CartItems.objects.filter(user=request.user.id)],
-        'Favourites': [f.property for f in Favourites.objects.filter(user=request.user.id)]
+        'Favourites': [f.property for f in Favourites.objects.filter(user=request.user.id)],
+        'PropertyVisits': PropertyVisits.objects.filter(property_id=id).aggregate(count=Sum('counter'))
     })
 
 

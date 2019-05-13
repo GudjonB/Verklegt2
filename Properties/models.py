@@ -4,7 +4,7 @@ from django.core.validators import MinValueValidator
 from django.db import models
 from django.contrib.auth.models import User
 # from Users.models import Users
-# import datetime
+from datetime import datetime
 
 
 class Categories(models.Model):
@@ -81,7 +81,7 @@ class PropertyImages(models.Model):
 
 class PropertyVisits(models.Model):
     property = models.ForeignKey(Properties, on_delete=models.CASCADE)
-    week_number = models.PositiveIntegerField(blank=True)
+    date = models.DateTimeField(auto_now=True)
     counter = models.PositiveIntegerField(blank=True)
 
 
