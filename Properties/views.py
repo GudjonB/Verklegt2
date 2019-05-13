@@ -1,14 +1,15 @@
 from urllib.parse import urlparse
 
 from django.shortcuts import render, redirect, get_object_or_404
-from django.db.models import Q
+from django.db.models import Q, Sum
 
 from Properties.forms.properties_form import PropertiesCreateForm
 from Properties.forms.open_houses_form import OpenHousesCreateForm
 from Properties.forms.properties_images_form import PropertiesImagesForm
-from Properties.models import Properties, Description, OpenHouses, Categories, Zip, PropertySellers, PropertyImages
+from Properties.models import *
 from Users.models import CartItems, Favourites
 from Helpers.getData import clearFiles, writeToCsv, readFromCsv
+from datetime import datetime
 import logging
 import urllib
 
@@ -118,11 +119,19 @@ def get_property_by_id(request, id):
     users_prop_list = []
     for i in PropertySellers.objects.filter(user_id=request.user.id):
         users_prop_list.append(i.property_id)
-    return render(request, 'Properties/property_details.html', {
-        'Property': get_object_or_404(Properties, pk=id),
+    propertyVisit = PropertyVisits.objects.filter(property_id=id).order_by('-id').first()
+    if propertyVisit and propertyVisit.date.strftime('%W') == datetime.now().strftime('%W') and propertyVisit.date.strftime('%Y') == datetime.now().strftime('%Y'):
+        propertyVisit.counter = propertyVisit.counter + 1
+        propertyVisit.save()
+    else :
+        propertyVisit = PropertyVisits(property_id=id, counter=1)
+        propertyVisit.save()
+    return render(request, 'Properties/property_details.html',
+        {'Property': get_object_or_404(Properties, pk=id),
         'UsersProperties': users_prop_list,
         'Cart': [c.property for c in CartItems.objects.filter(user=request.user.id)],
-        'Favourites': [f.property for f in Favourites.objects.filter(user=request.user.id)]
+        'Favourites': [f.property for f in Favourites.objects.filter(user=request.user.id)],
+        'PropertyVisits': PropertyVisits.objects.filter(property_id=id).aggregate(count=Sum('counter'))
     })
 
 
@@ -225,12 +234,12 @@ def filter(request):
     if query.get('priceto') and '+' not in query.get('priceto'):
         tmp = Properties.objects.filter(Q(price__lte=query.get('priceto')))
         props = tmp.intersection(props)
-    if query.get('ordertime') == 'Newest':
-        props = props.order_by('-id')
-    if query.get('ordertime') == 'Oldest':
-        props = props.order_by('id')
     if query.get('orderinfo'):
-        if query.get('orderinfo') == 'priceascending':
+        if query.get('orderinfo') == 'newestfirst':
+            props = props.order_by('-id')
+        elif query.get('orderinfo') == 'oldestfirst':
+            props = props.order_by('id')
+        elif query.get('orderinfo') == 'priceascending':
             props = props.order_by('price')
         elif query.get('orderinfo') == 'pricedescending':
             props = props.order_by('-price')
@@ -258,6 +267,13 @@ def delete_property(request, id):
     return redirect('allProperties')
 
 
+def delete_purchased_properties(request):
+    for i in CartItems:
+        properties = get_object_or_404(Properties, pk=i.property_id)
+        properties.deleted = True
+    properties.save()
+
+
 def add_data_from_web(request):
     clearFiles()
     writeToCsv()
@@ -267,7 +283,6 @@ def add_data_from_web(request):
     categories = readFromCsv('properties/csv/categories.csv')
     imgs = readFromCsv('properties/csv/propertyImgs.csv')
     print(imgs)
-    j = 0
     for i in range(len(props)):
         zip, created = Zip.objects.get_or_create(zip=str(zips[i][0]),
                                                  city=str(zips[i][1]))
@@ -284,12 +299,11 @@ def add_data_from_web(request):
                                           description=descriptions[i][0])
 
         imageCounter = 1
-        while imageCounter != 4:
+        while imageCounter != 6:
             filename = 'static/images/properties/' + str(props[i][5]) + '_mynd_' + str(imageCounter) + '.jpg'
-            urllib.request.urlretrieve(imgs[j][1] , filename)
+            urllib.request.urlretrieve(imgs[i+imageCounter][1], filename)
             PropertyImages.objects.get_or_create(property=property,
                                                  image=filename)
             imageCounter += 1
-            j += 1
 
     return redirect('allProperties')

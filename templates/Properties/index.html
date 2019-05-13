@@ -6,7 +6,7 @@
     {% load humanize %}
     <h4>Property Search</h4>
     <form id="searchform" action="{% url 'search' %}" method="get" >
-        <input type="text" placeholder="Search.." name="q">
+        <input type="text" placeholder="Search.." name="q" maxlength="100">
         <button type="submit"><i class="fa fa-search"></i></button>
     </form>
     <br>
@@ -189,15 +189,11 @@
                     <option value="900" >900</option>
                     <option value="1000+" >1000+</option>
                 </select>
-
-                <div class="multiselect-time">
-                    <label class="radio-inline">Order by:
-                        <input type="radio" name="ordertime" value="Newest" > Newest
-                        <input type="radio" name="ordertime" value="Oldest" > Oldest<br>
-                    </label>
-                </div>
+                | Order by:
                 <select class="order-info" name="orderinfo" id="order-info">
                     <option value="">&nbsp;</option>
+                    <option value="newestfirst" >Newest first</option>
+                    <option value="oldestfirst" >Oldest first</option>
                     <option value="priceascending" >Price ascending</option>
                     <option value="pricedescending" >Price descending</option>
                     <option value="nameascending" >Name ascending</option>
