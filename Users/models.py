@@ -39,7 +39,7 @@ class Country(models.Model):
     def country_name(self):
         return self.country
 
-
+'''
 class CheckoutInfo(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
 
@@ -72,7 +72,7 @@ class CheckoutInfo(models.Model):
                               validators=[RegexValidator(r'^[0-9]*$',
                                                          'Only numeric characters are allowed.',
                                                          'invalid_social')])
-
+'''
 
 class Cards(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
