@@ -173,9 +173,7 @@ def card_info_checkout(request):
             form.save()
             return redirect('checkoutReadOnly')
     else:
-        form = CardInfoForm() # initial={'user': request.user,
-                              #       'name': request.user.profiles.name
-                              #       })
+        form = CardInfoForm(initial={'user': request.user})
     return render(request, 'Users/card_info_checkout.html', {
         'form': form
     })

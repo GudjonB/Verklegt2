@@ -245,11 +245,11 @@ def delete_property(request, id):
     return redirect('allProperties')
 
 
-# def delete_purchased_properties(request):
-#    for i in CartItems:
-#        properties = get_object_or_404(Properties, pk=i.property_id)
-#        properties.deleted = True
-#    properties.save()
+def delete_purchased_properties(request):
+    properties = []
+    for i in CartItems.objects.filter(CartItems, user_id=request.user.id):
+        properties.append(i.property_id)
+    properties.save()
 
 
 def add_data_from_web(request):

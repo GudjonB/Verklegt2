@@ -11,7 +11,7 @@ urlpatterns = [
     path('addOpenHouses', views.add_open_houses, name="add_open_house"),
 
     path('delete/<int:id>', views.delete_property, name='deleteProperty'),
-    # path('deletePurchasedProperties', views.delete_purchased_properties, name='deletePurchasedProperty'),
+    path('deletePurchasedProperties', views.delete_purchased_properties, name='deletePurchasedProperties'),
     path('update/<int:id>', views.update_property, name='update_property'),
 
     path('search', views.search, name="search"),
