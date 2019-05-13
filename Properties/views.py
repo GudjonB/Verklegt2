@@ -188,12 +188,12 @@ def filter(request):
     if query.get('priceto') and '+' not in query.get('priceto'):
         tmp = Properties.objects.filter(Q(price__lte=query.get('priceto')))
         props = tmp.intersection(props)
-    if query.get('ordertime') == 'Newest':
-        props = props.order_by('-id')
-    if query.get('ordertime') == 'Oldest':
-        props = props.order_by('id')
     if query.get('orderinfo'):
-        if query.get('orderinfo') == 'priceascending':
+        if query.get('orderinfo') == 'newestfirst':
+            props = props.order_by('-id')
+        elif query.get('orderinfo') == 'oldestfirst':
+            props = props.order_by('id')
+        elif query.get('orderinfo') == 'priceascending':
             props = props.order_by('price')
         elif query.get('orderinfo') == 'pricedescending':
             props = props.order_by('-price')
