@@ -7,7 +7,7 @@ from urllib.parse import urlparse
 
 from Properties.models import Properties, Zip, PropertySellers, PropertyVisits
 
-from Users.models import Profiles, CartItems, Favourites, CheckoutInfo, Cards, User
+from Users.models import Profiles, CartItems, Favourites, CheckoutInfo, SearchHistory, User
 from Users.forms.offers_form import OffersForm
 from Users.forms.profile_form import UpdateProfileForm
 from Users.forms.checkout_form import CheckoutInfoForm
@@ -36,7 +36,8 @@ def index(request):
     context = {'Properties': Properties.objects.all().order_by('-id')[:3],
                'Cart': [c.property for c in CartItems.objects.filter(user=request.user.id)],
                'monthVisits': PropertyVisits.objects.filter(date__date__range=[monthStartdate, enddate]).order_by('-counter')[:3],
-               'weekVisits': PropertyVisits.objects.filter(date__date__range=[weekStartdate, enddate]).order_by('-counter')[:3]}
+               'weekVisits': PropertyVisits.objects.filter(date__date__range=[weekStartdate, enddate]).order_by('-counter')[:3],
+               'Searches': [s.search for s in SearchHistory.objects.filter(user=request.user).order_by('-id')]}
     return render(request, 'Users/index.html', context)
 
 

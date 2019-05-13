@@ -7,8 +7,17 @@
 {% block houses %}
     {% load humanize %}
     <form id="searchform" action="{% url 'search' %}" method="get" >
-        <input type=search placeholder="Search.." name="q" maxlength="100">
-        <button type="submit"><i class="fa fa-search"></i></button>
+        <div class="autocomplete">
+            <input id="userSearch" type="text" placeholder="Search.." name="q" maxlength="100" list="userSearches" autocomplete="off">
+            <datalist id="userSearches">
+                {% for s in Searches %}
+                    {% if forloop.counter < 6 %}
+                        <option value="{{ s }}">
+                    {% endif %}
+                {% endfor %}
+            </datalist>
+        </div>
+        <input type="submit">
     </form>
 
 

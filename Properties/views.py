@@ -7,7 +7,7 @@ from Properties.forms.properties_form import PropertiesCreateForm
 from Properties.forms.open_houses_form import OpenHousesCreateForm
 from Properties.forms.properties_images_form import PropertiesImagesForm
 from Properties.models import *
-from Users.models import CartItems, Favourites
+from Users.models import CartItems, Favourites, SearchHistory
 from Helpers.getData import clearFiles, writeToCsv, readFromCsv
 from datetime import datetime
 import logging
@@ -105,12 +105,12 @@ def get_property_by_id(request, id):
         propertyVisit = PropertyVisits(property_id=id, counter=1)
         propertyVisit.save()
     return render(request, 'Properties/property_details.html',
-        {'Property': get_object_or_404(Properties, pk=id),
-        'UsersProperties': users_prop_list,
-        'Cart': [c.property for c in CartItems.objects.filter(user=request.user.id)],
-        'Favourites': [f.property for f in Favourites.objects.filter(user=request.user.id)],
-        'PropertyVisits': PropertyVisits.objects.filter(property_id=id).aggregate(count=Sum('counter'))
-    })
+                  {'Property': get_object_or_404(Properties, pk=id),
+                   'UsersProperties': users_prop_list,
+                   'Cart': [c.property for c in CartItems.objects.filter(user=request.user.id)],
+                   'Favourites': [f.property for f in Favourites.objects.filter(user=request.user.id)],
+                   'PropertyVisits': PropertyVisits.objects.filter(property_id=id).aggregate(count=Sum('counter'))
+                   })
 
 
 def upload_properties_images(request):
@@ -130,7 +130,8 @@ def get_all_properties(request):
     context = {'Properties': Properties.objects.all().order_by('-id'),
                'Categories': Categories.objects.all(),
                'Zip': Zip.objects.all(),
-               'Cart': [c.property for c in CartItems.objects.filter(user=request.user.id)]
+               'Cart': [c.property for c in CartItems.objects.filter(user=request.user.id)],
+               'Searches': [s.search for s in SearchHistory.objects.filter(user=request.user).order_by('-id')]
                }
     return render(request, 'Properties/index.html', context)
 
@@ -177,11 +178,15 @@ def search(request):
     props = Properties.objects.all().order_by('address')
     if query.get('q'):
         props = Properties.objects.filter(Q(address__icontains=query.get('q')))
+        SearchHistory.objects.create(user=request.user, search=query.get('q'))
+
     return render(request, 'Properties/index.html', {'query': query, 'Properties': props,
                                                      'Categories': Categories.objects.all(),
                                                      'Zip': Zip.objects.all(),
                                                      'Cart': [c.property for c in
-                                                              CartItems.objects.filter(user=request.user.id)]
+                                                              CartItems.objects.filter(user=request.user.id)],
+                                                     'Searches': [s.search for s in SearchHistory.objects.filter(
+                                                                  user=request.user).order_by('-id')]
                                                      })
 
 
@@ -230,7 +235,9 @@ def filter(request):
                                                      'Categories': Categories.objects.all(),
                                                      'Zip': Zip.objects.all(),
                                                      'Cart': [c.property for c in
-                                                              CartItems.objects.filter(user=request.user.id)]
+                                                              CartItems.objects.filter(user=request.user.id)],
+                                                     'Searches': [s.search for s in SearchHistory.objects.filter(
+                                                                  user=request.user).order_by('-id')]
                                                      })
 
 
