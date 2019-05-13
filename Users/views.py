@@ -1,3 +1,8 @@
+
+
+from datetime import timedelta
+
+from django.db.models import Sum
 from django.shortcuts import render, redirect, get_object_or_404, render_to_response
 from django.contrib.auth.forms import UserCreationForm
 from django.utils.datetime_safe import date
@@ -33,13 +38,16 @@ def index(request):
     enddate = date.today()
     monthStartdate = enddate - timedelta(days=30)
     weekStartdate = enddate - timedelta(days=7)
+    monthvisits = PropertyVisits.objects.filter(date__date__range=[monthStartdate, enddate])\
+                                  .values('property').annotate(counterSum=Sum('counter')).order_by('-counterSum')[:3]
+    for i in monthvisits :
+        i['property'] = get_object_or_404(Properties, pk=i['property'])
     context = {'Properties': Properties.objects.all().order_by('-id')[:3],
                'Cart': [c.property for c in CartItems.objects.filter(user=request.user.id)],
                'monthVisits': PropertyVisits.objects.filter(date__date__range=[monthStartdate, enddate]).order_by('-counter')[:3],
                'weekVisits': PropertyVisits.objects.filter(date__date__range=[weekStartdate, enddate]).order_by('-counter')[:3],
                'Searches': [s.search for s in SearchHistory.objects.filter(user=request.user).order_by('-id')]}
     return render(request, 'Users/index.html', context)
-
 
 def register(request):
     if request.method == 'POST':
@@ -147,24 +155,23 @@ def remove_from_cart(request, id):
 
 def proceed_to_checkout(request):
     if request.method == 'POST':
-        form = CheckoutInfoForm(data=request.POST) #, instance=request.user)
+        form = CheckoutInfoForm(data=request.POST)
         if form.is_valid():
             form.save()
             return redirect('checkoutCardInfo')
     else:
-        form = CheckoutInfoForm()
-            #initial={'user': request.user,
-            #                             'name': request.user.profiles.name,
-            #                             'social': request.user.profiles.social
-            #                             })
+        form = CheckoutInfoForm(initial={'user': request.user,
+                                         'name': request.user.profiles.name,
+                                         'social': request.user.profiles.social
+                                         })
     return render(request, 'Users/checkout.html', {
         'form': form
     })
 
 
 def read_only_checkout(request):
-    read_only = {'info': CheckoutInfo.objects.filter(user_id=request.user.id),
-                 'cardInfo': CheckoutInfo.objects.filter(user_id=request.user.id)}
+    read_only = {'info': CheckoutInfo.objects.filter(user_id=request.user.id).order_by("-id").first(),
+                 'cardInfo': Cards.objects.filter(user_id=request.user.id).order_by("-id").first()}
     return render(request, 'Users/read_only_checkout.html', read_only)
 
 

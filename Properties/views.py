@@ -93,12 +93,35 @@ def update_property(request, id):
     })
 
 
+def update_property_images(request, id):
+    return render(request, 'Properties/property_details_edit_images.html', {
+        'Property_images': PropertyImages.objects.filter(property_id=id),
+        'prop_id': id
+    })
+
+
+def add_property_image(request):
+    if request.method == 'POST':
+        if True:
+            return
+    else:
+        return
+
+
+def delete_property_image(request, id):
+    image_to_delete = get_object_or_404(PropertyImages, id=id)
+    redirect_location_id = image_to_delete.property_id
+    image_to_delete.delete()
+    return redirect(update_property_images, redirect_location_id)
+
+
 def get_property_by_id(request, id):
     users_prop_list = []
     for i in PropertySellers.objects.filter(user_id=request.user.id):
         users_prop_list.append(i.property_id)
     propertyVisit = PropertyVisits.objects.filter(property_id=id).order_by('-id').first()
-    if propertyVisit and propertyVisit.date.strftime('%W') == datetime.now().strftime('%W') and propertyVisit.date.strftime('%Y') == datetime.now().strftime('%Y'):
+    if propertyVisit and propertyVisit.date.strftime('%W') == datetime.now().strftime('%W') and \
+            propertyVisit.date.strftime('%Y') == datetime.now().strftime('%Y'):
         propertyVisit.counter = propertyVisit.counter + 1
         propertyVisit.save()
     else :
@@ -252,11 +275,11 @@ def delete_property(request, id):
     return redirect('allProperties')
 
 
-def delete_purchased_properties(request):
-    for i in CartItems:
-        properties = get_object_or_404(Properties, pk=i.property_id)
-        properties.deleted = True
-    properties.save()
+# def delete_purchased_properties(request):
+#    for i in CartItems:
+#        properties = get_object_or_404(Properties, pk=i.property_id)
+#        properties.deleted = True
+#    properties.save()
 
 
 def add_data_from_web(request):
