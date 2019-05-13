@@ -1,12 +1,13 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.db.models import Q
+from django.db.models import Q, Sum
 
 from Properties.forms.properties_form import PropertiesCreateForm
 from Properties.forms.open_houses_form import OpenHousesCreateForm
 from Properties.forms.properties_images_form import PropertiesImagesForm
-from Properties.models import Properties, Description, OpenHouses, Categories, Zip, PropertySellers, PropertyImages
+from Properties.models import Properties, Description, OpenHouses, Categories, Zip, PropertySellers, PropertyImages, PropertyVisits
 from Users.models import CartItems, Favourites
 from Helpers.getData import clearFiles, writeToCsv, readFromCsv
+from datetime import datetime
 import logging
 import urllib
 
@@ -81,11 +82,19 @@ def get_property_by_id(request, id):
     users_prop_list = []
     for i in PropertySellers.objects.filter(user_id=request.user.id):
         users_prop_list.append(i.property_id)
-    return render(request, 'Properties/property_details.html', {
-        'Property': get_object_or_404(Properties, pk=id),
+    propertyVisit = PropertyVisits.objects.filter(property_id=id).order_by('-id').first()
+    if propertyVisit and propertyVisit.date.strftime('%W') == datetime.now().strftime('%W') and propertyVisit.date.strftime('%Y') == datetime.now().strftime('%Y'):
+        propertyVisit.counter = propertyVisit.counter + 1
+        propertyVisit.save()
+    else :
+        propertyVisit = PropertyVisits(property_id=id, counter=1)
+        propertyVisit.save()
+    return render(request, 'Properties/property_details.html',
+        {'Property': get_object_or_404(Properties, pk=id),
         'UsersProperties': users_prop_list,
         'Cart': [c.property for c in CartItems.objects.filter(user=request.user.id)],
-        'Favourites': [f.property for f in Favourites.objects.filter(user=request.user.id)]
+        'Favourites': [f.property for f in Favourites.objects.filter(user=request.user.id)],
+        'PropertyVisits': PropertyVisits.objects.filter(property_id=id).aggregate(count=Sum('counter'))
     })
 
 
