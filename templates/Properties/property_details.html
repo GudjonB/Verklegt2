@@ -7,7 +7,9 @@
     {% else %}
         <img class="property-img" src="{{ Property.propertyimages_set.first}}" >
     {% endif %}
-
+    {% if user.is_authenticated and Property.id in UsersProperties %}
+        <p><a href="/properties/imagesedit/{{ Property.id}}" class="btn btn-danger">Edit Pictures</a></p>
+    {% endif %}
     <p><b>Price:</b> {{ Property.price|intcomma }}</p>
     
 
@@ -43,6 +45,6 @@
     {% endif %}
     {% if user.is_authenticated and Property.id in UsersProperties %}
         <a href="/properties/delete/{{ Property.id}}" class="btn btn-danger">Delete Property</a>
-        <a href="/properties/update/{{ Property.id}}" class="btn btn-danger">Edit Property</a>
+        <a href="/properties/update/{{ Property.id}}" class="btn btn-danger">Edit Property Info</a>
     {% endif %}
 {% endblock %}
