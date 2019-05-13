@@ -3,28 +3,28 @@ var sticky;
 var bodyblock;
 
 $(document).ready(function(){
-  // Get the navbar
-  navbar = document.getElementById("navbar");
-  // Get the offset position of the navbar
-  sticky = navbar.offsetTop;
-  var width = navbar.offsetWidth;
-  // Get Bodyblock
-  bodyblock = document.getElementsByClassName("bodyBlock")[0];
+    // Get the navbar
+    navbar = document.getElementById("navbar");
+    // Get the offset position of the navbar
+    sticky = navbar.offsetTop;
+    var width = navbar.offsetWidth;
+    // Get Bodyblock
+    bodyblock = document.getElementsByClassName("bodyBlock")[0];
 });
 
 
 $(document).ready(function () {
-  $('.second-button').on('click', function () {
+    $('.second-button').on('click', function () {
 
-    $('.animated-icon2').toggleClass('open');
-  });
+        $('.animated-icon2').toggleClass('open');
+    });
 });
 
 $(document).ready(function () {
-  $('.profile-button').on('click', function () {
-    $(".profIcon").toggleClass("fa-user  fa-user-alt-slash");
-    $(".fa-shopping-cart").toggle();
-  });
+    $('.profile-button').on('click', function () {
+        $(".profIcon").toggleClass("fa-user  fa-user-alt-slash");
+        $(".fa-shopping-cart").toggle();
+    });
 });
 
 
@@ -32,12 +32,12 @@ $(document).ready(function () {
 
 window.addEventListener("scroll", event => {
 
-      if (window.pageYOffset >= sticky) {
+    if (window.pageYOffset >= sticky) {
         navbar.classList.add("sticky");
         bodyblock.style.paddingTop="100px";
-      }
-      else {
+    }
+    else {
         navbar.classList.remove("sticky");
         bodyblock.style.paddingTop="";
-      }}
+    }}
 );

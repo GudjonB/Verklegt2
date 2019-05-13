@@ -4,7 +4,7 @@ from django.db.models import Q
 from Properties.forms.properties_form import PropertiesCreateForm
 from Properties.forms.open_houses_form import OpenHousesCreateForm
 from Properties.forms.properties_images_form import PropertiesImagesForm
-from Properties.models import Properties, Description, OpenHouses, Categories, Zip, PropertySellers, PropertyImages
+from Properties.models import *
 from Users.models import CartItems, Favourites
 from Helpers.getData import clearFiles, writeToCsv, readFromCsv
 import logging
@@ -230,7 +230,6 @@ def add_data_from_web(request):
     categories = readFromCsv('properties/csv/categories.csv')
     imgs = readFromCsv('properties/csv/propertyImgs.csv')
     print(imgs)
-    j = 0
     for i in range(len(props)):
         zip, created = Zip.objects.get_or_create(zip=str(zips[i][0]),
                                                  city=str(zips[i][1]))
@@ -247,12 +246,11 @@ def add_data_from_web(request):
                                           description=descriptions[i][0])
 
         imageCounter = 1
-        while imageCounter != 4:
+        while imageCounter != 6:
             filename = 'static/images/properties/' + str(props[i][5]) + '_mynd_' + str(imageCounter) + '.jpg'
-            urllib.request.urlretrieve(imgs[j][1] , filename)
+            urllib.request.urlretrieve(imgs[i+imageCounter][1], filename)
             PropertyImages.objects.get_or_create(property=property,
                                                  image=filename)
             imageCounter += 1
-            j += 1
 
     return redirect('allProperties')

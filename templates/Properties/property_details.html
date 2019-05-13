@@ -2,14 +2,49 @@
 {% block content %}
     {% load humanize %}
     <h2>{{ Property.address }}</h2>
-    {% if Property.propertyimages_set.count == 0 %}
-        <img class="property-img" src="/static/images/Properties/default_castle.jpg" >
-    {% else %}
-        <img class="property-img" src="{{ Property.propertyimages_set.first}}" >
-    {% endif %}
+    <div id="demo" class="carousel slide" data-ride="carousel">
+        <!-- Indicators -->
+        <ul class="carousel-indicators">
+            {% for i in Property.propertyimages_set.all %}
+                {% if forloop.first %}
+                    <li data-target="#demo" data-slide-to="{{ forloop.counter0 }}" class="active"></li>
+                {% else %}
+                    <li data-target="#demo" data-slide-to="{{ forloop.counter0 }}"></li>
+                {% endif %}
+
+            {% endfor %}
+        </ul>
+        <div class="carousel-inner">
+            {% if Property.propertyimages_set.count != 0 %}
+                {% for img in Property.propertyimages_set.all %}
+                    {% if forloop.first %}
+                        <div class="carousel-item active">
+                            <img src="{{ img }}" alt="..." >
+                        </div>
+                    {% else %}
+                        <div class="carousel-item">
+                            <img src="{{ img }}" alt="..." >
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            {% else %}
+                <div class="carousel-item active">
+                    <img src="/static/images/Properties/default_castle.jpg" alt="..." >
+                </div>
+            {% endif %}
+        </div>
+        <!-- Left and right controls -->
+        <a class="carousel-control-prev" href="#demo" data-slide="prev">
+            <span class="carousel-control-prev-icon"></span>
+        </a>
+        <a class="carousel-control-next" href="#demo" data-slide="next">
+            <span class="carousel-control-next-icon"></span>
+        </a>
+    </div>
+
 
     <p><b>Price:</b> {{ Property.price|intcomma }}</p>
-    
+
 
     {% if user.is_authenticated %}
         {% if Property in Favourites %}

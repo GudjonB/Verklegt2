@@ -15,7 +15,7 @@ def clearFiles():
     f5.close()
 
 def getPropertyLinksAndZips():
-    page = urllib.request.urlopen('https://www.mbl.is/fasteignir/leit/?page=11&q=80f323c5382397611e72800316f250d1') #page to get links from
+    page = urllib.request.urlopen('https://www.mbl.is/fasteignir/leit/?page=33&q=80f323c5382397611e72800316f250d1') #page to get links from
     parse = bs(page, "lxml")                                                                                #parse the html from the link
     links = []
     zips = []
@@ -101,6 +101,7 @@ def writeToCsv():
 
             for desc in i.findAll("div", {"class": "description"}):     #get description
                 tempDescr = (desc.text).split('window.')[0].strip()
+                tempDescr = tempDescr[:3990] + (tempDescr[3990:] and '...')
 
         for prop in parse.findAll("div", {"class": "realestate"}):
             for name in prop.findAll("span", {"class": "realestate-headline-address"}): #get address and city from headline
@@ -111,7 +112,9 @@ def writeToCsv():
 
         for imgTags in parse.findAll("div", {"class": "item"}): #get image links
             for img in imgTags.findAll("img", {"src": True}):
-                tempImgs.append(img['src'])
+                if len(tempImgs) <= 5:
+                    tempImgs.append(img['src'])
+
 
         #write to csv
         with open('properties/csv/zip.csv', 'a') as f1:
@@ -129,10 +132,14 @@ def writeToCsv():
             writer.writerow(row)
         with open('properties/csv/propertyImgs.csv', 'a') as f4:
             writer = csv.writer(f4, delimiter=',', lineterminator='\n', )
-
+            imgCounter = 0
             for img in tempImgs:
                 row = [tempPrice, img]
                 writer.writerow(row)
+                imgCounter += 1
+                if imgCounter == 5:
+                    tempImgs = []
+                    break
         with open('properties/csv/description.csv', 'a', encoding="utf-8") as f5:
             writer = csv.writer(f5, delimiter=',', lineterminator='\n', )
             row = [tempDescr]
