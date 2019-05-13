@@ -6,7 +6,7 @@ from django.db.models import Q, Sum
 from Properties.forms.properties_form import PropertiesCreateForm
 from Properties.forms.open_houses_form import OpenHousesCreateForm
 from Properties.forms.properties_images_form import PropertiesImagesForm
-from Properties.models import .
+from Properties.models import *
 from Users.models import CartItems, Favourites
 from Helpers.getData import clearFiles, writeToCsv, readFromCsv
 from datetime import datetime
