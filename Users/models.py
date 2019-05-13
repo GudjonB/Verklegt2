@@ -75,6 +75,9 @@ class CartItems(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     property = models.ForeignKey(Properties, on_delete=models.CASCADE)
 
+class SearchHistory(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    search = models.CharField(max_length=110)
 
 class CheckoutInfo(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)

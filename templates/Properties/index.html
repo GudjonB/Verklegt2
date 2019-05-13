@@ -6,7 +6,7 @@
     {% load humanize %}
     <h4>Property Search</h4>
     <form id="searchform" action="{% url 'search' %}" method="get" >
-        <input type="text" placeholder="Search.." name="q">
+        <input type="text" placeholder="Search.." name="q" maxlength="100">
         <button type="submit"><i class="fa fa-search"></i></button>
     </form>
     <br>
