@@ -1,5 +1,7 @@
 
 from datetime import timedelta
+
+from django.db.models import Sum
 from django.shortcuts import render, redirect, get_object_or_404, render_to_response
 
 from django.contrib.auth.forms import UserCreationForm
@@ -36,8 +38,10 @@ def index(request):
     weekStartdate = enddate - timedelta(days=7)
     context = {'Properties': Properties.objects.all().order_by('-id')[:3],
                'Cart': [c.property for c in CartItems.objects.filter(user=request.user.id)],
-               'monthVisits': PropertyVisits.objects.filter(date__date__range=[monthStartdate, enddate]).order_by('-counter')[:3],
-               'weekVisits': PropertyVisits.objects.filter(date__date__range=[weekStartdate, enddate]).order_by('-counter')[:3]}
+               'monthVisits': PropertyVisits.objects.filter(date__date__range=[monthStartdate, enddate])\
+                                  .annotate(counterSum=Sum('counter')).order_by('-counter')[:3],
+               'weekVisits': PropertyVisits.objects.filter(date__date__range=[weekStartdate, enddate])\
+                                 .order_by('-counter')[:3]}
     return render(request, 'Users/index.html', context)
 
 

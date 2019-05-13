@@ -72,7 +72,7 @@
                         <ul class="list-group list-group-flush">
                             <li class="list-group-item">{{ i.property.price|intcomma }} .- Kr</li>
                             <li class="list-group-item">{{ i.property.size|intcomma }} m<sup>2</sup></li>
-                            <li class="list-group-item">Visits: {{ i.counter }}</li>
+                            <li class="list-group-item">Visits this week: {{ i.counter }}</li>
                         </ul>
                         <div class="card-body">
                             {% if user.is_authenticated %}
@@ -111,7 +111,7 @@
                         <ul class="list-group list-group-flush">
                             <li class="list-group-item">{{ i.property.price|intcomma }} .- Kr</li>
                             <li class="list-group-item">{{ i.property.size|intcomma }} m<sup>2</sup></li>
-                            <li class="list-group-item">Visits: {{ i.counter }}</li>
+                            <li class="list-group-item">Visits this month: {{ i.counter }}</li>
                         </ul>
                         <div class="card-body">
                             {% if user.is_authenticated %}

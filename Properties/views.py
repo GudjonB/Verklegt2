@@ -6,7 +6,7 @@ from django.db.models import Q, Sum
 from Properties.forms.properties_form import PropertiesCreateForm
 from Properties.forms.open_houses_form import OpenHousesCreateForm
 from Properties.forms.properties_images_form import PropertiesImagesForm
-from Properties.models import .
+from Properties.models import *
 from Users.models import CartItems, Favourites
 from Helpers.getData import clearFiles, writeToCsv, readFromCsv
 from datetime import datetime
@@ -98,7 +98,8 @@ def get_property_by_id(request, id):
     for i in PropertySellers.objects.filter(user_id=request.user.id):
         users_prop_list.append(i.property_id)
     propertyVisit = PropertyVisits.objects.filter(property_id=id).order_by('-id').first()
-    if propertyVisit and propertyVisit.date.strftime('%W') == datetime.now().strftime('%W') and propertyVisit.date.strftime('%Y') == datetime.now().strftime('%Y'):
+    if propertyVisit and propertyVisit.date.strftime('%W') == datetime.now().strftime('%W') and \
+            propertyVisit.date.strftime('%Y') == datetime.now().strftime('%Y'):
         propertyVisit.counter = propertyVisit.counter + 1
         propertyVisit.save()
     else :
