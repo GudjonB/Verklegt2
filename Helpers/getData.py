@@ -80,6 +80,8 @@ def writeToCsv():
                         tempCategory = 'Multiple floors'
                     elif tempCategory == 'Sumarhús':
                         tempCategory = 'Summer house'
+                    elif tempCategory == 'atv':
+                        tempCategory = 'Commercial'
                 elif counter == 6:                      #6th attribute is year built
                     tempYearBuilt = (td.text).strip()
                     if str(tempYearBuilt) == 'None':    #if no year built is determined use default
