@@ -120,7 +120,8 @@ def get_property_by_id(request, id):
     for i in PropertySellers.objects.filter(user_id=request.user.id):
         users_prop_list.append(i.property_id)
     propertyVisit = PropertyVisits.objects.filter(property_id=id).order_by('-id').first()
-    if propertyVisit and propertyVisit.date.strftime('%W') == datetime.now().strftime('%W') and propertyVisit.date.strftime('%Y') == datetime.now().strftime('%Y'):
+    if propertyVisit and propertyVisit.date.strftime('%W') == datetime.now().strftime('%W') and \
+            propertyVisit.date.strftime('%Y') == datetime.now().strftime('%Y'):
         propertyVisit.counter = propertyVisit.counter + 1
         propertyVisit.save()
     else :
