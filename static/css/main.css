@@ -113,6 +113,14 @@ li > a {
     padding: 0 15px;
 }
 
+.fa-home {
+    background-color: #7d7a7a;
+    border:none;
+    margin: 0 auto;
+    color: #e3f2fd;
+    padding: 0 15px;
+}
+
 .profile-collapse {
     float: right;
 }
@@ -127,9 +135,14 @@ li > a {
     display: flex;
     align-items: center;
 }
+#leftnav{
+    display: flex;
+    align-items: center;
+}
 ul {
     list-style-type: none;
 }
+
 
 
 /* Icon 1 */
