@@ -49,7 +49,7 @@ def index(request):
         i['property'] = get_object_or_404(Properties, pk=i['property'])
     context = {'Properties': Properties.objects.filter(deleted=False).order_by('-id')[:3],
                'Cart': cart,
-               'monthVisits': PropertyVisits.objects.filter(date__date__range=[monthStartdate, enddate]).order_by('-counter')[:3],
+               'monthVisits': monthvisits,
                'weekVisits': PropertyVisits.objects.filter(date__date__range=[weekStartdate, enddate]).order_by('-counter')[:3],
                'Searches': searches}
     return render(request, 'Users/index.html', context)
