@@ -276,11 +276,10 @@ def delete_property(request, id):
 
 
 def delete_purchased_properties(request):
-    properties = []
-    for i in CartItems.objects.filter(CartItems, user_id=request.user.id):
-        properties.append(i.property_id)
-    properties.save()
-
+    for i in CartItems.objects.filter(user_id=request.user.id):
+        i.property.deleted = True
+        i.property.save()
+    return redirect('/')
 
 def add_data_from_web(request):
     clearFiles()

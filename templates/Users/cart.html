@@ -29,7 +29,7 @@
             </div>
         {% endfor %}
     </div><br>
-    {% if Cart %}
+    {% if Cart and deleted != False %}
         <a href="/users/emptyCart" class="card-link">Empty cart</a><br><br>
         <a href ="/properties/" class="shop-more">Continue shopping</a><br><br>
         <a href ="/users/checkout" class="checkout">Proceed to checkout</a><br><br>
