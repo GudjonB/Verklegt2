@@ -21,7 +21,7 @@
     </form>
 
 
-        <h5 class="section-title h1">Our latest properties for sale!</h5>
+    <h5 class="section-title h1">Our latest properties for sale!</h5>
     <div class="propContainer">
         <div class="newRow">
             <!-- Property-->
@@ -62,7 +62,7 @@
 
     <br>
     <br>
-        <h5 class="section-title h1">Hot properties this week!</h5>
+    <h5 class="section-title h1">Hot properties this week!</h5>
     <div class="propContainer">
         <div class="newRow">
             {% for i in weekVisits %}
@@ -85,10 +85,10 @@
                         </ul>
                         <div class="card-body">
                             {% if user.is_authenticated %}
-                                {% if i in Cart %}
-                                    <a href="/properties/removeCartItem/{{ i.property.id }}" class="card-link">Remove from cart</a>
+                                {% if i.property in Cart %}
+                                    <a href="/properties/removeCartItem/{{ i.property_id }}" class="card-link">Remove from cart</a>
                                 {% else %}
-                                    <a href="/users/addCartItem/{{ i.property.id }}" class="card-link">Add to cart</a>
+                                    <a href="/users/addCartItem/{{ i.property_id }}" class="card-link">Add to cart</a>
                                 {% endif %}
                             {% else %}
                                 <a href="../users/login" class="card-link">Add to cart</a>
@@ -101,7 +101,7 @@
     </div>
 
     <br>
-        <h5 class="section-title h1">Hot properties this month!</h5>
+    <h5 class="section-title h1">Hot properties this month!</h5>
     <div class="propContainer">
         <div class="newRow">
             {% for i in monthVisits %}
@@ -125,7 +125,7 @@
                         </ul>
                         <div class="card-body">
                             {% if user.is_authenticated %}
-                                {% if i in Cart %}
+                                {% if i.property in Cart %}
                                     <a href="/properties/removeCartItem/{{ i.property.id }}" class="card-link">Remove from cart</a>
                                 {% else %}
                                     <a href="/users/addCartItem/{{ i.property.id }}" class="card-link">Add to cart</a>
