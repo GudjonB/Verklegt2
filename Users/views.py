@@ -70,10 +70,10 @@ def register(request):
 
 
 def profile(request):
+    fav = Favourites.objects.filter(user_id=request.user.id, property__in=Properties.objects.filter(deleted=False))
     return render(request, 'Users/profile.html', {
         'Profiles': get_object_or_404(Profiles, pk=Profiles.objects.get(user_id=request.user.id).id),
-        'fav': Favourites.objects.filter(user_id=request.user.id),
-        'fav_count': Favourites.objects.filter(user_id=request.user.id).count(),
+        'fav': fav,
         'selling': PropertySellers.objects.filter(user_id=request.user.id),
         'selling_count': PropertySellers.objects.filter(user_id=request.user.id).count(),
         'Cart': [c.property for c in CartItems.objects.filter(user=request.user.id)]
@@ -123,7 +123,8 @@ def cart(request):
 
 
 def favourites(request):
-    context = {'fav': Favourites.objects.filter(user_id=request.user.id),
+    fav = Favourites.objects.filter(user_id=request.user.id, property__in=Properties.objects.filter(deleted=False))
+    context = {'fav': fav,
                'Cart': [c.property for c in CartItems.objects.filter(user=request.user.id)]}
     return render(request, 'Users/Favourites.html', context)
 
