@@ -1,12 +1,19 @@
-
-{% extends 'base.html' %}
-
-{% block houses %}
+{% extends "base.html" %}
+{% block content %}
     {% load humanize %}
 
+    <h1>Confirmation</h1>
+
+    {% if items_count > 1 %}
+        <h2>Your Properties:</h2>
+    {% else %}
+        <h2>Your Property:</h2>
+    {% endif %}
+
     <div class="propContainer">
-        {% for i in Cart %}
+        {% for i in items %}
             <div class="card" >
+
                 <a href="/properties/{{ i.id }}">
                     {% if i.property.propertyimages_set.count == 0 %}
                         <img class="card-img-top" alt="card image" src="/static/images/properties/default_castle.jpg" >
@@ -23,21 +30,17 @@
                     <li class="list-group-item">{{ i.property.rooms }} Rooms</li>
                     <li class="list-group-item">{{ i.property.price|intcomma }}.- kr</li>
                 </ul>
-                <div class="card-body">
-                    <a href="/users/removeCartItem/{{ i.property_id }}" class="card-link">Remove from cart</a>
-                </div>
             </div>
         {% endfor %}
-    </div><br>
-    {% if Cart and deleted != False %}
-        <a href="/users/emptyCart" class="card-link">Empty cart</a><br><br>
-        <a href ="/properties/" class="shop-more">Continue shopping</a><br><br>
-        <a href ="/users/checkout" class="checkout">Proceed to checkout</a><br><br>
-    {% else %}
-        <img class="card-img-top" alt="card image" src="/static/images/users/sad-house-20.gif" >
-        <br><br>
-        <p>It seems like your cart is empty!</p>
-        <a href ="/properties/">Click here to view available properties.</a>
-    {% endif %}
+    </div>
+    <p><b>Total Price:</b> {{ total_price|intcomma }}.- kr</p>
+    <input type="button" onclick="location.href='javascript:history.back()'" value="Prev" class="btn btn-primary pull-right"
+           style="clear:both; margin-bottom: 20px; margin-right: 50%"/>
+    <input id="confirmButton" type="button" onclick="purchaseConfirmed();location.href='/properties/deletePurchasedProperties';
+        location.href='/users/emptyCartPurchase'" value="Confirm Purchase" class="btn btn-primary pull-right" style="clear:both; margin: 10px 0"/>
+<!-- ;
+    location.href='/users/emptyCartPurchase'
+    location.href='/properties/deletePurchasedProperties'
+    -->
 
 {% endblock %}

@@ -1,5 +1,6 @@
 from urllib.parse import urlparse
 
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.shortcuts import render, redirect, get_object_or_404
 from django.db.models import Q, Sum
 
@@ -113,6 +114,9 @@ def delete_property_image(request, id):
 
 
 def get_property_by_id(request, id):
+    prop = get_object_or_404(Properties, pk=id)
+    if prop.deleted:
+        return redirect('allProperties')
     users_prop_list = []
     for i in PropertySellers.objects.filter(user_id=request.user.id):
         users_prop_list.append(i.property_id)
@@ -125,7 +129,7 @@ def get_property_by_id(request, id):
         propertyVisit = PropertyVisits(property_id=id, counter=1)
         propertyVisit.save()
     return render(request, 'Properties/property_details.html',
-                  {'Property': get_object_or_404(Properties, pk=id),
+                  {'Property': prop,
                    'UsersProperties': users_prop_list,
                    'Cart': [c.property for c in CartItems.objects.filter(user=request.user.id)],
                    'Favourites': [f.property for f in Favourites.objects.filter(user=request.user.id)],
@@ -139,11 +143,20 @@ def get_all_properties(request):
     if request.user.is_authenticated:
         searches = [s.search for s in SearchHistory.objects.filter(user=request.user).order_by('-id')]
         cart = [c.property for c in CartItems.objects.filter(user=request.user.id)]
-    context = {'Properties': Properties.objects.all().order_by('-id'),
-               'Categories': Categories.objects.all(),
+    props = Properties.objects.filter(deleted=False).order_by('-id')
+    paginator = Paginator(props, 9)
+    page = request.GET.get('page')
+    try:
+        displayProps = paginator.page(page)
+    except PageNotAnInteger:
+        displayProps = paginator.page(1)
+    except EmptyPage:
+        displayProps = paginator.page(paginator.num_pages)
+    context = {'Categories': Categories.objects.all(),
                'Zip': Zip.objects.all(),
                'Cart': cart,
-               'Searches': searches
+               'Searches': searches,
+               'DisplayProps': displayProps
                }
     return render(request, 'Properties/index.html', context)
 
@@ -167,7 +180,7 @@ def get_open_houses(request):
 
 '''
 def get_new_properties(request):
-    context = {'Properties': Properties.objects.all().order_by('-id')[:3]}
+    context = {'Properties': Properties.objects.filter(deleted=False).order_by('-id')[:3]}
     return render(request, 'Users/index.html', context)
 '''
 
@@ -187,12 +200,20 @@ def add_open_houses(request):
 
 def search(request):
     query = request.GET
-    props = Properties.objects.all().order_by('address')
+    props = Properties.objects.filter(deleted=False).order_by('address')
     if query.get('q'):
         props = Properties.objects.filter(Q(address__icontains=query.get('q')))
         SearchHistory.objects.create(user=request.user, search=query.get('q'))
+    paginator = Paginator(props, 9)
+    page = request.GET.get('page')
+    try:
+        displayProps = paginator.page(page)
+    except PageNotAnInteger:
+        displayProps = paginator.page(1)
+    except EmptyPage:
+        displayProps = paginator.page(paginator.num_pages)
 
-    return render(request, 'Properties/index.html', {'query': query, 'Properties': props,
+    return render(request, 'Properties/index.html', {'query': query, 'DisplayProps': displayProps,
                                                      'Categories': Categories.objects.all(),
                                                      'Zip': Zip.objects.all(),
                                                      'Cart': [c.property for c in
@@ -204,7 +225,7 @@ def search(request):
 
 def filter(request):
     query = request.GET
-    props = Properties.objects.all().order_by('-id')
+    props = Properties.objects.filter(deleted=False).order_by('-id')
     if query.getlist('category'):  # check categories
         props = Properties.objects.filter(Q(category__in=query.getlist('category'))).order_by('category').order_by(
             'address')
@@ -243,7 +264,16 @@ def filter(request):
         else:
             props = props.order_by('address')
 
-    return render(request, 'Properties/index.html', {'Properties': props,
+    paginator = Paginator(props, 9)
+    page = request.GET.get('page')
+    try:
+        displayProps = paginator.page(page)
+    except PageNotAnInteger:
+        displayProps = paginator.page(1)
+    except EmptyPage:
+        displayProps = paginator.page(paginator.num_pages)
+
+    return render(request, 'Properties/index.html', {'DisplayProps': displayProps,
                                                      'Categories': Categories.objects.all(),
                                                      'Zip': Zip.objects.all(),
                                                      'Cart': [c.property for c in
@@ -264,12 +294,11 @@ def delete_property(request, id):
     return redirect('allProperties')
 
 
-# def delete_purchased_properties(request):
-#    for i in CartItems:
-#        properties = get_object_or_404(Properties, pk=i.property_id)
-#        properties.deleted = True
-#    properties.save()
-
+def delete_purchased_properties(request):
+    for i in CartItems.objects.filter(user_id=request.user.id):
+        i.property.deleted = True
+        i.property.save()
+    return redirect('/')
 
 def add_data_from_web(request):
     clearFiles()
