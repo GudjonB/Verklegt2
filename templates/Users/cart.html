@@ -7,7 +7,7 @@
     <div class="propContainer">
         {% for i in Cart %}
             <div class="card" >
-                <a href="/properties/{{ i.id }}">
+                <a href="/properties/{{ i.property_id }}">
                     {% if i.property.propertyimages_set.count == 0 %}
                         <img class="card-img-top" alt="card image" src="/static/images/properties/default_castle.jpg" >
                     {% else %}
@@ -34,7 +34,7 @@
         <a href ="/properties/" class="shop-more">Continue shopping</a><br><br>
         <a href ="/users/checkout" class="checkout">Proceed to checkout</a><br><br>
     {% else %}
-        <img class="card-img-top" alt="card image" src="/static/images/users/sad-house-20.gif" >
+        <img class="card-img-empty" alt="card image" src="/static/images/users/sad-house-20.gif" >
         <br><br>
         <p>It seems like your cart is empty!</p>
         <a href ="/properties/">Click here to view available properties.</a>

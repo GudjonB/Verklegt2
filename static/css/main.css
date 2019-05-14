@@ -460,4 +460,18 @@ hr {
     display: inline-block;
 }
 
+.card-img-empty {
+    width: 20%;
+    height: auto;
+}
+
+/*#demo {
+    height: 20rem;
+}*/
+
+.carousel-inner img {
+    width: 30rem;
+    height: 20rem;
+}
+
 
