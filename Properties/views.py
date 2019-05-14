@@ -43,15 +43,6 @@ def create_properties(request):
     })
 
 
-def create_properties_images(request):
-    if request.method == 'POST':
-        form = PropertiesImagesForm(data=request.POST)
-        if form.is_valid():
-            form.save()
-    else:
-        form = PropertiesImagesForm()
-
-
 def update_property(request, id):
     if request.method == 'POST':
         form = PropertiesCreateForm(data=request.POST, instance=request.user, files=request.FILES)
@@ -101,12 +92,18 @@ def update_property_images(request, id):
     })
 
 
-def add_property_image(request):
+def add_property_image(request, id):
     if request.method == 'POST':
-        if True:
-            return
+        form = PropertiesImagesForm(data=request.POST, files=request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect(update_property_images, id)
     else:
-        return
+        form = PropertiesImagesForm(initial={'property': id})
+    return render(request, 'Properties/upload_property_images.html', {
+        'form': form,
+        'prop_id': id
+    })
 
 
 def delete_property_image(request, id):
@@ -138,19 +135,6 @@ def get_property_by_id(request, id):
                    'Favourites': [f.property for f in Favourites.objects.filter(user=request.user.id)],
                    'PropertyVisits': PropertyVisits.objects.filter(property_id=id).aggregate(count=Sum('counter'))
                    })
-
-
-def upload_properties_images(request):
-    if request.method == 'POST':
-        form = PropertiesImagesForm(data=request.POST, files=request.FILES)
-        if form.is_valid():
-            form.save()
-            return redirect('allProperties')
-    else:
-        form = PropertiesImagesForm()
-    return render(request, 'Properties/upload_property_images.html', {
-        'form': form
-    })
 
 
 def get_all_properties(request):
