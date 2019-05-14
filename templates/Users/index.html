@@ -67,7 +67,7 @@
         <div class="newRow">
             {% for i in weekVisits %}
                 <div class="card">
-                    <a href="/properties/{{ i.property_id }}">
+                    <a href="/properties/{{ i.property.id }}">
                         {% if i.propertyimages_set.count == 0 %}
                             <img class="card-img-top" alt="card image" src="/static/images/properties/default_castle.jpg" >
                         {% else %}
@@ -85,7 +85,7 @@
                         </ul>
                         <div class="card-body">
                             {% if user.is_authenticated %}
-                                {% if i in Cart %}
+                                {% if i.property in Cart %}
                                     <a href="/properties/removeCartItem/{{ i.property.id }}" class="card-link">Remove from cart</a>
                                 {% else %}
                                     <a href="/users/addCartItem/{{ i.property.id }}" class="card-link">Add to cart</a>
@@ -125,7 +125,7 @@
                         </ul>
                         <div class="card-body">
                             {% if user.is_authenticated %}
-                                {% if i in Cart %}
+                                {% if i.property in Cart %}
                                     <a href="/properties/removeCartItem/{{ i.property.id }}" class="card-link">Remove from cart</a>
                                 {% else %}
                                     <a href="/users/addCartItem/{{ i.property.id }}" class="card-link">Add to cart</a>
