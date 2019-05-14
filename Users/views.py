@@ -203,6 +203,20 @@ def confirmation_checkout(request):
     return render(request, 'Users/confirmation_checkout.html', confirm)
 
 
+def empty_checkout_cancel(request):
+    for i in CheckoutInfo.objects.filter(user_id=request.user.id):
+        i.delete()
+    for i in Cards.objects.filter(user_id=request.user.id):
+        i.delete()
+    return redirect('cart')
+
+
+# def empty_checkout_confirm(request):
+#    for i in Cards.objects.filter(user_id=request.user.id):
+#        i.delete()
+#    return redirect('/')
+
+
 def empty_cart(request):
     items = CartItems.objects.filter(user=request.user)
     for item in items:

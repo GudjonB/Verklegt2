@@ -8,7 +8,7 @@ from Properties.forms.properties_form import PropertiesCreateForm
 from Properties.forms.open_houses_form import OpenHousesCreateForm
 from Properties.forms.properties_images_form import PropertiesImagesForm
 from Properties.models import *
-from Users.models import CartItems, Favourites, SearchHistory
+from Users.models import CartItems, Favourites, SearchHistory, Cards
 from Helpers.getData import clearFiles, writeToCsv, readFromCsv
 from datetime import datetime
 import logging
@@ -298,6 +298,11 @@ def delete_purchased_properties(request):
     for i in CartItems.objects.filter(user_id=request.user.id):
         i.property.deleted = True
         i.property.save()
+    items = CartItems.objects.filter(user=request.user)
+    for item in items:
+        item.delete()
+    for i in Cards.objects.filter(user_id=request.user.id):
+        i.delete()
     return redirect('/')
 
 def add_data_from_web(request):
