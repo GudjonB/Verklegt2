@@ -6,6 +6,6 @@
             <img class="edit-img" alt="card image" src="/{{ i.image.name }}" >
             <p><a href="/properties/deleteimage/{{ i.id }}" class="btn btn-danger">Delete Photo</a></p>
     {% endfor %}
-    <a href="/properties/addimage/{{ Property.id }}" class="btn btn-danger">Add Photo</a>
+    <a href="/properties/addimage/{{ prop_id }}" class="btn btn-danger">Add Photo</a>
 
 {% endblock %}

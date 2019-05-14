@@ -5,6 +5,7 @@
     <h1>Open Houses</h1>
     <div class="propContainer">
         {% for i in OpenHouses %}
+            {% if not i.deleted %}
             <div class="card" >
                 <a href="/properties/{{ i.id }}">
                     {% if i.property.propertyimages_set.count == 0 %}
@@ -20,6 +21,7 @@
                     <li class="list-group-item">{{ i.time }}</li>
                 </ul>
             </div>
+            {% endif %}
         {% endfor %}
     </div><br>
 
