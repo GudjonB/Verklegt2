@@ -113,7 +113,7 @@ li > a {
     padding: 0 15px;
 }
 
-.fa-home {
+#home-button {
     background-color: #7d7a7a;
     border:none;
     margin: 0 auto;
