@@ -36,9 +36,19 @@ footer {
 }
 
 .form-control {
-    width: 70%;
+    width: 35%;
     margin: 40px auto;
+    border: none;
     border-radius: 0;
+    border-bottom: 1px #7d7a7a;
+    box-shadow: 0 1px 0 0;
+    text-align: center;
+}
+
+
+.form-control:focus {
+    width: 35%;
+    margin: 40px auto;
     border-radius: 0;
     border: none;
     border-bottom: 1px #7d7a7a;
@@ -46,6 +56,13 @@ footer {
     text-align: center;
 }
 
+input#id_cvc {
+    width: 5%;
+}
+
+input#id_expiration {
+    width: 7%;
+}
 button:focus {
     outline: none;
     border: none;
@@ -460,4 +477,6 @@ hr {
     display: inline-block;
 }
 
-
+.errorlist {
+    color: red;
+}

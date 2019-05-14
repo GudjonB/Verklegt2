@@ -9,7 +9,6 @@ urlpatterns = [
     path('logout', LogoutView.as_view(next_page='login'), name='logout'),
     path('profileup', views.update_profile, name='update_profile'),
     path('profile', views.profile, name='profile'),
-    path('makeOffers', views.make_offers, name='makeOffers'),
     path('cart', views.cart, name='cart'),
     path('favourites', views.favourites, name='favourites'),
     path('addFavourite/<int:id>', views.add_to_favourite, name='addFavourite'),
