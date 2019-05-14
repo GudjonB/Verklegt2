@@ -26,10 +26,17 @@
         <div id="profile-fav-container">
             <h3>My Favourites</h3>
             <hr>
-            <!-- loopa yfir favorites -->
+
             <div id="profile-fav">
-                {% if fav %}
-                    <p>You have no favorite properties, Go and search!</p>
+                {% if fav.count == 0 %}
+                    <div class="no_fav_container">
+                        <div>
+                            <img class="no_fav" src="/static/images/sad_star.png">
+                        </div>
+                        <div>
+                            <p class="fav_para">You have no favorite properties, Go and search!</p>
+                        </div>
+                    </div>
                 {% endif %}
                 {% for i in fav %}
                     <div class="card" >
