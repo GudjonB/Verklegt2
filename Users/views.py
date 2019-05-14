@@ -80,6 +80,14 @@ def profile(request):
     })
 
 
+def profile_seller(request, id):
+    return render(request, 'Users/profile_seller.html', {
+        'sellers_profile': get_object_or_404(Profiles, user_id=id),
+        'selling': PropertySellers.objects.filter(user_id=id),
+        'selling_count': PropertySellers.objects.filter(user_id=id).count()
+    })
+
+
 def update_profile(request):
     if request.method == 'POST':
         form = UpdateProfileForm(data=request.POST, instance=request.user, files=request.FILES)

@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% block content %}
+    {% load humanize %}
+    <h1 class="profile-head">{{ sellers_profile.name }}</h1>
+    <hr>
+    <div class="profile-container">
+        <div class="profile-info">
+
+            <img class="profile-img" alt="profile_picture" src="{{ sellers_profile.image_name }}" >
+
+            <p class="profile-para"><b>Address:           </b> {{ sellers_profile.address }}</p>
+
+            <p class="profile-para"><b>Social Security Nr:</b> {{ sellers_profile.social }}</p>
+
+            <p class="profile-para"><b>Zip:               </b> {{ sellers_profile.zipCode }}</p>
+
+            <!--<a href="/users/profileup" class="btn btn-profile">Edit Profile</a>               message realtor? -->
+        </div>
+        {% if selling_count != 0 %}
+            <div class="profile-selling-container">
+                <h3>Realtor's Properties</h3>
+                <hr>
+                <div class="profile-selling">
+                    {% for i in selling %}
+                        {% if not i.property.deleted %}
+                            <div class="card" >
+                                <a href="/properties/{{ i.property_id }}">
+                                    {% if i.property.propertyimages_set.count == 0 %}
+                                        <img class="card-img-top" alt="card image" src="/static/images/properties/default_castle.jpg" >
+                                    {% else %}
+                                        <img class="card-img-top" alt="card image" src="{{ i.property.propertyimages_set.first}}" >
+                                    {% endif %}
+                                </a>
+                                <div class="card-body">
+                                    <h5 class="card-title"><a href="/properties/{{ i.property_id }}">{{ i.property.address }}</a></h5>
+                                    <!--<p class="card-text">{{ i.description_set.first }}</p>-->
+                                </div>
+                                <div class="card-body">
+                                    <a href="/properties/{{ i.property_id }}" class="card-link">View</a>
+                                </div>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}
