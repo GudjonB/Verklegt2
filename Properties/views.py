@@ -5,6 +5,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.db.models import Q, Sum
 
 from Properties.forms.properties_form import PropertiesCreateForm
+from Properties.forms.properties_form_update import PropertiesUpdateForm
 from Properties.forms.open_houses_form import OpenHousesCreateForm
 from Properties.forms.properties_images_form import PropertiesImagesForm
 from Properties.models import *
@@ -45,7 +46,7 @@ def create_properties(request):
 
 def update_property(request, id):
     if request.method == 'POST':
-        form = PropertiesCreateForm(data=request.POST, instance=request.user, files=request.FILES)
+        form = PropertiesUpdateForm(data=request.POST, instance=request.user, files=request.FILES)
         if form.is_valid():
             property_to_update = get_object_or_404(Properties, pk=id)
             description_to_update = get_object_or_404(Description, property_id=id)
@@ -59,7 +60,7 @@ def update_property(request, id):
             property_to_update.bathrooms = form['bathrooms'].value()
             property_to_update.year_built = form['year_built'].value()
             property_to_update.price = form['price'].value()
-            property_image_to_update.image = form['image'].value()
+            #property_image_to_update.image = form['image'].value()
             description_to_update.description = form['description'].value()
             property_to_update.save()
             description_to_update.save()
@@ -69,7 +70,7 @@ def update_property(request, id):
         property_to_update = Properties.objects.get(pk=id)
         description_to_update = get_object_or_404(Description, property_id=id)
         property_image_to_update = get_object_or_404(PropertyImages, property_id=id)
-        form = PropertiesCreateForm(initial={'address': property_to_update.address,
+        form = PropertiesUpdateForm(initial={'address': property_to_update.address,
                                              'zip': property_to_update.zip,
                                              'category': property_to_update.category,
                                              'size': property_to_update.size,
