@@ -150,11 +150,16 @@ def upload_properties_images(request):
 
 
 def get_all_properties(request):
+    searches = []
+    cart = []
+    if request.user.is_authenticated:
+        searches = [s.search for s in SearchHistory.objects.filter(user=request.user).order_by('-id')]
+        cart = [c.property for c in CartItems.objects.filter(user=request.user.id)]
     context = {'Properties': Properties.objects.all().order_by('-id'),
                'Categories': Categories.objects.all(),
                'Zip': Zip.objects.all(),
-               'Cart': [c.property for c in CartItems.objects.filter(user=request.user.id)],
-               'Searches': [s.search for s in SearchHistory.objects.filter(user=request.user).order_by('-id')]
+               'Cart': cart,
+               'Searches': searches
                }
     return render(request, 'Properties/index.html', context)
 

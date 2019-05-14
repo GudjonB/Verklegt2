@@ -35,6 +35,11 @@ def error_500_view(request):
 
 
 def index(request):
+    searches = []
+    cart = []
+    if request.user.is_authenticated:
+        searches = [s.search for s in SearchHistory.objects.filter(user=request.user).order_by('-id')]
+        cart = [c.property for c in CartItems.objects.filter(user=request.user.id)]
     enddate = date.today()
     monthStartdate = enddate - timedelta(days=30)
     weekStartdate = enddate - timedelta(days=7)
@@ -43,10 +48,10 @@ def index(request):
     for i in monthvisits :
         i['property'] = get_object_or_404(Properties, pk=i['property'])
     context = {'Properties': Properties.objects.all().order_by('-id')[:3],
-               'Cart': [c.property for c in CartItems.objects.filter(user=request.user.id)],
+               'Cart': cart,
                'monthVisits': PropertyVisits.objects.filter(date__date__range=[monthStartdate, enddate]).order_by('-counter')[:3],
                'weekVisits': PropertyVisits.objects.filter(date__date__range=[weekStartdate, enddate]).order_by('-counter')[:3],
-               'Searches': [s.search for s in SearchHistory.objects.filter(user=request.user).order_by('-id')]}
+               'Searches': searches}
     return render(request, 'Users/index.html', context)
 
 def register(request):
