@@ -5,37 +5,42 @@
     {% load humanize %}
 
     <div class="propContainer">
-        {% for i in fav %}
-            <div class="card" >
-                <a href="/properties/{{ i.id }}">
-                    {% if i.property.propertyimages_set.count == 0 %}
-                        <img class="card-img-top" alt="card image" src="/static/images/properties/default_castle.jpg" >
-                    {% else %}
-                        <img class="card-img-top" alt="card image" src="{{ i.property.propertyimages_set.first}}" >
-                    {% endif %}
-                </a>
-                <div class="card-body">
-                    <h5 class="card-title"><a href="/properties/{{ i.property_id }}">{{ i.property.address }}</a></h5>
-                    <!--<p class="card-text">{{ i.description_set.first }}</p>-->
-                </div>
-                <ul class="list-group list-group-flush">
-                    <li class="list-group-item">{{ i.property.category }}</li>
-                    <li class="list-group-item">{{ i.property.size|intcomma }} m<sup>2</sup></li>
-                    <li class="list-group-item">{{ i.property.rooms }} Rooms</li>
-                    <li class="list-group-item">{{ i.property.price|intcomma }}.- kr</li>
-                </ul>
-                <div class="card-body">
-                    {% if i.property in Cart %}
-                        <a href="/properties/removeCartItem/{{ i.property.id }}" class="card-link">Remove from cart</a>
-                    {% else %}
-                        <a href="/users/addCartItem/{{ i.property.id }}" class="card-link">Add to cart</a>
-                    {% endif %}
+        {% if fav %}
+            {% for i in fav %}
+                <div class="card" >
+                    <a href="/properties/{{ i.id }}">
+                        {% if i.property.propertyimages_set.count == 0 %}
+                            <img class="card-img-top" alt="card image" src="/static/images/properties/default_castle.jpg" >
+                        {% else %}
+                            <img class="card-img-top" alt="card image" src="{{ i.property.propertyimages_set.first}}" >
+                        {% endif %}
+                    </a>
+                    <div class="card-body">
+                        <h5 class="card-title"><a href="/properties/{{ i.property_id }}">{{ i.property.address }}</a></h5>
+                        <!--<p class="card-text">{{ i.description_set.first }}</p>-->
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">{{ i.property.category }}</li>
+                        <li class="list-group-item">{{ i.property.size|intcomma }} m<sup>2</sup></li>
+                        <li class="list-group-item">{{ i.property.rooms }} Rooms</li>
+                        <li class="list-group-item">{{ i.property.price|intcomma }}.- kr</li>
+                    </ul>
+                    <div class="card-body">
+                        {% if i.property in Cart %}
+                            <a href="/properties/removeCartItem/{{ i.property.id }}" class="card-link">Remove from cart</a>
+                        {% else %}
+                            <a href="/users/addCartItem/{{ i.property.id }}" class="card-link">Add to cart</a>
+                        {% endif %}
 
-                    <a href="/users/removeFavourite/{{ i.property_id}}" class="btn btn-danger">Remove from favourites</a>
+                        <a href="/users/removeFavourite/{{ i.property_id}}" class="btn btn-danger">Remove from favourites</a>
+                    </div>
                 </div>
-            </div>
-        {% endfor %}
-    </div><br>
+            {% endfor %}
+            </div><br>
+        {% else %}
+            <p>You have no favorite properties, Go and search!</p>
+        {% endif %}
+
 
 
 
