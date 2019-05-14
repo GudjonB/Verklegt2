@@ -218,7 +218,7 @@ def search(request):
     query = request.GET
     props = Properties.objects.filter(deleted=False).order_by('address')
     if query.get('q'):
-        props = Properties.objects.filter(Q(address__icontains=query.get('q')))
+        props = Properties.objects.filter(Q(deleted=False), Q(address__icontains=query.get('q')))
         SearchHistory.objects.create(user=request.user, search=query.get('q'))
     paginator = Paginator(props, 9)
     page = request.GET.get('page')
@@ -243,28 +243,28 @@ def filter(request):
     query = request.GET
     props = Properties.objects.filter(deleted=False).order_by('-id')
     if query.getlist('category'):  # check categories
-        props = Properties.objects.filter(Q(category__in=query.getlist('category'))).order_by('category').order_by(
+        props = Properties.objects.filter(Q(deleted=False), Q(category__in=query.getlist('category'))).order_by('category').order_by(
             'address')
     if query.get('zipcodes'):  # check zipcodes
-        tmp = Properties.objects.filter(Q(zip__in=query.get('zipcodes')))
+        tmp = Properties.objects.filter(Q(deleted=False), Q(zip__in=query.get('zipcodes')))
         props = tmp.intersection(props)
     if query.get('roomsfrom'):  # check min rooms
-        tmp = Properties.objects.filter(Q(rooms__gte=query.get('roomsfrom')))
+        tmp = Properties.objects.filter(Q(deleted=False), Q(rooms__gte=query.get('roomsfrom')))
         props = tmp.intersection(props)
     if query.get('roomsto') and '+' not in query.get('roomsto'):
-        tmp = Properties.objects.filter(Q(rooms__lte=query.get('roomsto')))
+        tmp = Properties.objects.filter(Q(deleted=False), Q(rooms__lte=query.get('roomsto')))
         props = tmp.intersection(props)
     if query.get('sizefrom'):
-        tmp = Properties.objects.filter(Q(size__gte=query.get('sizefrom')))
+        tmp = Properties.objects.filter(Q(deleted=False), Q(size__gte=query.get('sizefrom')))
         props = tmp.intersection(props)
     if query.get('sizeto') and '+' not in query.get('sizeto'):
-        tmp = Properties.objects.filter(Q(size__lte=query.get('sizeto')))
+        tmp = Properties.objects.filter(Q(deleted=False), Q(size__lte=query.get('sizeto')))
         props = tmp.intersection(props)
     if query.get('pricefrom'):
-        tmp = Properties.objects.filter(Q(price__gte=query.get('pricefrom')))
+        tmp = Properties.objects.filter(Q(deleted=False), Q(price__gte=query.get('pricefrom')))
         props = tmp.intersection(props)
     if query.get('priceto') and '+' not in query.get('priceto'):
-        tmp = Properties.objects.filter(Q(price__lte=query.get('priceto')))
+        tmp = Properties.objects.filter(Q(deleted=False), Q(price__lte=query.get('priceto')))
         props = tmp.intersection(props)
     if query.get('orderinfo'):
         if query.get('orderinfo') == 'newestfirst':
