@@ -50,7 +50,6 @@ def update_property(request, id):
         if form.is_valid():
             property_to_update = get_object_or_404(Properties, pk=id)
             description_to_update = get_object_or_404(Description, property_id=id)
-            property_image_to_update = get_object_or_404(PropertyImages, property_id=id)
 
             property_to_update.address = form['address'].value()
             property_to_update.zip_id = form['zip'].value()
@@ -60,16 +59,13 @@ def update_property(request, id):
             property_to_update.bathrooms = form['bathrooms'].value()
             property_to_update.year_built = form['year_built'].value()
             property_to_update.price = form['price'].value()
-            #property_image_to_update.image = form['image'].value()
             description_to_update.description = form['description'].value()
             property_to_update.save()
             description_to_update.save()
-            property_image_to_update.save()
             return redirect('propertyDetails', id=id)
     else:
         property_to_update = Properties.objects.get(pk=id)
         description_to_update = get_object_or_404(Description, property_id=id)
-        property_image_to_update = get_object_or_404(PropertyImages, property_id=id)
         form = PropertiesUpdateForm(initial={'address': property_to_update.address,
                                              'zip': property_to_update.zip,
                                              'category': property_to_update.category,
@@ -78,7 +74,6 @@ def update_property(request, id):
                                              'bathrooms': property_to_update.bathrooms,
                                              'year_built': property_to_update.year_built,
                                              'price': property_to_update.price,
-                                             'image': property_image_to_update.image.name,
                                              'description': description_to_update.description})
     return render(request, 'Properties/update_property.html', {
         'form': form,
@@ -116,6 +111,7 @@ def delete_property_image(request, id):
 
 def get_property_by_id(request, id):
     prop = get_object_or_404(Properties, pk=id)
+    prop_seller_user_id = get_object_or_404(PropertySellers, property_id=prop.id).user_id
     if prop.deleted:
         return redirect('allProperties')
     users_prop_list = []
@@ -134,7 +130,9 @@ def get_property_by_id(request, id):
                    'UsersProperties': users_prop_list,
                    'Cart': [c.property for c in CartItems.objects.filter(user=request.user.id)],
                    'Favourites': [f.property for f in Favourites.objects.filter(user=request.user.id)],
-                   'PropertyVisits': PropertyVisits.objects.filter(property_id=id).aggregate(count=Sum('counter'))
+                   'PropertyVisits': PropertyVisits.objects.filter(property_id=id).aggregate(count=Sum('counter')),
+                   'propertySellerUserId': prop_seller_user_id,
+                   'currentUserId': request.user.id
                    })
 
 

@@ -8,7 +8,7 @@
         <h2>Profile ID: {{ Profiles.id }}</h2>
         -->
     <div class="profile-container">
-        <div id="profile-info">
+        <div class="profile-info">
 
             <img class="profile-img" alt="profile_picture" src="{{ Profiles.image_name }}" >
 
@@ -58,10 +58,10 @@
     </div>
 
     {% if selling_count != 0 %}
-        <div id="profile-selling-container">
+        <div class="profile-selling-container">
             <h3>My Properties</h3>
             <hr>
-            <div id="profile-selling">
+            <div class="profile-selling">
                 {% for i in selling %}
                     {% if not i.property.deleted %}
                         <div class="card" >
