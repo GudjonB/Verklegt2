@@ -7,7 +7,7 @@ class CardInfoForm(ModelForm):
         model = Cards
         exclude = ['id']
         widgets = {
-            'user': widgets.Select(attrs={'class': 'form-control'}, ),
+            'user': widgets.HiddenInput(attrs={'class': 'form-control'}, ),
             'number': widgets.TextInput(attrs={'class': 'form-control'}, ),
             'cvc': widgets.TextInput(attrs={'class': 'form-control'}, ),
             'expiration': widgets.TextInput(attrs={'class': 'form-control'}, ),
