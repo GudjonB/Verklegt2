@@ -165,6 +165,14 @@ li > a {
     padding: 0 15px;
 }
 
+#home-button {
+    background-color: #7d7a7a;
+    border:none;
+    margin: 0 auto;
+    color: #e3f2fd;
+    padding: 0 15px;
+}
+
 .profile-collapse {
     float: right;
 }
@@ -179,9 +187,14 @@ li > a {
     display: flex;
     align-items: center;
 }
+#leftnav{
+    display: flex;
+    align-items: center;
+}
 ul {
     list-style-type: none;
 }
+
 
 
 /* Icon 1 */
@@ -381,7 +394,7 @@ hr {
 
 }
 
-#profile-info {
+.profile-info {
 
 }
 
@@ -439,38 +452,38 @@ hr {
 
 
 /* SELLER PROFILE */
-#profile-selling-container {
+.profile-selling-container {
     margin-bottom: 1rem;
     margin-right: 15%;
     width: 70%
 }
 
-#profile-selling {
+.profile-selling {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: space-evenly;
 }
 
-#profile-selling-container hr {
+.profile-selling-container hr {
     width: 100%;
 }
 
-#profile-selling .card {
+.profile-selling .card {
     width: 12rem;
     margin: 5px 5px;
 }
 
-#profile-selling .card-img-top {
+.profile-selling .card-img-top {
     height: 7rem;
 }
 
-#profile-selling .card-body {
+.profile-selling .card-body {
     padding-top: 10px;
     padding-bottom: 0px;
 }
 
-#profile-selling .card-link {
+.profile-selling .card-link {
     font-size: 11px;
 }
 
@@ -512,6 +525,31 @@ hr {
     display: inline-block;
 }
 
+
 .errorlist {
     color: red;
 }
+
+.card-img-empty {
+    width: 20%;
+    height: auto;
+}
+
+.carousel-inner img {
+    width: 30rem;
+    height: 20rem;
+}
+
+.no_fav_container {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+
+.no_fav {
+    width: 60%;
+    height: 45%;
+}
+
+
+

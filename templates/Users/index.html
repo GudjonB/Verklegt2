@@ -67,7 +67,7 @@
         <div class="newRow">
             {% for i in weekVisits %}
                 <div class="card">
-                    <a href="/properties/{{ i.property_id }}">
+                    <a href="/properties/{{ i.property.id }}">
                         {% if i.propertyimages_set.count == 0 %}
                             <img class="card-img-top" alt="card image" src="/static/images/properties/default_castle.jpg" >
                         {% else %}

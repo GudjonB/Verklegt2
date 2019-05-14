@@ -38,7 +38,14 @@
             {% endfor %}
             </div><br>
         {% else %}
-            <p>You have no favorite properties, Go and search!</p>
+            <div class="no_fav_container">
+                <div>
+                    <img class="no_fav" src="/static/images/sad_star.png">
+                </div>
+                <div>
+                    <p class="fav_para">You have no favorite properties, Go and search!</p>
+                </div>
+            </div>
         {% endif %}
 
 

@@ -8,7 +8,7 @@ class PropertiesUpdateForm(ModelForm):
     class Meta:
 
         model = Properties
-        exclude = ['id', 'name', 'deleted']
+        exclude = ['id', 'name', 'deleted', 'image']
         widgets = {
             'address': widgets.TextInput(attrs={'class': 'form-control'}),
             'zip': widgets.TextInput(attrs={'class': 'form-control'}),
@@ -20,4 +20,3 @@ class PropertiesUpdateForm(ModelForm):
             'price': widgets.TextInput(attrs={'class': 'form-control'})
         }
     description = forms.CharField(widget=forms.Textarea(attrs={'class': 'form-control'}))
-    image = forms.widgets.HiddenInput(attrs={'class': 'form-control'})

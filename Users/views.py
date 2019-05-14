@@ -42,15 +42,18 @@ def index(request):
     enddate = date.today()
     monthStartdate = enddate - timedelta(days=30)
     weekStartdate = enddate - timedelta(days=7)
+
     monthvisits = PropertyVisits.objects.filter(date__date__range=[monthStartdate, enddate])\
                                   .values('property').annotate(counterSum=Sum('counter')).order_by('-counterSum')[:3]
     for i in monthvisits :
         i['property'] = get_object_or_404(Properties, pk=i['property'])
+
     context = {'Properties': Properties.objects.filter(deleted=False).order_by('-id')[:3],
                'Cart': cart,
                'monthVisits': monthvisits,
                'weekVisits': PropertyVisits.objects.filter(date__date__range=[weekStartdate, enddate]).order_by('-counter')[:3],
-               'Searches': searches}
+               'Searches': searches,
+               'User': request.user}
     return render(request, 'Users/index.html', context)
 
 def register(request):
@@ -76,6 +79,14 @@ def profile(request):
         'selling': PropertySellers.objects.filter(user_id=request.user.id),
         'selling_count': PropertySellers.objects.filter(user_id=request.user.id).count(),
         'Cart': [c.property for c in CartItems.objects.filter(user=request.user.id)]
+    })
+
+
+def profile_seller(request, id):
+    return render(request, 'Users/profile_seller.html', {
+        'sellers_profile': get_object_or_404(Profiles, user_id=id),
+        'selling': PropertySellers.objects.filter(user_id=id),
+        'selling_count': PropertySellers.objects.filter(user_id=id).count()
     })
 
 
