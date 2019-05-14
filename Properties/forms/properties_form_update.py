@@ -3,7 +3,7 @@ from django.forms import ModelForm, widgets
 from Properties.models import Properties
 
 
-class PropertiesCreateForm(ModelForm):
+class PropertiesUpdateForm(ModelForm):
 
     class Meta:
 
@@ -20,4 +20,4 @@ class PropertiesCreateForm(ModelForm):
             'price': widgets.TextInput(attrs={'class': 'form-control'})
         }
     description = forms.CharField(widget=forms.Textarea(attrs={'class': 'form-control'}))
-    image = forms.ImageField(widget=forms.FileInput(attrs={'class': 'form-control'}), required=False)
+    image = forms.widgets.HiddenInput(attrs={'class': 'form-control'})
