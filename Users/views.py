@@ -47,7 +47,7 @@ def index(request):
                                   .values('property').annotate(counterSum=Sum('counter')).order_by('-counterSum')[:3]
     for i in monthvisits :
         i['property'] = get_object_or_404(Properties, pk=i['property'])
-    context = {'Properties': Properties.objects.all().order_by('-id')[:3],
+    context = {'Properties': Properties.objects.filter(deleted=False).order_by('-id')[:3],
                'Cart': cart,
                'monthVisits': PropertyVisits.objects.filter(date__date__range=[monthStartdate, enddate]).order_by('-counter')[:3],
                'weekVisits': PropertyVisits.objects.filter(date__date__range=[weekStartdate, enddate]).order_by('-counter')[:3],

@@ -17,7 +17,7 @@
                 {% endfor %}
             </datalist>
         </div>
-        <input type="submit">
+        <input type="submit" value="Submit">
     </form>
     <br>
     <div class="container">
@@ -220,7 +220,7 @@
     {% load humanize %}
 
     <div class="propContainer">
-        {% for i in Properties %}
+        {% for i in DisplayProps %}
             {% if not i.deleted %}
                 <div class="card" >
                     <a href="/properties/{{ i.id }}">
@@ -255,5 +255,18 @@
             {% endif %}
         {% endfor %}
     </div><br>
+    <div class="pagination">
+        <span class="step-links">
+            {% if DisplayProps.has_previous %}
+                <a href="?page={{ DisplayProps.previous_page_number }}">previous</a>
+            {% endif %}
+            <span class="current">
+                Page {{ DisplayProps.number }} of {{ DisplayProps.paginator.num_pages }}
+            </span>
+            {% if DisplayProps.has_next %}
+                <a href="?page={{ DisplayProps.next_page_number }}">next</a>
+            {% endif %}
+        </span>
+    </div><br><br>
 
 {% endblock %}

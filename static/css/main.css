@@ -451,5 +451,13 @@ hr {
     left: 15%;
 }
 
+#descr {
+    width: 60%;
+    display: inline-block;
+}
+
+.pagination {
+    display: inline-block;
+}
 
 
