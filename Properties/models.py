@@ -9,7 +9,7 @@ from datetime import datetime
 
 class Categories(models.Model):
     category = models.CharField(max_length=255,
-                                validators=[RegexValidator(r'^[a-zA-Z]*$',
+                                validators=[RegexValidator(r'^[a-zA-Z -]*$',
                                                            'Only alphabetic characters are allowed.',
                                                            'invalid_category')])
 
@@ -19,11 +19,11 @@ class Categories(models.Model):
 
 class Zip(models.Model):
     zip = models.CharField(max_length=18,
-                           validators=[RegexValidator(r'^[0-9a-zA-Z]*$',
+                           validators=[RegexValidator(r'^[0-9]*$',
                                                       'Only alphanumeric characters are allowed.',
                                                       'invalid_zip')])
     city = models.CharField(max_length=189,
-                            validators=[RegexValidator(r'^[a-zA-Z]*$',
+                            validators=[RegexValidator(r'^[a-zA-Z ]*$',
                                                        'Only alphabetic characters are allowed.',
                                                        'invalid_city')])
 
@@ -33,7 +33,7 @@ class Zip(models.Model):
 
 class Properties(models.Model):
     address = models.CharField(max_length=255,
-                               validators=[RegexValidator(r'^[0-9a-zA-Z]*$',
+                               validators=[RegexValidator(r'^[0-9a-zA-Z ]*$',
                                                           'Only alphanumeric characters are allowed.',
                                                           'invalid_address')])
     zip = models.ForeignKey(Zip, on_delete=models.CASCADE)
@@ -56,7 +56,7 @@ class Properties(models.Model):
 class Description(models.Model):
     property = models.ForeignKey(Properties, on_delete=models.CASCADE)
     description = models.CharField(max_length=4000, blank=True,
-                                   validators=[RegexValidator(r'^[0-9a-zA-Z]*$',
+                                   validators=[RegexValidator(r'^[0-9a-zA-Z ]*$',
                                                               'Only alphanumeric characters are allowed.',
                                                               'invalid_description')])
 
