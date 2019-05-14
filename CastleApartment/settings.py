@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.humanize',
     'Users.apps.UsersConfig',
     'Properties.apps.PropertiesConfig',
+    'sorl.thumbnail'
 ]
 
 MIDDLEWARE = [

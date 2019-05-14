@@ -71,9 +71,8 @@
     {% endif %}
 
     <h3>Property Details</h3>
-    <p>{{ Property.description_set.first.description }}</p>
-
-    <p><b>Category:</b> {{ Property.category_id.category}}</p>
+    <p><div id="descr">{{ Property.description_set.first.description }}</div></p>
+    <p><b>Category:</b> {{ Property.category.category}}</p>
     <p><b>City:</b> {{ Property.zip.city }}</p>
     <p><b>Zip:</b> {{ Property.zip.zip }}</p>
     <p><b>Square meters:</b> {{ Property.size|intcomma }}</p>
