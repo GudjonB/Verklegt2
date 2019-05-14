@@ -310,12 +310,11 @@ def delete_property(request, id):
     return redirect('allProperties')
 
 
-# def delete_purchased_properties(request):
-#    for i in CartItems:
-#        properties = get_object_or_404(Properties, pk=i.property_id)
-#        properties.deleted = True
-#    properties.save()
-
+def delete_purchased_properties(request):
+    for i in CartItems.objects.filter(user_id=request.user.id):
+        i.property.deleted = True
+        i.property.save()
+    return redirect('/')
 
 def add_data_from_web(request):
     clearFiles()

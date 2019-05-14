@@ -12,7 +12,7 @@ from urllib.parse import urlparse
 
 from Properties.models import Properties, Zip, PropertySellers, PropertyVisits
 
-from Users.models import Profiles, CartItems, Favourites, CheckoutInfo, SearchHistory, User
+from Users.models import Profiles, CartItems, Favourites, CheckoutInfo, SearchHistory, User, Cards
 from Users.forms.offers_form import OffersForm
 from Users.forms.profile_form import UpdateProfileForm
 from Users.forms.checkout_form import CheckoutInfoForm
@@ -187,12 +187,20 @@ def card_info_checkout(request):
             form.save()
             return redirect('checkoutReadOnly')
     else:
-        form = CardInfoForm() # initial={'user': request.user,
-                              #       'name': request.user.profiles.name
-                              #       })
+        form = CardInfoForm(initial={'user': request.user})
     return render(request, 'Users/card_info_checkout.html', {
         'form': form
     })
+
+
+def confirmation_checkout(request):
+    total_price = 0
+    for i in CartItems.objects.filter(user_id=request.user.id):
+        total_price += i.property.price
+    confirm = {'items': CartItems.objects.filter(user_id=request.user.id),
+               'items_count': CartItems.objects.filter(user_id=request.user.id).count(),
+               'total_price': total_price}
+    return render(request, 'Users/confirmation_checkout.html', confirm)
 
 
 def empty_cart(request):
