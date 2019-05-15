@@ -23,6 +23,8 @@ class Zip(models.Model):
     city = models.CharField(max_length=50,
                             validators=[RegexValidator(u'^[a-zA-Z -]*$',
                                                        'City must only contain alphabetic characters')])
+    class Meta:
+        ordering = ['zip']
 
     def __str__(self):
         return self.zip
