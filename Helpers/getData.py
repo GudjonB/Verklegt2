@@ -15,7 +15,8 @@ def clearFiles():
     f5.close()
 
 def getPropertyLinksAndZips():
-    page = urllib.request.urlopen('https://www.mbl.is/fasteignir/leit/?page=33&q=80f323c5382397611e72800316f250d1') #page to get links from
+    url = 'https://www.mbl.is/fasteignir/leit/?page=59&q=80f323c5382397611e72800316f250d1'
+    page = urllib.request.urlopen(url) #page to get links from
     parse = bs(page, "lxml")                                                                                #parse the html from the link
     links = []
     zips = []
@@ -40,10 +41,10 @@ def writeToCsv():
     #description.csv
     tempDescr = ""
     #propertyImgs.csv
-    tempImgs = []
 
     links, zips = getPropertyLinksAndZips()
     for link in links:                      #for each property
+        currLink = ""
         page = urllib.request.urlopen(link) #open page
         parse = bs(page, "lxml")            #parse html
         counter = 1                         #counter for each property attribute
@@ -109,11 +110,13 @@ def writeToCsv():
                 tempLocation = (name.text).split('  ')[5].strip()
                 if tempLocation == '':
                     tempLocation = (name.text).split('  ')[6].strip()
-
-        for imgTags in parse.findAll("div", {"class": "item"}): #get image links
-            for img in imgTags.findAll("img", {"src": True}):
+        tempImgs = []
+        if currLink != link:
+            currLink = link
+            for imgTags in parse.findAll("div", {"class": "item"}): #get image links
                 if len(tempImgs) <= 5:
-                    tempImgs.append(img['src'])
+                    for img in imgTags.findAll("img", {"src": True}):
+                        tempImgs.append(img['src'])
 
 
         #write to csv
@@ -138,7 +141,6 @@ def writeToCsv():
                 writer.writerow(row)
                 imgCounter += 1
                 if imgCounter == 5:
-                    tempImgs = []
                     break
         with open('properties/csv/description.csv', 'a', encoding="utf-8") as f5:
             writer = csv.writer(f5, delimiter=',', lineterminator='\n', )
@@ -160,4 +162,3 @@ def readFromCsv(filename):
             for row in writer:
                 retData.append(row)
     return retData #return csv rows in data array for easier accessibility
-

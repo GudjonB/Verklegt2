@@ -110,7 +110,7 @@ def delete_property_image(request, id):
 
 
 def get_property_by_id(request, id):
-    prop = get_object_or_404(Properties, pk=id)
+    prop = get_object_or_404(Properties, id=id)
     prop_seller_user_id = get_object_or_404(PropertySellers, property_id=prop.id).user_id
     if prop.deleted:
         return redirect('allProperties')
@@ -327,7 +327,7 @@ def add_data_from_web(request):
                                                              price=props[i][5])
         Description.objects.get_or_create(property=property,
                                           description=descriptions[i][0])
-
+        PropertySellers.objects.get_or_create(property_id=property.id, user_id=request.user.id)
         imageCounter = 1
         while imageCounter != 6:
             filename = 'static/images/properties/' + str(props[i][5]) + '_mynd_' + str(imageCounter) + '.jpg'
