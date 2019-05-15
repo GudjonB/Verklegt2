@@ -17,7 +17,7 @@
                 {% endfor %}
             </datalist>
         </div>
-        <input type="submit" value="Submit">
+        <input class="btn btn-primary" type="submit" value="Submit">
     </form>
 
 
@@ -45,9 +45,9 @@
                         <div class="card-body">
                             {% if user.is_authenticated %}
                                 {% if i in Cart %}
-                                    <a href="/properties/removeCartItem/{{ i.id }}" class="card-link">Remove from cart</a>
+                                    <a href="/properties/removeCartItem/{{ i.id }}" class="btn btn-danger-cart">Remove from cart</a>
                                 {% else %}
-                                    <a href="/users/addCartItem/{{ i.id }}" class="card-link">Add to cart</a>
+                                    <a href="/users/addCartItem/{{ i.id }}" class="btn btn-primary-cart">Add to cart</a>
                                 {% endif %}
                             {% else %}
                                 <a href="../users/login" class="card-link">Add to cart</a>
@@ -86,9 +86,9 @@
                         <div class="card-body">
                             {% if user.is_authenticated %}
                                 {% if i.property in Cart %}
-                                    <a href="/properties/removeCartItem/{{ i.property_id }}" class="card-link">Remove from cart</a>
+                                    <a href="/properties/removeCartItem/{{ i.property_id }}" class="btn btn-danger-cart">Remove from cart</a>
                                 {% else %}
-                                    <a href="/users/addCartItem/{{ i.property_id }}" class="card-link">Add to cart</a>
+                                    <a href="/users/addCartItem/{{ i.property_id }}" class="btn btn-primary-cart">Add to cart</a>
                                 {% endif %}
                             {% else %}
                                 <a href="../users/login" class="card-link">Add to cart</a>
@@ -126,9 +126,9 @@
                         <div class="card-body">
                             {% if user.is_authenticated %}
                                 {% if i.property in Cart %}
-                                    <a href="/properties/removeCartItem/{{ i.property.id }}" class="card-link">Remove from cart</a>
+                                    <a href="/properties/removeCartItem/{{ i.property.id }}" class="btn btn-danger-cart">Remove from cart</a>
                                 {% else %}
-                                    <a href="/users/addCartItem/{{ i.property.id }}" class="card-link">Add to cart</a>
+                                    <a href="/users/addCartItem/{{ i.property.id }}" class="btn btn-primary-cart">Add to cart</a>
                                 {% endif %}
                             {% else %}
                                 <a href="../users/login" class="card-link">Add to cart</a>

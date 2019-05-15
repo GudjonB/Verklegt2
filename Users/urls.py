@@ -19,6 +19,7 @@ urlpatterns = [
     path('removeFavourite/<int:id>', views.remove_from_favourites, name='removeFavourite'),
     path('removeFavouriteInProfile/<int:id>', views.remove_from_favorites_profile, name='removeFavouriteProfile'),
 
+
     path('cart', views.cart, name='cart'),
     path('addCartItem/<int:id>', views.add_to_cart, name='addCartItem'),
     path('removeCartItem/<int:id>', views.remove_from_cart, name='removeCartItem'),
@@ -31,7 +32,6 @@ urlpatterns = [
     path('checkoutReadOnly', views.read_only_checkout, name='checkoutReadOnly'),
     path('checkoutConfirmation', views.confirmation_checkout, name='checkoutConfirmation'),
     path('emptyCheckoutCancel', views.empty_checkout_cancel, name='emptyCheckoutCancel'),
-    # path('emptyCardInfo', views.empty_card_info, name='emptyCardInfo'),
 
 
     path('add_staff', views.add_staff, name="addStaff")
