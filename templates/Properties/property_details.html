@@ -42,13 +42,14 @@
             <span class="carousel-control-next-icon"></span>
         </a>
     </div>
+    <br>
     {% if propertySellerUserId != currentUserId %}
         <a href="/users/sellerprofile/{{ propertySellerUserId }}" class="btn btn-primary">View Realtor Profile</a>
     {% else %}
         <p><a href="/properties/imagesedit/{{ Property.id}}" class="btn btn-primary">Edit Pictures</a></p>
     {% endif %}
 
-    <p><b>Price:</b> {{ Property.price|intcomma }}</p>
+    <p><b>Price:</b> {{ Property.price|intcomma }}.- Kr</p>
 
     <p><b>Total Visits:</b> {{ PropertyVisits.count }}</p>
     
@@ -78,7 +79,7 @@
     <p><b>Category:</b> {{ Property.category.category}}</p>
     <p><b>City:</b> {{ Property.zip.city }}</p>
     <p><b>Zip:</b> {{ Property.zip.zip }}</p>
-    <p><b>Square meters:</b> {{ Property.size|intcomma }}</p>
+    <p><b>m<sup>2</sup>:</b> {{ Property.size|intcomma }}</p>
     <p><b>Bathrooms:</b> {{ Property.bathrooms }}</p>
     <p><b>Rooms:</b> {{ Property.rooms }}</p>
     {% if Property.category_id != 6 %}
