@@ -238,6 +238,7 @@ def add_staff(request):
             user = get_object_or_404(User, pk=form['user'].value())
             user.is_staff = True
             user.save()
+            return redirect('addStaff')
     else:
         form = StaffForm()
     return render(request, 'Users/add_staff.html', {

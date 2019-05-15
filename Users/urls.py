@@ -30,9 +30,6 @@ urlpatterns = [
     path('checkoutReadOnly', views.read_only_checkout, name='checkoutReadOnly'),
     path('checkoutConfirmation', views.confirmation_checkout, name='checkoutConfirmation'),
     path('emptyCheckoutCancel', views.empty_checkout_cancel, name='emptyCheckoutCancel'),
-    # path('emptyCardInfo', views.empty_card_info, name='emptyCardInfo'),
-
-
     path('add_staff', views.add_staff, name="addStaff")
 ]
 
