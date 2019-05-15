@@ -34,7 +34,6 @@ $(document).ready(function () {
 
 
 
-
 window.addEventListener("scroll", event => {
 
     if (window.pageYOffset >= sticky) {
