@@ -52,7 +52,7 @@
     <p><b>Price:</b> {{ Property.price|intcomma }}.- Kr</p>
 
     <p><b>Total Visits:</b> {{ PropertyVisits.count }}</p>
-    
+
 
     {% if propertySellerUserId != currentUserId %}
         {% if user.is_authenticated %}
@@ -64,10 +64,12 @@
                 <a class="btn btn-primary-in-details" href="/users/addFavourite/{{ Property.id}}" >Add to favourites</a>
             {% endif %}
             <br>
-            {% if Property in Cart %}
-                <a href="/users/removeCartItem/{{ Property.id }}" class="btn btn-danger-in-details">Remove from cart</a>
-            {% else %}
-                <a href="/users/addCartItem/{{ Property.id }}" class="btn btn-primary-in-details">Add to cart</a>
+            {% if not user.is_staff %}
+                {% if Property in Cart %}
+                    <a href="/users/removeCartItem/{{ Property.id }}" class="btn btn-danger-in-details">Remove from cart</a>
+                {% else %}
+                    <a href="/users/addCartItem/{{ Property.id }}" class="btn btn-primary-in-details">Add to cart</a>
+                {% endif %}
             {% endif %}
         {% else %}
             <a href="../users/login" class="card-link">Login</a>

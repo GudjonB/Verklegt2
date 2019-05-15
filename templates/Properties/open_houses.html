@@ -17,7 +17,7 @@
             {% for i in OpenHouses %}
                 {% if not i.deleted %}
                     <div class="card" >
-                        <a href="/properties/{{ i.id }}">
+                        <a href="/properties/{{ i.property.id }}">
                             {% if i.property.propertyimages_set.count == 0 %}
                                 <img class="card-img-top" alt="card image" src="/static/images/properties/default_castle.jpg" >
                             {% else %}
