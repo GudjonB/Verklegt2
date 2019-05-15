@@ -18,10 +18,6 @@ urlpatterns = [
     path('removeFavourite/<int:id>', views.remove_from_favourites, name='removeFavourite'),
     path('removeFavouriteInProfile/<int:id>', views.remove_from_favorites_profile, name='removeFavouriteProfile'),
 
-
-    path('makeOffers', views.make_offers, name='makeOffers'),
-
-
     path('cart', views.cart, name='cart'),
     path('addCartItem/<int:id>', views.add_to_cart, name='addCartItem'),
     path('removeCartItem/<int:id>', views.remove_from_cart, name='removeCartItem'),
