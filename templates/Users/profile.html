@@ -53,9 +53,9 @@
                         </div>
                         <div class="card-body">
                             {% if i.property in Cart %}
-                                <a href="/properties/removeCartItem/{{ i.property.id }}" class="card-link">Remove from cart</a>
+                                <a href="/properties/removeCartItem/{{ i.property.id }}" class="btn btn-danger-small">Remove from cart</a>
                             {% else %}
-                                <a href="/users/addCartItem/{{ i.property.id }}" class="card-link">Add to cart</a>
+                                <a href="/users/addCartItem/{{ i.property.id }}" class="btn btn-primary-small">Add to cart</a>
                             {% endif %}
                         </div>
                     </div>

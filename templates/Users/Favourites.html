@@ -29,9 +29,9 @@
                     </ul>
                     <div class="card-body">
                         {% if i.property in Cart %}
-                            <a href="/properties/removeCartItem/{{ i.property.id }}" class="card-link">Remove from cart</a>
+                            <a href="/properties/removeCartItem/{{ i.property.id }}" class="btn btn-danger-cart">Remove from cart</a>
                         {% else %}
-                            <a href="/users/addCartItem/{{ i.property.id }}" class="card-link">Add to cart</a>
+                            <a href="/users/addCartItem/{{ i.property.id }}" class="btn btn-primary-cart">Add to cart</a>
                         {% endif %}
 
                         <a href="/users/removeFavourite/{{ i.property_id}}" class="btn btn-danger">Remove from favourites</a>

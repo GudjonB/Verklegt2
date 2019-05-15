@@ -230,6 +230,9 @@ def empty_cart_purchased(request):
         item.delete()
     return redirect('/')
 
+def staff(request):
+    staff = User.objects.filter(is_staff=True)
+    return render(request, 'Users/staff.html', {'staff': staff})
 
 def add_staff(request):
     if request.method == 'POST':
@@ -237,6 +240,7 @@ def add_staff(request):
         if form.is_valid:
             user = get_object_or_404(User, pk=form['user'].value())
             user.is_staff = True
+            user.email = user.username + '@ca.is'
             user.save()
             return redirect('addStaff')
     else:
@@ -244,3 +248,4 @@ def add_staff(request):
     return render(request, 'Users/add_staff.html', {
         'form': form
     })
+

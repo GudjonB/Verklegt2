@@ -12,11 +12,13 @@ urlpatterns = [
     path('profile', views.profile, name='profile'),
     path('cart', views.cart, name='cart'),
     path('sellerprofile/<int:id>', views.profile_seller, name='profile_seller'),
+    path('staff', views.staff, name='staff'),
     path('profileup', views.update_profile, name='update_profile'),
     path('favourites', views.favourites, name='favourites'),
     path('addFavourite/<int:id>', views.add_to_favourite, name='addFavourite'),
     path('removeFavourite/<int:id>', views.remove_from_favourites, name='removeFavourite'),
     path('removeFavouriteInProfile/<int:id>', views.remove_from_favorites_profile, name='removeFavouriteProfile'),
+
 
     path('cart', views.cart, name='cart'),
     path('addCartItem/<int:id>', views.add_to_cart, name='addCartItem'),
@@ -30,6 +32,7 @@ urlpatterns = [
     path('checkoutReadOnly', views.read_only_checkout, name='checkoutReadOnly'),
     path('checkoutConfirmation', views.confirmation_checkout, name='checkoutConfirmation'),
     path('emptyCheckoutCancel', views.empty_checkout_cancel, name='emptyCheckoutCancel'),
+
     path('add_staff', views.add_staff, name="addStaff")
 ]
 
