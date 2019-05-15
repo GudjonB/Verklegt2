@@ -178,12 +178,12 @@ def get_open_houses(request):
 
 def add_open_houses(request):
     if request.method == 'POST':
-        form = OpenHousesCreateForm(data=request.POST)
+        form = OpenHousesCreateForm(request=request, data=request.POST)
         if form.is_valid():
             form.save()
             return redirect('openHouses')
     else:
-        form = OpenHousesCreateForm()
+        form = OpenHousesCreateForm(initial={'user': request.user}, request=request)
     return render(request, 'Properties/add_open_houses.html', {
         'form': form
     })
