@@ -4,7 +4,7 @@
 #navbar {
     margin-bottom: 50px;
     border-radius: 0;
-    background-color: #7d7a7a;
+    background-color: #7f7f7f;
 }
 
 .sticky {
@@ -16,7 +16,16 @@
 
 /* Remove the jumbotron's default bottom margin */
 .jumbotron {
+    padding: 1.5rem 6rem 7rem;
     margin-bottom: 0;
+    background-image: url('../../static/banner2.png');
+    background-position: center;
+    background-size: cover;
+    border-radius: 0;
+}
+.jumbotext {
+    text-align: left;
+    font-family: "Times New Roman", Times, serif;
 }
 
 /* Add a gray background color and some padding to the footer */
@@ -40,7 +49,7 @@ footer {
     margin: 40px auto;
     border: none;
     border-radius: 0;
-    border-bottom: 1px #7d7a7a;
+    border-bottom: 1px #7f7f7f;
     box-shadow: 0 2px 1px -1px;
     text-align: center;
 }
@@ -51,7 +60,7 @@ footer {
     margin: 40px auto;
     border-radius: 0;
     border: none;
-    border-bottom: 1px #7d7a7a;
+    border-bottom: 1px #7f7f7f;
     box-shadow: 0 2px 1px -1px;
     text-align: center;
 }
@@ -160,12 +169,12 @@ li > a {
 }
 
 .navbar-toggler {
-    background-color: #7d7a7a;
+    background-color: #7f7f7f;
     border:none;
 }
 
 .profile-toggler, .fa-shopping-cart {
-    background-color: #7d7a7a;
+    background-color: #7f7f7f;
     border:none;
     float: right;
     color: #e3f2fd;
@@ -173,7 +182,7 @@ li > a {
 }
 
 #home-button {
-    background-color: #7d7a7a;
+    background-color: #7f7f7f;
     border:none;
     margin: 0 auto;
     color: #e3f2fd;
