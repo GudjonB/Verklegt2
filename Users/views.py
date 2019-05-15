@@ -247,3 +247,4 @@ def add_staff(request):
     return render(request, 'Users/add_staff.html', {
         'form': form
     })
+
