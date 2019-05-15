@@ -11,8 +11,10 @@
             <p class="profile-para"><b>Address:           </b> {{ sellers_profile.address }}</p>
 
             <p class="profile-para"><b>Zip:               </b> {{ sellers_profile.zipCode }}</p>
-
-            <p class="profile-para"><b>Social Security Nr:</b> {{ sellers_profile.social }}</p>
+          
+            {% if user.is_authenticated and user.id == Profiles.user_id %}
+                <p class="profile-para"><b>Social Security Nr:</b> {{ sellers_profile.social }}</p>
+            {% endif %}
 
 
             <!--<a href="/users/profileup" class="btn btn-profile">Edit Profile</a>               message realtor? -->

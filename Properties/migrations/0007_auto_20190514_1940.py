@@ -19,7 +19,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='properties',
             name='address',
-            field=models.CharField(max_length=50, validators=[django.core.validators.RegexValidator('^[0-9a-zA-Záðéíóúýþæö ]*$', 'Invalid character in address')]),
+            field=models.CharField(max_length=50, validators=[django.core.validators.RegexValidator('^[0-9a-zA-ZáðéíóúýþæöÁÐÉÍÓÚÝÞÆÖ ]*$', 'Invalid character in address')]),
         ),
         migrations.AlterField(
             model_name='zip',

@@ -19,7 +19,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='cards',
             name='name',
-            field=models.CharField(max_length=100, validators=[django.core.validators.RegexValidator('^[a-zA-Záðéíóúýþæö ]*$', 'Only alphabetic characters are allowed.', 'invalid_name')]),
+            field=models.CharField(max_length=100, validators=[django.core.validators.RegexValidator('^[a-zA-ZáðéíóúýþæöÁÐÉÍÓÚÝÞÆÖ ]*$', 'Only alphabetic characters are allowed.', 'invalid_name')]),
         ),
         migrations.AlterField(
             model_name='cards',
@@ -29,7 +29,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='checkoutinfo',
             name='city',
-            field=models.CharField(max_length=255, validators=[django.core.validators.RegexValidator('^[a-zA-Záðéíóúýþæö ]*$', 'Only alphabetic characters are allowed.', 'invalid_name')]),
+            field=models.CharField(max_length=255, validators=[django.core.validators.RegexValidator('^[a-zA-ZáðéíóúýþæöÁÐÉÍÓÚÝÞÆÖ ]*$', 'Only alphabetic characters are allowed.', 'invalid_name')]),
         ),
         migrations.AlterField(
             model_name='checkoutinfo',
@@ -44,7 +44,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='checkoutinfo',
             name='name',
-            field=models.CharField(max_length=100, validators=[django.core.validators.RegexValidator('^[a-zA-Záðéíóúýþæö ]*$', 'Only alphanumeric characters are allowed.', 'invalid name')]),
+            field=models.CharField(max_length=100, validators=[django.core.validators.RegexValidator('^[a-zA-ZáðéíóúýþæöÁÐÉÍÓÚÝÞÆÖ ]*$', 'Only alphanumeric characters are allowed.', 'invalid name')]),
         ),
         migrations.AlterField(
             model_name='checkoutinfo',
@@ -54,7 +54,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='checkoutinfo',
             name='street_name',
-            field=models.CharField(max_length=100, validators=[django.core.validators.RegexValidator('^[a-zA-Záðéíóúýþæö ]*$', 'Only alphanumeric characters are allowed.', 'invalid street name')]),
+            field=models.CharField(max_length=100, validators=[django.core.validators.RegexValidator('^[a-zA-ZáðéíóúýþæöÁÐÉÍÓÚÝÞÆÖ ]*$', 'Only alphanumeric characters are allowed.', 'invalid street name')]),
         ),
         migrations.AlterField(
             model_name='checkoutinfo',
@@ -64,12 +64,12 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='profiles',
             name='address',
-            field=models.CharField(max_length=100, validators=[django.core.validators.RegexValidator('^[0-9a-zA-Záðéíóúýþæö -]*$', 'Only alphanumeric characters are allowed.', 'invalid address')]),
+            field=models.CharField(max_length=100, validators=[django.core.validators.RegexValidator('^[0-9a-zA-ZáðéíóúýþæöÁÐÉÍÓÚÝÞÆÖ -]*$', 'Only alphanumeric characters are allowed.', 'invalid address')]),
         ),
         migrations.AlterField(
             model_name='profiles',
             name='name',
-            field=models.CharField(max_length=100, validators=[django.core.validators.RegexValidator('^[a-zA-Záðéíóúýþæö ]*$', 'Only alphanumeric characters are allowed.', 'invalid name')]),
+            field=models.CharField(max_length=100, validators=[django.core.validators.RegexValidator('^[a-zA-ZáðéíóúýþæöÁÐÉÍÓÚÝÞÆÖ ]*$', 'Only alphanumeric characters are allowed.', 'invalid name')]),
         ),
         migrations.AlterField(
             model_name='profiles',

@@ -30,7 +30,7 @@ class Zip(models.Model):
 
 class Properties(models.Model):
     address = models.CharField(max_length=50,
-                               validators=[RegexValidator(u'^[0-9a-zA-Záðéíóúýþæö ]*$',
+                               validators=[RegexValidator(u'^[0-9a-zA-ZáðéíóúýþæöÁÐÉÍÓÚÝÞÆÖ ]*$',
                                                           'Invalid character in address')])
     zip = models.ForeignKey(Zip, on_delete=models.CASCADE)
     category = models.ForeignKey(Categories, default=1, on_delete=models.CASCADE)
@@ -51,7 +51,7 @@ class Properties(models.Model):
 class Description(models.Model):
     property = models.ForeignKey(Properties, on_delete=models.CASCADE)
     description = models.CharField(max_length=4000, blank=True,
-                                   validators=[RegexValidator(u'^[0-9a-zA-Záðéíóúýþæö -]*$',
+                                   validators=[RegexValidator(u'^[0-9a-zA-ZáðéíóúýþæöÁÐÉÍÓÚÝÞÆÖ -]*$',
                                                               'Invalid character in description')])
 
     def __str__(self):
