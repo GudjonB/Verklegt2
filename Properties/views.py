@@ -177,12 +177,6 @@ def get_open_houses(request):
     return render(request, 'Properties/open_houses.html', context)
 
 
-'''
-def get_new_properties(request):
-    context = {'Properties': Properties.objects.filter(deleted=False).order_by('-id')[:3]}
-    return render(request, 'Users/index.html', context)
-'''
-
 
 def add_open_houses(request):
     if request.method == 'POST':
