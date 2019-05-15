@@ -80,12 +80,19 @@ input#id_street_name{
     width: 15%;
 }
 
+#id_image {
+    width: 20%;
+}
+
+#id_address{
+    width: 15%;
+}
 input#id_city{
     width: 12%;
 }
 
-input#id_zipCode{
-    width: 7%;
+#id_zipCode{
+    width: 5%;
 }
 
 input#id_social {

@@ -1,7 +1,6 @@
 from django.forms import ModelForm, widgets
 from Users.models import Profiles
 
-
 class UpdateProfileForm(ModelForm):
     class Meta:
         model = Profiles
