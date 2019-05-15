@@ -9,10 +9,10 @@ from creditcards.models import CardExpiryField
 class Profiles(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=70,
-                            validators=[RegexValidator(u'^[a-zA-Záðéíóúýþæö ]*$',
+                            validators=[RegexValidator(u'^[a-zA-ZáðéíóúýþæöÁÐÉÍÓÚÝÞÆÖ ]*$',
                                                        'Name must only contain alphabetic characters')])
     address = models.CharField(max_length=50,
-                               validators=[RegexValidator(u'^[0-9a-zA-Záðéíóúýþæö -]*$',
+                               validators=[RegexValidator(u'^[0-9a-zA-ZáðéíóúýþæöÁÐÉÍÓÚÝÞÆÖ -]*$',
                                                           'Invalid character in address')])
     zipCode = models.ForeignKey(Zip, on_delete=models.CASCADE, null=True, blank=True, verbose_name=u"Zip:")
     social = models.CharField(max_length=10,
@@ -37,7 +37,7 @@ class Country(models.Model):
 
 class Cards(models.Model):
     name = models.CharField(max_length=70,
-                            validators=[RegexValidator(u'^[a-zA-Záðéíóúýþæö ]*$',
+                            validators=[RegexValidator(u'^[a-zA-ZáðéíóúýþæöÁÐÉÍÓÚÝÞÆÖ ]*$',
                                                        'Name must only contain alphabetic characters')]
                             )
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -70,20 +70,20 @@ class CheckoutInfo(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     name = models.CharField(max_length=50,
-                            validators=[RegexValidator(u'^[a-zA-Záðéíóúýþæö ]*$',
+                            validators=[RegexValidator(u'^[a-zA-ZáðéíóúýþæöÁÐÉÍÓÚÝÞÆÖ ]*$',
                                                        'Name must only contain alphabetic characters')])
     mobile = models.CharField(max_length=7,
                               validators=[RegexValidator(u'^.{7}[0-9]*$',
                                                          'Mobile must be 7 digits long and must only contain numbers')])
     street_name = models.CharField(max_length=50,
-                                   validators=[RegexValidator(u'^[a-zA-Záðéíóúýþæö ]*$',
+                                   validators=[RegexValidator(u'^[a-zA-ZáðéíóúýþæöÁÐÉÍÓÚÝÞÆÖ ]*$',
                                                               'Street name must only contain alphabetic characters')])
     house_number = models.CharField(max_length=7,
                                     validators=[RegexValidator(u'^[0-9a-zA-Z]*$',
                                                                'Invalid character in house number')])
     country = models.ForeignKey(Country, on_delete=models.CASCADE, default='Iceland')
     city = models.CharField(max_length=50,
-                            validators=[RegexValidator(u'^[a-zA-Záðéíóúýþæö ]*$',
+                            validators=[RegexValidator(u'^[a-zA-ZáðéíóúýþæöÁÐÉÍÓÚÝÞÆÖ ]*$',
                                                        'City must only contain alphabetic characters')])
     zipCode = models.CharField(max_length=5, verbose_name=u"Zip:",
                                validators=[RegexValidator(u'^[0-9]*$',

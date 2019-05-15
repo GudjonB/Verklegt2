@@ -14,12 +14,12 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='cards',
             name='name',
-            field=models.CharField(max_length=70, validators=[django.core.validators.RegexValidator('^[a-zA-Záðéíóúýþæö ]*$', 'Name must only contain alphabetic characters')]),
+            field=models.CharField(max_length=70, validators=[django.core.validators.RegexValidator('^[a-zA-ZáðéíóúýþæöÁÐÉÍÓÚÝÞÆÖ ]*$', 'Name must only contain alphabetic characters')]),
         ),
         migrations.AlterField(
             model_name='checkoutinfo',
             name='city',
-            field=models.CharField(max_length=50, validators=[django.core.validators.RegexValidator('^[a-zA-Záðéíóúýþæö ]*$', 'City must only contain alphabetic characters')]),
+            field=models.CharField(max_length=50, validators=[django.core.validators.RegexValidator('^[a-zA-ZáðéíóúýþæöÁÐÉÍÓÚÝÞÆÖ ]*$', 'City must only contain alphabetic characters')]),
         ),
         migrations.AlterField(
             model_name='checkoutinfo',
@@ -29,12 +29,12 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='checkoutinfo',
             name='name',
-            field=models.CharField(max_length=50, validators=[django.core.validators.RegexValidator('^[a-zA-Záðéíóúýþæö ]*$', 'Name must only contain alphabetic characters')]),
+            field=models.CharField(max_length=50, validators=[django.core.validators.RegexValidator('^[a-zA-ZáðéíóúýþæöÁÐÉÍÓÚÝÞÆÖ ]*$', 'Name must only contain alphabetic characters')]),
         ),
         migrations.AlterField(
             model_name='checkoutinfo',
             name='street_name',
-            field=models.CharField(max_length=50, validators=[django.core.validators.RegexValidator('^[a-zA-Záðéíóúýþæö ]*$', 'Street name must only contain alphabetic characters')]),
+            field=models.CharField(max_length=50, validators=[django.core.validators.RegexValidator('^[a-zA-ZáðéíóúýþæöÁÐÉÍÓÚÝÞÆÖ ]*$', 'Street name must only contain alphabetic characters')]),
         ),
         migrations.AlterField(
             model_name='checkoutinfo',
@@ -49,12 +49,12 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='profiles',
             name='address',
-            field=models.CharField(max_length=50, validators=[django.core.validators.RegexValidator('^[0-9a-zA-Záðéíóúýþæö -]*$', 'Invalid character in address')]),
+            field=models.CharField(max_length=50, validators=[django.core.validators.RegexValidator('^[0-9a-zA-ZáðéíóúýþæöÁÐÉÍÓÚÝÞÆÖ -]*$', 'Invalid character in address')]),
         ),
         migrations.AlterField(
             model_name='profiles',
             name='name',
-            field=models.CharField(max_length=70, validators=[django.core.validators.RegexValidator('^[a-zA-Záðéíóúýþæö ]*$', 'Name must only contain alphabetic characters')]),
+            field=models.CharField(max_length=70, validators=[django.core.validators.RegexValidator('^[a-zA-ZáðéíóúýþæöÁÐÉÍÓÚÝÞÆÖ ]*$', 'Name must only contain alphabetic characters')]),
         ),
         migrations.AlterField(
             model_name='searchhistory',
