@@ -15,9 +15,9 @@
             <p class="profile-para"><b>Name:              </b> {{ Profiles.name }}</p>
 
             <p class="profile-para"><b>Address:           </b> {{ Profiles.address }}</p>
-
-            <p class="profile-para"><b>Social Security Nr:</b> {{ Profiles.social }}</p>
-
+            {% if user.is_authenticated and user.id == Profiles.user_id %}
+                <p class="profile-para"><b>Social Security Nr:</b> {{ Profiles.social }}</p>
+            {% endif %}
             <p class="profile-para"><b>Zip:               </b> {{ Profiles.zipCode }}</p>
 
             <a href="/users/profileup" class="btn btn-profile">Edit Profile</a>
