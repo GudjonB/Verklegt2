@@ -322,6 +322,119 @@ ul {
 .btn-primary {
     background-color: #7C7B79;
     border: none;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.btn-primary:hover {
+    background-color: #666666;
+}
+
+.btn-primary-cart {
+    color: white;
+    background-color: #7C7B79;
+    border: none;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+    padding-left: 3.6rem;
+    padding-right: 3.6rem;
+}
+
+.btn-primary-cart:hover {
+    color: white;
+    background-color: #666666;
+}
+
+.btn-primary-in-cart {
+    color: white;
+    background-color: #7C7B79;
+    border: none;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+    width: 11rem;
+}
+
+.btn-primary-in-cart:hover {
+    color: white;
+    background-color: #666666;
+}
+
+.btn-primary-in-details {
+    color: white;
+    background-color: #7C7B79;
+    border: none;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+    width: 13rem;
+}
+
+.btn-primary-in-details:hover {
+    color: white;
+    background-color: #666666;
+}
+
+.btn-danger-in-cart {
+    color: #fff;
+    background-color: #dc3545;
+    border-color: #dc3545;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+    width: 11rem;
+}
+
+.btn-danger-in-cart:hover {
+    color: white;
+    background-color: #C62537;
+}
+
+.btn-danger-in-details {
+    color: #fff;
+    background-color: #dc3545;
+    border-color: #dc3545;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+    width: 13rem;
+}
+
+.btn-danger-in-details:hover {
+    color: white;
+    background-color: #C62537;
+}
+
+.btn-primary-small {
+    font-size: 11px;
+    color: #fff;
+    background-color: #7C7B79;
+    border-color: #7C7B79;
+    margin-bottom: 0.4rem;
+}
+
+.btn-danger {
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.btn-danger-cart {
+    color: #fff;
+    background-color: #dc3545;
+    border-color: #dc3545;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+    padding-left: 2rem;
+    padding-right: 2rem;
+}
+
+.btn-danger-cart:hover {
+    color: white;
+    background-color: #C62537;
+}
+
+.btn-danger-small {
+    font-size: 11px;
+    color: #fff;
+    background-color: #dc3545;
+    border-color: #dc3545;
+    margin-bottom: 0.4rem;
 }
 
 .login-register {

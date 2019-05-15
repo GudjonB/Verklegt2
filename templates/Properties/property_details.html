@@ -43,9 +43,9 @@
         </a>
     </div>
     {% if propertySellerUserId != currentUserId %}
-        <a href="/users/sellerprofile/{{ propertySellerUserId }}" class="btn btn-danger">View Realtor Profile</a>
+        <a href="/users/sellerprofile/{{ propertySellerUserId }}" class="btn btn-primary">View Realtor Profile</a>
     {% else %}
-        <p><a href="/properties/imagesedit/{{ Property.id}}" class="btn btn-danger">Edit Pictures</a></p>
+        <p><a href="/properties/imagesedit/{{ Property.id}}" class="btn btn-primary">Edit Pictures</a></p>
     {% endif %}
 
     <p><b>Price:</b> {{ Property.price|intcomma }}</p>
@@ -57,16 +57,16 @@
         {% if user.is_authenticated %}
             {% if Property in Favourites %}
                 <img id="fav-img" src="/static/images/favorites_star_yellow.png"></br>
-                <a class="btn-favorites" href="/users/removeFavourite/{{ Property.id}}" >Remove from favourites</a>
+                <a class="btn btn-danger-in-details" href="/users/removeFavourite/{{ Property.id}}" >Remove from favourites</a>
             {% else %}
                 <img id="fav-img" src="/static/images/favorites_star.png"></br>
-                <a class="btn-favorites" href="/users/addFavourite/{{ Property.id}}" >Add to favourites</a>
+                <a class="btn btn-primary-in-details" href="/users/addFavourite/{{ Property.id}}" >Add to favourites</a>
             {% endif %}
-            <br><br>
+            <br>
             {% if Property in Cart %}
-                <a href="/users/removeCartItem/{{ Property.id }}" class="card-link">Remove from cart</a>
+                <a href="/users/removeCartItem/{{ Property.id }}" class="btn btn-danger-in-details">Remove from cart</a>
             {% else %}
-                <a href="/users/addCartItem/{{ Property.id }}" class="card-link">Add to cart</a>
+                <a href="/users/addCartItem/{{ Property.id }}" class="btn btn-primary-in-details">Add to cart</a>
             {% endif %}
         {% else %}
             <a href="../users/login" class="card-link">Login</a>

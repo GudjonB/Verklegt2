@@ -24,15 +24,15 @@
                     <li class="list-group-item">{{ i.property.price|intcomma }}.- kr</li>
                 </ul>
                 <div class="card-body">
-                    <a href="/users/removeCartItem/{{ i.property_id }}" class="card-link">Remove from cart</a>
+                    <a href="/users/removeCartItem/{{ i.property_id }}" class="btn btn-danger">Remove from cart</a>
                 </div>
             </div>
         {% endfor %}
-    </div><br>
+    </div>
     {% if Cart and deleted != False %}
-        <a href="/users/emptyCart" class="card-link">Empty cart</a><br><br>
-        <a href ="/properties/" class="shop-more">Continue shopping</a><br><br>
-        <a href ="/users/checkout" class="checkout">Proceed to checkout</a><br><br>
+        <a href="/users/emptyCart" class="btn btn-danger-in-cart">Empty cart</a><br>
+        <a href ="/properties/" class="btn btn-primary-in-cart">Continue shopping</a><br>
+        <a href ="/users/checkout" class="btn btn-primary-in-cart">Proceed to checkout</a><br>
     {% else %}
         <img class="card-img-empty" alt="card image" src="/static/images/users/sad-house-20.gif" >
         <br><br>
