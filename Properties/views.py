@@ -15,11 +15,8 @@ from datetime import datetime
 import logging
 import urllib
 
-
 logger = logging.getLogger(__name__)
 
-
-# logger.error(form['address'].value())
 
 def index(request):
     return render(request, 'Properties/index.html')
@@ -34,8 +31,9 @@ def create_properties(request):
             description.save()
             sellers = PropertySellers(user_id=request.user.id, property_id=properties.id)
             sellers.save()
-            images = PropertyImages(image=form.cleaned_data['image'], property_id=properties.id)
-            images.save()
+            if form['image'].value():
+                images = PropertyImages(image=form.cleaned_data['image'], property_id=properties.id)
+                images.save()
             return redirect('allProperties')
     else:
         form = PropertiesCreateForm()

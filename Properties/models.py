@@ -1,11 +1,8 @@
-# from django import forms
 from django.core.validators import RegexValidator
 from django.core.validators import MinValueValidator
 from django.db import models
 from django.contrib.auth.models import User
-# from Users.models import Users
-from datetime import datetime
-# coding=utf8
+
 
 class Categories(models.Model):
     category = models.CharField(max_length=30,
@@ -21,8 +18,9 @@ class Zip(models.Model):
                            validators=[RegexValidator(u'^[0-9]*$',
                                                       'Zip must only contain numbers')])
     city = models.CharField(max_length=50,
-                            validators=[RegexValidator(u'^[a-zA-Z -]*$',
-                                                       'City must only contain alphabetic characters')])
+                            validators=[RegexValidator(u'^[0-9a-zA-ZáðéíóúýþæöÁÐÉÍÓÚÝÞÆÖ -]*$',
+                                                       'Invalid character in address')])
+
     class Meta:
         ordering = ['zip']
 
@@ -32,16 +30,17 @@ class Zip(models.Model):
 
 class Properties(models.Model):
     address = models.CharField(max_length=50,
-                               validators=[RegexValidator(u'^[0-9a-zA-ZáðéíóúýþæöÁÐÉÍÓÚÝÞÆÖ ]*$',
+                               validators=[RegexValidator(u'^[0-9a-zA-ZáðéíóúýþæöÁÐÉÍÓÚÝÞÆÖ -]*$',
                                                           'Invalid character in address')])
     zip = models.ForeignKey(Zip, on_delete=models.CASCADE)
     category = models.ForeignKey(Categories, default=1, on_delete=models.CASCADE)
-    size = models.IntegerField()
+    size = models.FloatField(validators=[MinValueValidator(0.0)])
     rooms = models.PositiveIntegerField()
     bathrooms = models.PositiveIntegerField()
     year_built = models.CharField(max_length=4, blank=True, null=True,
-                                  validators=[RegexValidator(u'^{4}[0-9]*$',
-                                                             'Year must be 4 digits long and must only contain numbers')]
+                                  validators=[RegexValidator(u'^[0-9]{4}$',
+                                                             'Year must be 4 digits long and must only contain numbers')
+                                              ]
                                   )
     price = models.FloatField(validators=[MinValueValidator(0.0)])
     deleted = models.BooleanField(default=False)
@@ -84,4 +83,3 @@ class PropertyVisits(models.Model):
 class PropertySellers(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     property = models.ForeignKey(Properties, on_delete=models.CASCADE)
-
