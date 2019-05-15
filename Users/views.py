@@ -43,7 +43,7 @@ def index(request):
     monthStartdate = enddate - timedelta(days=30)
     weekStartdate = enddate - timedelta(days=7)
 
-    monthvisits = PropertyVisits.objects.filter(date__date__range=[monthStartdate, enddate])\
+    monthvisits = PropertyVisits.objects.filter(property__deleted=False, date__date__range=[monthStartdate, enddate])\
                                   .values('property').annotate(counterSum=Sum('counter')).order_by('-counterSum')[:3]
     for i in monthvisits :
         i['property'] = get_object_or_404(Properties, pk=i['property'])
@@ -51,7 +51,7 @@ def index(request):
     context = {'Properties': Properties.objects.filter(deleted=False).order_by('-id')[:3],
                'Cart': cart,
                'monthVisits': monthvisits,
-               'weekVisits': PropertyVisits.objects.filter(date__date__range=[weekStartdate, enddate]).order_by('-counter')[:3],
+               'weekVisits': PropertyVisits.objects.filter(property__deleted=False, date__date__range=[weekStartdate, enddate]).order_by('-counter')[:3],
                'Searches': searches,
                'User': request.user}
     return render(request, 'Users/index.html', context)
