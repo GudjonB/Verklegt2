@@ -19,12 +19,12 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='description',
             name='description',
-            field=models.CharField(blank=True, max_length=4000, validators=[django.core.validators.RegexValidator('^[0-9a-zA-Záðéíóúýþæö -]*$', 'Invalid character in description')]),
+            field=models.CharField(blank=True, max_length=4000, validators=[django.core.validators.RegexValidator('^[0-9a-zA-ZáðéíóúýþæöÁÐÉÍÓÚÝÞÆÖ -]*$', 'Invalid character in description')]),
         ),
         migrations.AlterField(
             model_name='properties',
             name='address',
-            field=models.CharField(max_length=100, validators=[django.core.validators.RegexValidator('^[0-9a-zA-Záðéíóúýþæö ]*$', 'Invalid character in address')]),
+            field=models.CharField(max_length=100, validators=[django.core.validators.RegexValidator('^[0-9a-zA-ZáðéíóúýþæöÁÐÉÍÓÚÝÞÆÖ ]*$', 'Invalid character in address')]),
         ),
         migrations.AlterField(
             model_name='properties',
