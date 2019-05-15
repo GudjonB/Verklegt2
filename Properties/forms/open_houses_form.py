@@ -1,15 +1,5 @@
-from django import forms
 from django.forms import ModelForm, widgets
 from Properties.models import OpenHouses, Properties, User
-
-
-class DateInput(forms.DateTimeInput):
-    input_type = 'datetime-local'
-    format_key = '%m/%d/%y %H:%M'
-
-    def __init__(self, attrs=None, format=None):
-        super().__init__(attrs)
-        self.format = '%m/%d/%y %H:%M'
 
 
 class OpenHousesCreateForm(ModelForm):
