@@ -3,6 +3,10 @@ from Users.models import Cards
 from creditcards.forms import CardExpiryField
 
 class CardInfoForm(ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(CardInfoForm, self).__init__(*args, **kwargs)
+        self.fields['expiration'].widget.attrs.update({'class': 'form-control'})
+
     class Meta:
         model = Cards
         exclude = ['id']
@@ -13,4 +17,3 @@ class CardInfoForm(ModelForm):
             'cvc': widgets.TextInput(attrs={'class': 'form-control'}, )
             #'expiration': widgets.TextInput(attrs={'class': 'form-control'}, ),
         }
-        expiration = CardExpiryField(label='Expiration Date')

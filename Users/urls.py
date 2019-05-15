@@ -10,10 +10,9 @@ urlpatterns = [
 
 
     path('profile', views.profile, name='profile'),
+    path('cart', views.cart, name='cart'),
     path('sellerprofile/<int:id>', views.profile_seller, name='profile_seller'),
     path('profileup', views.update_profile, name='update_profile'),
-
-
     path('favourites', views.favourites, name='favourites'),
     path('addFavourite/<int:id>', views.add_to_favourite, name='addFavourite'),
     path('removeFavourite/<int:id>', views.remove_from_favourites, name='removeFavourite'),

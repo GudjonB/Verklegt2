@@ -14,11 +14,11 @@ class Profiles(models.Model):
     address = models.CharField(max_length=50,
                                validators=[RegexValidator(u'^[0-9a-zA-Záðéíóúýþæö -]*$',
                                                           'Invalid character in address')])
-    zipCode = models.ForeignKey(Zip, on_delete=models.CASCADE, null=True, blank=True)
+    zipCode = models.ForeignKey(Zip, on_delete=models.CASCADE, null=True, blank=True, verbose_name=u"Zip:")
     social = models.CharField(max_length=10,
                               validators=[RegexValidator(u'^.{10}[0-9]*$',
                                                          'Social security number must be 10 digits long and must only contain numbers')])
-    image = models.ImageField(upload_to='static/images/users/',
+    image = models.ImageField(upload_to='static/images/users/', verbose_name=u"Profile image:",
                               default='static/images/users/little-robin-hood-boys-costume.jpg',
                               blank=True, null=True)
 
@@ -41,22 +41,16 @@ class Cards(models.Model):
                                                        'Name must only contain alphabetic characters')]
                             )
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    number = models.CharField(max_length=16,
+    number = models.CharField(max_length=16, verbose_name=u"Credit Card Number:",
                               validators=[RegexValidator(u'^.{16}[0-9]*$',
                                                          'Credit card number must be 16 characters long and must only contain numbers')])
-    cvc = models.CharField(max_length=3,
+    cvc = models.CharField(max_length=3, verbose_name=u"CVC:",
                            validators=[RegexValidator(u'^.{3}[0-9]*$',
                                                       'CVC must be 3 characters long and must only contain numbers')]
                            )
     expiration = CardExpiryField('expiration date')
 
 
-
-class Offers(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    property = models.ForeignKey(Properties, on_delete=models.CASCADE)
-    expiration = models.DateTimeField(blank=True)
-    amount = models.IntegerField()
 
 
 class Favourites(models.Model):
@@ -91,10 +85,10 @@ class CheckoutInfo(models.Model):
     city = models.CharField(max_length=50,
                             validators=[RegexValidator(u'^[a-zA-Záðéíóúýþæö ]*$',
                                                        'City must only contain alphabetic characters')])
-    zipCode = models.CharField(max_length=5,
+    zipCode = models.CharField(max_length=5, verbose_name=u"Zip:",
                                validators=[RegexValidator(u'^[0-9]*$',
                                                           'Zip must only contain numbers')])
-    social = models.CharField(max_length=10,
+    social = models.CharField(max_length=10, verbose_name=u"Social Security Number:",
                               validators=[RegexValidator(u'^.{10}[0-9]*$',
                                                          'Social security number must be 10 digits long and must only contain numbers')])
 

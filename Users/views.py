@@ -13,7 +13,6 @@ from urllib.parse import urlparse
 from Properties.models import Properties, Zip, PropertySellers, PropertyVisits
 
 from Users.models import Profiles, CartItems, Favourites, CheckoutInfo, SearchHistory, User, Cards
-from Users.forms.offers_form import OffersForm
 from Users.forms.profile_form import UpdateProfileForm
 from Users.forms.checkout_form import CheckoutInfoForm
 from Users.forms.card_info_checkout_form import CardInfoForm
@@ -115,17 +114,6 @@ def update_profile(request):
     })
 
 
-def make_offers(request):
-    if request.method == 'POST':
-        form = OffersForm(data=request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('propertyDetails')
-    else:
-        form = OffersForm()
-    return render(request, 'Users/make_offers.html', {
-        'form': form
-    })
 
 
 def cart(request):
