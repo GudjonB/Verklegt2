@@ -123,6 +123,7 @@ def update_profile(request):
 
 @login_required
 def cart(request):
+    #Þegar karfa er sótt eru allar körfur hreinsaðar af eyddum eignum
     toDelete = CartItems.objects.filter(property__deleted=True)
     for i in toDelete:
         i.delete()
@@ -132,6 +133,7 @@ def cart(request):
 
 @login_required
 def favourites(request):
+    #Þegar uppáhöld eru sótt eru öll uhháhöld hreinsuð af eyddum eignum
     toDelete = Favourites.objects.filter(property__deleted=True)
     for i in toDelete:
         i.delete()
@@ -267,6 +269,7 @@ def add_staff(request):
             for i in items :
                 i.delete()
             user.is_staff = True
+            #Nýjir starfsmenn fá netfang sem er notendanafn þeirra með réttri endingu
             user.email = user.username + '@ca.is'
             user.save()
             return redirect('add_staff')
