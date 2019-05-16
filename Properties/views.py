@@ -91,16 +91,24 @@ def update_property_images(request, id):
     })
 
 
+# function to add multiple images at once for a given property.
 @login_required
 def add_property_image(request, id):
     if request.method == 'POST':
         form = PropertiesImagesForm(data=request.POST, files=request.FILES)
         if form.is_valid():
+            # Fetch the correct property with the data from the form
             properties = Properties.objects.get(pk=form['property'].value())
+            # make a list of files being uploaded
             files = request.FILES.getlist('image')
+            # iterate through all of the files
             for f in files:
+                # each file is saved in the correct place and initialized
                 img = default_storage.save('static/images/properties/' + f.name, f.file)
+                # the newly saved image is used in a PropertyImages instance
+                # and the property is used as the property
                 image = PropertyImages(property=properties, image=img)
+                # the image is then saved to the database
                 image.save()
             return redirect(update_property_images, id)
     else:
