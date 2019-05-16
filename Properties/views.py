@@ -353,7 +353,7 @@ def delete_property(request, id):
 
 @login_required
 def delete_purchased_properties(request):
-    # þegar notandi klárar kaup þá er karfan tæmd og eignin merkt ´eytt
+    # þegar notandi klárar kaup þá er karfan tæmd og eignin merkt eytt
     for i in CartItems.objects.filter(user_id=request.user.id):
         i.property.deleted = True
         i.property.save()
