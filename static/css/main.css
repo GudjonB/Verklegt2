@@ -48,8 +48,7 @@ footer {
 
 .form-control {
     width: 35%;
-    margin: 40px auto;
-    border: none;
+    margin: 0px auto 45px;
     border-radius: 0;
     border-bottom: 1px #7f7f7f;
     box-shadow: 0 2px 1px -1px;
@@ -93,6 +92,7 @@ input#id_street_name{
 
 #id_image {
     width: 20%;
+    border: none;
 }
 
 #id_address{

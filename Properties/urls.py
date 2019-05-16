@@ -20,7 +20,6 @@ urlpatterns = [
     path('search', views.search, name="search"),
     path('filter', views.filter, name="filter"),
 
-    path('addCartItem/<int:id>', views.add_to_cart, name='addCartItem'),
-    path('removeCartItem/<int:id>', views.remove_from_cart, name='removeCartItem'),
     path('data/mbl', views.add_data_from_web, name='addDataFromWeb')
 ]
+
