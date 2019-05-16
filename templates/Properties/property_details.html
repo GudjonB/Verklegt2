@@ -58,21 +58,21 @@
         {% if user.is_authenticated %}
             {% if Property in Favourites %}
                 <img id="fav-img" src="/static/images/favorites_star_yellow.png"></br>
-                <a class="btn btn-danger-in-details" href="/users/removeFavourite/{{ Property.id}}" >Remove from favourites</a>
+                <a class="btn btn-danger-in-details" href="/{% url 'remove_favourite' Property.id %}" >Remove from favourites</a>
             {% else %}
                 <img id="fav-img" src="/static/images/favorites_star.png"></br>
-                <a class="btn btn-primary-in-details" href="/users/addFavourite/{{ Property.id}}" >Add to favourites</a>
+                <a class="btn btn-primary-in-details" href="{% url 'add_favourite' Property.id %}" >Add to favourites</a>
             {% endif %}
             <br>
             {% if not user.is_staff %}
                 {% if Property in Cart %}
-                    <a href="/users/removeCartItem/{{ Property.id }}" class="btn btn-danger-in-details">Remove from cart</a>
+                    <a href="{% url 'remove_cart_item' Property.id %}" class="btn btn-danger-in-details">Remove from cart</a>
                 {% else %}
-                    <a href="/users/addCartItem/{{ Property.id }}" class="btn btn-primary-in-details">Add to cart</a>
+                    <a href="{% url 'add_cart_item' Property.id %}" class="btn btn-primary-in-details">Add to cart</a>
                 {% endif %}
             {% endif %}
         {% else %}
-            <a href="../users/login" class="card-link">Login</a>
+            <a href="{% url 'login' %}" class="card-link">Login</a>
         {% endif %}
     {% endif %}
 
@@ -88,8 +88,8 @@
         <p><b>Year built:</b> {{ Property.year_built }}</p>
     {% endif %}
     {% if propertySellerUserId == currentUserId %}
-        <a href="/properties/delete/{{ Property.id}}" class="btn btn-danger">Delete Property</a>
-        <a href="/properties/update/{{ Property.id}}" class="btn btn-danger">Edit Property Info</a>
+        <a href="{% url 'delete_property' Property.id %}" class="btn btn-danger" onclick="return confirm('are you sure?')>Delete Property</a>
+        <a href="{% url 'update_property' Property.id %}" class="btn btn-danger">Edit Property Info</a>
     {% endif %}
     <br>
 {% endblock %}
