@@ -19,7 +19,6 @@ urlpatterns = [
     path('search', views.search, name="search"),
     path('filter', views.property_filter, name="filter"),
 
-    path('add_cart_item/<int:id>', views.add_to_cart, name='addCartItem'),
-    path('remove_cart_item/<int:id>', views.remove_from_cart, name='removeCartItem'),
     path('data/mbl', views.add_data_from_web, name='addDataFromWeb')
 ]
+
