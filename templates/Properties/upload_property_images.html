@@ -6,6 +6,8 @@
           method="post">
         {% csrf_token %}
         {{ form.as_p }}
+        <input class="btn btn-primary pull-right" onclick="location.href='javascript:history.back()'" type="button"
+               value="Back">
         <input class="btn btn-primary pull-right" type="submit" value="Upload"/>
     </form>
 {% endblock %}
