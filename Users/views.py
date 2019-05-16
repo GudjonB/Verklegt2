@@ -200,7 +200,15 @@ def card_info_checkout(request):
     if request.method == 'POST':
         form = CardInfoForm(data=request.POST)
         if form.is_valid():
-            form.save()
+            number = form['number'].value()
+            number = '************' + number[:-12]
+            user = request.user
+            card = Cards(user=user,
+                         name=form['name'].value(),
+                         number=number,
+                         cvc='***',
+                         expiration=form['expiration'].value())
+            card.save()
             return redirect('checkout_read_only')
     else:
         form = CardInfoForm(initial={'user': request.user})

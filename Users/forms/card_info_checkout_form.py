@@ -1,6 +1,6 @@
 from django.forms import ModelForm, widgets
 from Users.models import Cards
-from creditcards.forms import CardExpiryField
+
 
 class CardInfoForm(ModelForm):
     def __init__(self, *args, **kwargs):
