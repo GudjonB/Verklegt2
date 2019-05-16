@@ -19,8 +19,7 @@
     <p><b>expiration:</b> {{ cardInfo.expiration }}</p>
     <br>
 
-    <input type="button" onclick="location.href='javascript:history.back()'" value="Prev" class="btn btn-primary pull-right"
-           style="clear:both; margin-bottom: 20px; margin-right: 50%"/>
+    <input id="backButton" type="button" onclick="location.href='javascript:history.back()'" value="Prev" class="btn btn-primary pull-right"/>
 
     {% if feeling_lucky %}
         <input id="confirmButton" type="button" onclick="location.href='{% url 'receipt' %}'"

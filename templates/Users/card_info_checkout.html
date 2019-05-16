@@ -6,6 +6,6 @@
         {% csrf_token %}
         {{ form }}
         <input type="button" onclick="location.href='javascript:history.back()'" value="Prev" class="btn btn-primary pull-right"/>
-        <input type="submit" value="Next" class="btn btn-primary pull-right" style="clear:both; margin: 10px 0"/>
+        <input id="confirmButton" type="submit" value="Next" class="btn btn-primary pull-right"/>
     </form>
 {% endblock %}

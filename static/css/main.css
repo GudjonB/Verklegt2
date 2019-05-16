@@ -124,6 +124,16 @@ button:focus {
     margin: 10px 0;
 }
 
+#submitButton{
+    clear:both;
+    margin-bottom: 20px;
+}
+
+#backButton {
+    clear:both;
+    margin-bottom: 20px;
+    margin-right: 50%;
+}
 
 input:focus {
     outline: none;
