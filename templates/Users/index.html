@@ -131,9 +131,9 @@
                         <div class="card-body">
                             {% if user.is_authenticated %}
                                 {% if i.property in Cart %}
-                                    <a href="{% url 'remove_cart_item' i.property_id %}" class="btn btn-danger-cart">Remove from cart</a>
+                                    <a href="{% url 'remove_cart_item' i.property.id %}" class="btn btn-danger-cart">Remove from cart</a>
                                 {% else %}
-                                    <a href="{% url 'add_cart_item' i.property_id %}" class="btn btn-primary-cart">Add to cart</a>
+                                    <a href="{% url 'add_cart_item' i.property.id %}" class="btn btn-primary-cart">Add to cart</a>
                                 {% endif %}
                             {% else %}
                                 <a href="{% url 'login' %}" class="card-link">Add to cart</a>
