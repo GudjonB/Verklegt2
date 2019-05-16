@@ -217,44 +217,84 @@ def search(request):
 
 def property_filter(request):
     query = request.GET
-    props = Properties.objects.filter(deleted=False).order_by('-id')
-    if query.getlist('category'):  # check categories
-        props = Properties.objects.filter(Q(deleted=False), Q(category__in=query.getlist('category')))\
-            .order_by('category').order_by('address')
-    if query.get('Zip'):  # check zipcodes
-        tmp = Properties.objects.filter(Q(deleted=False), Q(zip=query.get('Zip')))
+    props = Properties.objects.filter(deleted=False)
+    if query.get('category'):  # check categories
+        props = Properties.objects.filter(Q(deleted=False), Q(category=query.get('category')))
+        logger.error(query.get('category'))
+        category_query = query.get('category')
+    else:
+        category_query = ""
+
+    if query.get('zipcodes'):  # check zipcodes
+        tmp = Properties.objects.filter(Q(deleted=False), Q(zip=query.get('zipcodes')))
         props = tmp.intersection(props)
+        zip_query = query.get('zipcodes')
+    else:
+        zip_query = ""
+
     if query.get('roomsfrom'):  # check min rooms
         tmp = Properties.objects.filter(Q(deleted=False), Q(rooms__gte=query.get('roomsfrom')))
         props = tmp.intersection(props)
+        roomsfrom_query = query.get('roomsfrom')
+    else:
+        roomsfrom_query = ""
+
     if query.get('roomsto') and '+' not in query.get('roomsto'):
         tmp = Properties.objects.filter(Q(deleted=False), Q(rooms__lte=query.get('roomsto')))
         props = tmp.intersection(props)
+        roomsto_query = query.get('roomsto')
+    else:
+        roomsto_query = ""
+
     if query.get('sizefrom'):
         tmp = Properties.objects.filter(Q(deleted=False), Q(size__gte=query.get('sizefrom')))
         props = tmp.intersection(props)
+        sizefrom_query = query.get('sizefrom')
+    else:
+        sizefrom_query = ""
+
     if query.get('sizeto') and '+' not in query.get('sizeto'):
         tmp = Properties.objects.filter(Q(deleted=False), Q(size__lte=query.get('sizeto')))
         props = tmp.intersection(props)
+        sizeto_query = query.get('sizeto')
+    else:
+        sizeto_query = ""
+
     if query.get('pricefrom'):
-        tmp = Properties.objects.filter(Q(deleted=False), Q(price__gte=query.get('pricefrom')))
+        tmp = Properties.objects.filter(Q(deleted=False), Q(price__gte=int(query.get('pricefrom')) * 1000000))
         props = tmp.intersection(props)
+        pricefrom_query = query.get('pricefrom')
+    else:
+        pricefrom_query = ""
+
     if query.get('priceto') and '+' not in query.get('priceto'):
-        tmp = Properties.objects.filter(Q(deleted=False), Q(price__lte=query.get('priceto')))
+        tmp = Properties.objects.filter(Q(deleted=False), Q(price__lte=int(query.get('priceto')) * 1000000))
         props = tmp.intersection(props)
-    if query.get('orderinfo'):
-        if query.get('orderinfo') == 'newestfirst':
-            props = props.order_by('-id')
-        elif query.get('orderinfo') == 'oldestfirst':
-            props = props.order_by('id')
-        elif query.get('orderinfo') == 'priceascending':
-            props = props.order_by('price')
-        elif query.get('orderinfo') == 'pricedescending':
-            props = props.order_by('-price')
-        elif query.get('orderinfo') == 'nameascending':
-            props = props.order_by('-address')
-        else:
-            props = props.order_by('address')
+        priceto_query = query.get('priceto')
+    else:
+        priceto_query = ""
+
+    if query.get('orderinfo') == 'newestfirst':
+        order_query = 'newestfirst'
+        props = props.order_by('-id')
+    elif query.get('orderinfo') == 'oldestfirst':
+        order_query = 'oldestfirst'
+        props = props.order_by('id')
+    elif query.get('orderinfo') == 'priceascending':
+        order_query = 'priceascending'
+        props = props.order_by('price')
+    elif query.get('orderinfo') == 'pricedescending':
+        order_query = 'pricedescending'
+        props = props.order_by('-price')
+    elif query.get('orderinfo') == 'nameascending':
+        order_query = 'nameascending'
+        props = props.order_by('address')
+    elif query.get('orderinfo') == 'namedescending':
+        order_query = 'namedescending'
+        props = props.order_by('-address')
+    else:
+        order_query = 'newestfirst'
+        props = props.order_by('-id')
 
     paginator = Paginator(props, 9)
     page = request.GET.get('page')
@@ -276,7 +316,16 @@ def property_filter(request):
                                                      'Zip': Zip.objects.all(),
                                                      'Cart': [c.property for c in
                                                               CartItems.objects.filter(user=request.user.id)],
-                                                     'Searches': searches
+                                                     'Searches': searches,
+                                                     'OrderInfo': order_query,
+                                                     'CategoryInfo': category_query,
+                                                     'ZipInfo': zip_query,
+                                                     'RoomsfromInfo': roomsfrom_query,
+                                                     'RoomstoInfo': roomsto_query,
+                                                     'SizefromInfo': sizefrom_query,
+                                                     'SizetoInfo': sizeto_query,
+                                                     'PricefromInfo': pricefrom_query,
+                                                     'PricetoInfo': priceto_query,
                                                      })
 
 

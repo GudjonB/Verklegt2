@@ -25,10 +25,10 @@
     <div class="container">
         <div class="[ col-xs-12 ] search-params">
             <form id="filterform" action="{% url 'filter' %}" method="get" >
-                <div class="multiselect">
+                <div class="radiolist">
                     {% for i in Categories %}
                         <label class="checkbox-inline">
-                            <input type="checkbox" name="category" value="{{ i.id }}"> {{ i.category }}<br>
+                            <input type="radio" name="category" value="{{ i.id }}"> {{ i.category }}<br>
                         </label>
                     {% endfor %}
 
@@ -278,13 +278,13 @@
     <div class="pagination">
         <span class="step-links">
             {% if DisplayProps.has_previous %}
-                <a href="?page={{ DisplayProps.previous_page_number }}">previous</a>
+                <a href="?page={{ DisplayProps.previous_page_number }}&orderinfo={{ OrderInfo }}">previous</a>
             {% endif %}
             <span class="current">
                 Page {{ DisplayProps.number }} of {{ DisplayProps.paginator.num_pages }}
             </span>
             {% if DisplayProps.has_next %}
-                <a href="?page={{ DisplayProps.next_page_number }}">next</a>
+                <a href="?page={{ DisplayProps.next_page_number }}&orderinfo={{ OrderInfo }}&category={{ CategoryInfo }}&Zip={{ ZipInfo }}&roomsfrom={{ RoomsfromInfo }}&roomsto={{ RoomstoInfo }}&sizefrom={{ SizefromInfo }}&sizeto={{ SizetoInfo }}&pricefrom={{ PricefromInfo }}&priceto={{ PricetoInfo }}">next</a>
             {% endif %}
         </span>
     </div><br><br>
