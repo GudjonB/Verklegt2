@@ -21,11 +21,15 @@
 
     <input type="button" onclick="location.href='javascript:history.back()'" value="Prev" class="btn btn-primary pull-right"
            style="clear:both; margin-bottom: 20px; margin-right: 50%"/>
-    <input id="confirmButton" type="button" onclick="location.href='/users/checkoutConfirmation'"
-           value="Next" class="btn btn-primary pull-right" style="clear:both; margin: 10px 0"/>
-<!-- ;
-    location.href='/users/emptyCartPurchase'
-    location.href='/properties/delete_purchased_properties'
-    -->
+
+    {% if feeling_lucky %}
+        <input id="confirmButton" type="button" onclick="location.href='/properties/receipt'"
+               value="Confirm Purchase" class="btn btn-primary pull-right" style="clear:both; margin: 10px 0"/>
+    {% else %}
+        <input id="confirmButton" type="button" onclick="location.href='/users/checkoutConfirmation'"
+               value="Next" class="btn btn-primary pull-right" style="clear:both; margin: 10px 0"/>
+    {% endif %}
+
+
 
 {% endblock %}
