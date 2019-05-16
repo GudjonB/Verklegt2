@@ -46,7 +46,7 @@
                         <div class="card-body">
                             {% if user.is_authenticated %}
                                 {% if i in Cart %}
-                                    <a href="/properties/removeCartItem/{{ i.id }}" class="btn btn-danger-cart">Remove from cart</a>
+                                    <a href="/users/removeCartItem/{{ i.id }}" class="btn btn-danger-cart">Remove from cart</a>
                                 {% else %}
                                     <a href="/users/addCartItem/{{ i.id }}" class="btn btn-primary-cart">Add to cart</a>
                                 {% endif %}
@@ -89,7 +89,7 @@
                         <div class="card-body">
                             {% if user.is_authenticated %}
                                 {% if i.property in Cart %}
-                                    <a href="/properties/removeCartItem/{{ i.property_id }}" class="btn btn-danger-cart">Remove from cart</a>
+                                    <a href="/users/removeCartItem/{{ i.property_id }}" class="btn btn-danger-cart">Remove from cart</a>
                                 {% else %}
                                     <a href="/users/addCartItem/{{ i.property_id }}" class="btn btn-primary-cart">Add to cart</a>
                                 {% endif %}
@@ -131,7 +131,7 @@
                         <div class="card-body">
                             {% if user.is_authenticated %}
                                 {% if i.property in Cart %}
-                                    <a href="/properties/removeCartItem/{{ i.property.id }}" class="btn btn-danger-cart">Remove from cart</a>
+                                    <a href="/users/removeCartItem/{{ i.property.id }}" class="btn btn-danger-cart">Remove from cart</a>
                                 {% else %}
                                     <a href="/users/addCartItem/{{ i.property.id }}" class="btn btn-primary-cart">Add to cart</a>
                                 {% endif %}

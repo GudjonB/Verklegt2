@@ -157,18 +157,6 @@ def get_all_properties(request):
                }
     return render(request, 'Properties/index.html', context)
 
-'''
-def add_to_cart(request, id):
-    item = CartItems(property=get_object_or_404(Properties, pk=id), user=request.user)
-    item.save()
-    return redirect(request.META.get('HTTP_REFERER'))
-
-
-def remove_from_cart(request, id):
-    item = CartItems.objects.filter(property_id=id, user=request.user)
-    item.delete()
-    return redirect(request.META.get('HTTP_REFERER'))
-'''
 
 def get_open_houses(request):
     context = {'OpenHouses': OpenHouses.objects.all()}
@@ -219,8 +207,8 @@ def property_filter(request):
     if query.getlist('category'):  # check categories
         props = Properties.objects.filter(Q(deleted=False), Q(category__in=query.getlist('category')))\
             .order_by('category').order_by('address')
-    if query.get('zipcodes'):  # check zipcodes
-        tmp = Properties.objects.filter(Q(deleted=False), Q(zip__in=query.get('zipcodes')))
+    if query.get('Zip'):  # check zipcodes
+        tmp = Properties.objects.filter(Q(deleted=False), Q(zip=query.get('Zip')))
         props = tmp.intersection(props)
     if query.get('roomsfrom'):  # check min rooms
         tmp = Properties.objects.filter(Q(deleted=False), Q(rooms__gte=query.get('roomsfrom')))
