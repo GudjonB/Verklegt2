@@ -4,7 +4,7 @@ from . import views
 urlpatterns = [
     path('', views.get_all_properties, name="allProperties"),
     path('<int:id>', views.get_property_by_id, name="propertyDetails"),
-    path('open_houses', views.get_open_houses, name="openHouses"),
+    path('open_houses', views.get_open_houses, name="open_houses"),
 
     path('create', views.create_properties, name="createProperties"),
     path('add_open_houses', views.add_open_houses, name="add_open_house"),
