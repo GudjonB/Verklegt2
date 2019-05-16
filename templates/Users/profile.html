@@ -87,7 +87,7 @@
                             </div>
                             <div class="card-body">
 
-                                <a href="{% url 'property_details' i.property_id %}" class="card-link">View</a>
+                                <a href="{% url 'property_details' i.property_id %}" class="btn btn-primary">View</a>
                                 <a href="{% url 'delete_property' i.property_id %}" onclick="return confirm('are you sure?')" class="btn btn-danger">Delete Property</a>
 
                             </div>
