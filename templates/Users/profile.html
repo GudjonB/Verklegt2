@@ -52,14 +52,14 @@
                             <!--<p class="card-text">{{ i.description_set.first }}</p>-->
                         </div>
                         {% if not Profiles.user.is_staff %}
-                        <div class="card-body">
-                            {% if i.property in Cart %}
-                                <a href="/properties/removeCartItem/{{ i.property.id }}" class="btn btn-danger-small">Remove from cart</a>
-                            {% else %}
-                                <a href="/users/addCartItem/{{ i.property.id }}" class="btn btn-primary-small">Add to cart</a>
-                            {% endif %}
-                        </div>
-                    {% endif %}
+                            <div class="card-body">
+                                {% if i.property in Cart %}
+                                    <a href="/properties/removeCartItem/{{ i.property.id }}" class="btn btn-danger-small">Remove from cart</a>
+                                {% else %}
+                                    <a href="/users/addCartItem/{{ i.property.id }}" class="btn btn-primary-small">Add to cart</a>
+                                {% endif %}
+                            </div>
+                        {% endif %}
                     </div>
                 {% endfor %}
             </div>
@@ -86,8 +86,6 @@
                                 <!--<p class="card-text">{{ i.description_set.first }}</p>-->
                             </div>
                             <div class="card-body">
-
-                                <a href="{% url 'property_details' i.property_id %}" class="btn btn-primary">View</a>
                                 <a href="{% url 'delete_property' i.property_id %}" onclick="return confirm('are you sure?')" class="btn btn-danger">Delete Property</a>
 
                             </div>

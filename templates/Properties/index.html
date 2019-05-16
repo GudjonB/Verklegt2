@@ -216,17 +216,19 @@
             </form>
         </div>
     </div>
-    <div class="surprise">
-        <a>Not sure what you're looking for?</a><br>
-        {% if user.is_authenticated %}
-            <form action="../users/checkout">
-                <input type="submit" value="I'm feeling lucky!" />
-            </form>
-        {% else %}
-            <form action="../users/login">
-                <input type="submit" value="I'm feeling lucky!" />
-            </form>
-        {% endif %}
+    {% if not user.is_staff %}
+        <div class="surprise">
+            <a>Not sure what you're looking for?</a><br>
+            {% if user.is_authenticated %}
+                <form action="../users/checkout">
+                    <input type="submit" value="I'm feeling lucky!" />
+                </form>
+            {% else %}
+                <form action="../users/login">
+                    <input type="submit" value="I'm feeling lucky!" />
+                </form>
+            {% endif %}
+    {% endif %}
 
 
     </div>
