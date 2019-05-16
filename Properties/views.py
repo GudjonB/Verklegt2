@@ -382,14 +382,14 @@ def receipt(request):
 @login_required
 def add_data_from_web(request):
     clearFiles()
-    writeToCsv()
+    writeToCsv() #Call the helper function to populate csv files
+    #get the data and store as list
     zips = readFromCsv('properties/csv/zip.csv')
     descriptions = readFromCsv('properties/csv/description.csv')
     props = readFromCsv('properties/csv/properties.csv')
     categories = readFromCsv('properties/csv/categories.csv')
     imgs = readFromCsv('properties/csv/propertyImgs.csv')
-    print(imgs)
-    for i in range(len(props)):
+    for i in range(len(props)): #Create objects from the data collected
         _zip, created = Zip.objects.get_or_create(zip=str(zips[i][0]),
                                                   city=str(zips[i][1]))
         category, created = Categories.objects.get_or_create(category=str(categories[i][0]))
