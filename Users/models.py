@@ -7,12 +7,6 @@ import hashlib
 import time
 
 
-def _createHash():
-    hash = hashlib.sha1()
-    hash.update(str(time.time()))
-    return hash.hexdigest()[:-10]
-
-
 class Profiles(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=70,
@@ -93,11 +87,12 @@ class Cards(models.Model):
                                                        'Name must only contain alphabetic characters')]
                             )
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    number = models.CharField(max_length=16, verbose_name=u"Credit Card Number:", default=_createHash,
+
+    number = models.CharField(max_length=16, verbose_name=u"Credit Card Number:",
                               validators=[RegexValidator(u'^\d{16}$',
                                                          'Credit card number must be 16 characters long and '
                                                          'must only contain numbers')])
-    cvc = models.CharField(max_length=3, verbose_name=u"CVC:", default=_createHash,
+    cvc = models.CharField(max_length=3, verbose_name=u"CVC:",
                            validators=[RegexValidator(u'^\d{3}$',
                                                       'CVC must be 3 characters long and must only contain numbers')]
                            )

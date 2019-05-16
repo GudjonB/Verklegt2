@@ -122,13 +122,19 @@ def update_profile(request):
 
 @login_required
 def cart(request):
+    toDelete = CartItems.objects.filter(property__deleted=True)
+    for i in toDelete:
+        i.delete()
     Cart = {'Cart': CartItems.objects.filter(user_id=request.user.id)}
     return render(request, 'Users/cart.html', Cart)
 
 
 @login_required
 def favourites(request):
-    fav = Favourites.objects.filter(user_id=request.user.id, property__in=Properties.objects.filter(deleted=False))
+    toDelete = Favourites.objects.filter(property__deleted=True)
+    for i in toDelete:
+        i.delete()
+    fav = Favourites.objects.filter(user_id=request.user.id)
     context = {'fav': fav,
                'Cart': [c.property for c in CartItems.objects.filter(user=request.user.id)]}
     return render(request, 'Users/Favourites.html', context)
