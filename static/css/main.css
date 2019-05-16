@@ -4,7 +4,7 @@
 #navbar {
     margin-bottom: 50px;
     border-radius: 0;
-    background-color: #7f7f7f;
+    background-color: #808080;
 }
 
 .sticky {
@@ -34,7 +34,7 @@
 footer {
     background-color: #f2f2f2;
     width: 100%;
-    bottom: 0px;
+    bottom: 0;
 }
 
 .img-responsive {
@@ -221,7 +221,7 @@ ul {
     width: 30px;
     height: 20px;
     position: relative;
-    margin: 0px;
+    margin: 0;
     -webkit-transform: rotate(0deg);
     -moz-transform: rotate(0deg);
     -o-transform: rotate(0deg);
@@ -267,7 +267,7 @@ ul {
 
 
 .animated-icon2 span:nth-child(1) {
-    top: 0px;
+    top: 0;
 }
 
 .btn-openH {
@@ -298,7 +298,7 @@ ul {
 
 .animated-icon2.open span:nth-child(1) {
     top: 11px;
-    width: 0%;
+    width: 0;
     left: 50%;
 }
 
@@ -318,7 +318,7 @@ ul {
 
 .animated-icon2.open span:nth-child(4) {
     top: 11px;
-    width: 0%;
+    width: 0;
     left: 50%;
 }
 .card-img-top{
@@ -478,10 +478,7 @@ ul {
 
     border: none;
     border-radius: 5px;
-    padding-bottom: 0.5rem;
-    padding-top: 0.5rem;
-    padding-left: 0.3rem;
-    padding-right: 0.3rem;
+    padding: 0.5rem 0.3rem;
     margin-bottom: 0.8rem;
     text-decoration: none;
 }
@@ -519,7 +516,6 @@ ul {
 hr {
     size: 6px;
     width: 90%;
-    align: center;
     color: #F2F2F2;
     margin-bottom: 2rem;
 }
@@ -580,7 +576,7 @@ hr {
 
 #profile-fav .card-body {
     padding-top: 10px;
-    padding-bottom: 0px;
+    padding-bottom: 0;
 }
 
 #profile-fav .card-link {
@@ -617,7 +613,7 @@ hr {
 
 .profile-selling .card-body {
     padding-top: 10px;
-    padding-bottom: 0px;
+    padding-bottom: 0;
 }
 
 .profile-selling .card-link {
