@@ -128,7 +128,11 @@ def get_property_by_id(request, id):
     users_prop_list = []
     for i in PropertySellers.objects.filter(user_id=request.user.id):
         users_prop_list.append(i.property_id)
+
+    # ef það er búið að heimsækja síðuna þá er nýjasta vikan sótt
     property_visit = PropertyVisits.objects.filter(property_id=id).order_by('-id').first()
+    # ef hún var heimsótt í þessari viku þá er counterinn uppfærður annars er þetta önnur vika og
+    # hún er búin til með counter = 1
     if property_visit and property_visit.date.strftime('%W') == datetime.now().strftime('%W') and \
             property_visit.date.strftime('%Y') == datetime.now().strftime('%Y'):
         property_visit.counter = property_visit.counter + 1
@@ -139,8 +143,11 @@ def get_property_by_id(request, id):
     return render(request, 'Properties/property_details.html',
                   {'Property': prop,
                    'UsersProperties': users_prop_list,
+                   # listi yfir eignir í körfu notanda búinn til
                    'Cart': [c.property for c in CartItems.objects.filter(user=request.user.id)],
+                   # listi yfir eiginir í uppáhaldi hjá notanda búinn til
                    'Favourites': [f.property for f in Favourites.objects.filter(user=request.user.id)],
+                   # heildar fjöldi yfir heimsóknir eignar búinn til
                    'PropertyVisits': PropertyVisits.objects.filter(property_id=id).aggregate(count=Sum('counter')),
                    'propertySellerUserId': prop_seller_user_id,
                    'currentUserId': request.user.id
@@ -150,6 +157,7 @@ def get_property_by_id(request, id):
 def get_all_properties(request):
     searches = []
     cart = []
+    # ef notandi er skráður inn þá er leitar saga hanns send með
     if request.user.is_authenticated:
         searches = [s.search for s in SearchHistory.objects.filter(user=request.user).order_by('-id')]
         cart = [c.property for c in CartItems.objects.filter(user=request.user.id)]
@@ -345,19 +353,22 @@ def delete_property(request, id):
 
 @login_required
 def delete_purchased_properties(request):
+    # þegar notandi klárar kaup þá er karfan tæmd og eignin merkt eytt
     for i in CartItems.objects.filter(user_id=request.user.id):
         i.property.deleted = True
         i.property.save()
     items = CartItems.objects.filter(user=request.user)
     for item in items:
         item.delete()
+    # korta upplýsingar ekki geymdar lengur en þarf
     for i in Cards.objects.filter(user_id=request.user.id):
         i.delete()
-    return redirect('/')
+    return redirect('home')
 
 
 @login_required
 def receipt(request):
+# slembi takkinn finnur eign af handahófi
     random_id = random.choice([p.id for p in Properties.objects.filter(deleted=False)])
     item = Properties.objects.filter(id=random_id).first()
     img = PropertyImages.objects.filter(property_id=random_id).first()
