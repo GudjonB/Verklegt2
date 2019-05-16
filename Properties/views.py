@@ -135,7 +135,6 @@ def get_property_by_id(request, id):
                    })
 
 
-
 def get_all_properties(request):
     searches = []
     cart = []
@@ -311,7 +310,6 @@ def receipt(request):
     info = {'property': item,
             'img': img}
     return render(request, 'Properties/receipt.html', info)
-
 
 
 def add_data_from_web(request):
