@@ -10,7 +10,7 @@
         {% if fav %}
             {% for i in fav %}
                 <div class="card" >
-                    <a href="/properties/{{ i.id }}">
+                    <a href="{% url 'property_details' i.id %}">
                         {% if i.property.propertyimages_set.count == 0 %}
                             <img class="card-img-top" alt="card image" src="/static/images/properties/default_castle.jpg" >
                         {% else %}
@@ -18,8 +18,7 @@
                         {% endif %}
                     </a>
                     <div class="card-body">
-                        <h5 class="card-title"><a href="/properties/{{ i.property_id }}">{{ i.property.address }}</a></h5>
-                        <!--<p class="card-text">{{ i.description_set.first }}</p>-->
+                        <h5 class="card-title"><a href="{% url 'property_details' i.property_id %}">{{ i.property.address }}</a></h5>
                     </div>
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item">{{ i.property.category }}</li>
@@ -29,12 +28,12 @@
                     </ul>
                     <div class="card-body">
                         {% if i.property in Cart %}
-                            <a href="/properties/removeCartItem/{{ i.property.id }}" class="btn btn-danger-cart">Remove from cart</a>
+                            <a href="{% url 'remove_cart_item' i.property.id %}" class="btn btn-danger-cart">Remove from cart</a>
                         {% else %}
-                            <a href="/users/addCartItem/{{ i.property.id }}" class="btn btn-primary-cart">Add to cart</a>
+                            <a href="{% url 'add_cart_item' i.property.id %}" class="btn btn-primary-cart">Add to cart</a>
                         {% endif %}
 
-                        <a href="/users/removeFavourite/{{ i.property_id}}" class="btn btn-danger">Remove from favourites</a>
+                        <a href="{% url 'remove_favourite' i.property_id%}" class="btn btn-danger">Remove from favourites</a>
                     </div>
                 </div>
             {% endfor %}

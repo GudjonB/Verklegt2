@@ -141,12 +141,12 @@ def remove_from_favourites(request, id):
     favourite.delete()
     return redirect(request.META.get('HTTP_REFERER'))
 
-
+'''
 def remove_from_favorites_profile(request, id):
     favourite = Favourites.objects.filter(property_id=id, user=request.user)
     favourite.delete()
     return redirect('profile')
-
+'''
 
 def add_to_cart(request, id):
     item = CartItems(property=get_object_or_404(Properties, pk=id), user=request.user)

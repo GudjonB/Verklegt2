@@ -27,7 +27,7 @@
             <!-- Property-->
             {% for i in Properties %}
                 <div class="card">
-                    <a href="/properties/{{ i.id }}">
+                    <a href="{% url 'property_details' i.id %}">
                         {% if i.propertyimages_set.count == 0 %}
                             <img class="card-img-top" alt="card image" src="/static/images/properties/default_castle.jpg" >
                         {% else %}
@@ -36,7 +36,7 @@
                     </a>
                     <div class="card-body">
                         <div class="card-body">
-                            <h5 class="card-title"><a href="/properties/{{ i.id }}">{{ i.address }}</a></h5>
+                            <h5 class="card-title"><a href="{% url 'property_details' i.id %}">{{ i.address }}</a></h5>
                         </div>
                         <ul class="list-group list-group-flush">
                             <li class="list-group-item">{{ i.price|intcomma }} .- Kr</li>
@@ -46,12 +46,12 @@
                         <div class="card-body">
                             {% if user.is_authenticated %}
                                 {% if i in Cart %}
-                                    <a href="/users/removeCartItem/{{ i.id }}" class="btn btn-danger-cart">Remove from cart</a>
+                                    <a href="{% url 'remove_cart_item' i.id %}" class="btn btn-danger-cart">Remove from cart</a>
                                 {% else %}
-                                    <a href="/users/addCartItem/{{ i.id }}" class="btn btn-primary-cart">Add to cart</a>
+                                    <a href="{% url 'add_cart_item' i.id %}" class="btn btn-primary-cart">Add to cart</a>
                                 {% endif %}
                             {% else %}
-                                <a href="../users/login" class="card-link">Add to cart</a>
+                                <a href="{% url 'login' %}" class="card-link">Add to cart</a>
                             {% endif %}
                         </div>
                         {% endif %}
@@ -60,7 +60,7 @@
             {% endfor %}
         </div>
     </div>
-    <a href ="/properties/" class="see-all-props">See all properties</a>
+    <a href ="{% url 'all_properties' %}" class="see-all-props">See all properties</a>
 
     <br>
     <br>
@@ -69,7 +69,7 @@
         <div class="newRow">
             {% for i in weekVisits %}
                 <div class="card">
-                    <a href="/properties/{{ i.property.id }}">
+                    <a href="{% url 'property_details' i.property.id %}">
                         {% if i.property.propertyimages_set.count == 0 %}
                             <img class="card-img-top" alt="card image" src="/static/images/properties/default_castle.jpg" >
                         {% else %}
@@ -89,12 +89,12 @@
                         <div class="card-body">
                             {% if user.is_authenticated %}
                                 {% if i.property in Cart %}
-                                    <a href="/users/removeCartItem/{{ i.property_id }}" class="btn btn-danger-cart">Remove from cart</a>
+                                    <a href="{% url 'remove_cart_item' i.property_id %}" class="btn btn-danger-cart">Remove from cart</a>
                                 {% else %}
-                                    <a href="/users/addCartItem/{{ i.property_id }}" class="btn btn-primary-cart">Add to cart</a>
+                                    <a href="{% url 'add_cart_item' i.property_id %}" class="btn btn-primary-cart">Add to cart</a>
                                 {% endif %}
                             {% else %}
-                                <a href="../users/login" class="card-link">Add to cart</a>
+                                <a href="{% url 'login' %}" class="card-link">Add to cart</a>
                             {% endif %}
                         </div>
                         {% endif %}
@@ -111,7 +111,7 @@
             {% for i in monthVisits %}
 
                 <div class="card">
-                    <a href="/properties/{{ i.property.id }}">
+                    <a href="{% url 'property_details' i.property.id %}">
                         {% if i.property.propertyimages_set.count == 0 %}
                             <img class="card-img-top" alt="card image" src="/static/images/properties/default_castle.jpg" >
                         {% else %}
@@ -120,7 +120,7 @@
                     </a>
                     <div class="card-body">
                         <div class="card-body">
-                            <h5 class="card-title"><a href="/properties/{{ i.property.id }}">{{ i.property.address }}</a></h5>
+                            <h5 class="card-title"><a href="{% url 'property_details' i.property.id %}">{{ i.property.address }}</a></h5>
                         </div>
                         <ul class="list-group list-group-flush">
                             <li class="list-group-item">{{ i.property.price|intcomma }} .- Kr</li>
@@ -131,12 +131,12 @@
                         <div class="card-body">
                             {% if user.is_authenticated %}
                                 {% if i.property in Cart %}
-                                    <a href="/users/removeCartItem/{{ i.property.id }}" class="btn btn-danger-cart">Remove from cart</a>
+                                    <a href="{% url 'remove_cart_item' i.property_id %}" class="btn btn-danger-cart">Remove from cart</a>
                                 {% else %}
-                                    <a href="/users/addCartItem/{{ i.property.id }}" class="btn btn-primary-cart">Add to cart</a>
+                                    <a href="{% url 'add_cart_item' i.property_id %}" class="btn btn-primary-cart">Add to cart</a>
                                 {% endif %}
                             {% else %}
-                                <a href="../users/login" class="card-link">Add to cart</a>
+                                <a href="{% url 'login' %}" class="card-link">Add to cart</a>
                             {% endif %}
                         </div>
                         {% endif %}

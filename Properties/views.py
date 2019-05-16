@@ -252,13 +252,18 @@ def property_filter(request):
     except EmptyPage:
         display_props = paginator.page(paginator.num_pages)
 
+    if request.user in User.objects.all():
+        searches = [s.search for s in SearchHistory.objects.filter(
+            user=request.user).order_by('-id')]
+    else:
+        searches = None
+
     return render(request, 'Properties/index.html', {'DisplayProps': display_props,
                                                      'Categories': Categories.objects.all(),
                                                      'Zip': Zip.objects.all(),
                                                      'Cart': [c.property for c in
                                                               CartItems.objects.filter(user=request.user.id)],
-                                                     'Searches': [s.search for s in SearchHistory.objects.filter(
-                                                                  user=request.user).order_by('-id')]
+                                                     'Searches': searches
                                                      })
 
 
