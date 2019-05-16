@@ -4,7 +4,7 @@
 #navbar {
     margin-bottom: 50px;
     border-radius: 0;
-    background-color: #808080;
+    background-color: #7f7f7f;
 }
 
 .sticky {
@@ -688,5 +688,15 @@ hr {
     height: 45%;
 }
 
+#head-about-us {
+    display: block;
+    margin-bottom: 1rem;
+}
 
+#about-us-text {
+    width: 35%;
+    margin: auto;
+    text-align: left;
+    margin-bottom: 5rem;
 
+}

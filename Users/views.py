@@ -251,3 +251,6 @@ def add_staff(request):
         'form': form
     })
 
+
+def about_us(request):
+    return render(request, 'Users/about_us.html')
