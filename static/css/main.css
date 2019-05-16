@@ -671,8 +671,9 @@ hr {
     text-align: justify;
 }
 
-.pagination {
-    display: inline-block;
+.pagination_2 {
+    display: block;
+    text-align: center;
 }
 
 
