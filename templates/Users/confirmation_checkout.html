@@ -14,7 +14,7 @@
         {% for i in items %}
             <div class="card" >
 
-                <a href="{% url 'property_details' i.id %}">
+                <a href="{% url 'property_details' i.property_id %}">
                     {% if i.property.propertyimages_set.count == 0 %}
                         <img class="card-img-top" alt="card image" src="/static/images/properties/default_castle.jpg" >
                     {% else %}
@@ -36,7 +36,7 @@
     <p><b>Total Price:</b> {{ total_price|intcomma }}.- kr</p>
     <input type="button" onclick="location.href='javascript:history.back()'" value="Prev" class="btn btn-primary pull-right"/>
 
-    <input id="confirmButton" type="button" onclick="purchaseConfirmed();location.href={% url 'delete_purchased_properties' %}"
-     value="Confirm Purchase" class="btn btn-primary pull-right" style="clear:both; margin: 10px 0"/>
+    <input id="confirmButton" type="button" onclick="purchaseConfirmed(); location.href={% url 'delete_purchased_properties' %}"
+     value="Confirm Purchase" class="btn btn-primary pull-right"/>
 
 {% endblock %}

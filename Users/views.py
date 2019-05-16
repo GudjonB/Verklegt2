@@ -141,12 +141,6 @@ def remove_from_favourites(request, id):
     favourite.delete()
     return redirect(request.META.get('HTTP_REFERER'))
 
-'''
-def remove_from_favorites_profile(request, id):
-    favourite = Favourites.objects.filter(property_id=id, user=request.user)
-    favourite.delete()
-    return redirect('profile')
-'''
 
 def add_to_cart(request, id):
     item = CartItems(property=get_object_or_404(Properties, pk=id), user=request.user)
@@ -167,7 +161,7 @@ def proceed_to_checkout(request):
         if form.is_valid():
             print(form)
             form.save()
-            return redirect('checkoutCardInfo')
+            return redirect('checkout_card_info')
     else:
         if request.META.get('HTTP_REFERER') == 'http://127.0.0.1:8000/properties/':
             feelingLucky = True
@@ -197,7 +191,7 @@ def card_info_checkout(request):
         form = CardInfoForm(data=request.POST)
         if form.is_valid():
             form.save()
-            return redirect('checkoutReadOnly')
+            return redirect('checkout_read_only')
     else:
         form = CardInfoForm(initial={'user': request.user})
     return render(request, 'Users/card_info_checkout.html', {
