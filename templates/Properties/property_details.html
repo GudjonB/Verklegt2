@@ -2,7 +2,6 @@
 {% block content %}
     {% load humanize %}
     <h2>{{ Property.address }}</h2>
-
     <div id="demo" class="carousel slide" data-ride="carousel">
         <!-- Indicators -->
         <ul class="carousel-indicators">
@@ -12,7 +11,6 @@
                 {% else %}
                     <li data-target="#demo" data-slide-to="{{ forloop.counter0 }}"></li>
                 {% endif %}
-
             {% endfor %}
         </ul>
         <div class="carousel-inner">
@@ -48,19 +46,15 @@
     {% else %}
         <p><a href="{% url 'update_property_images' Property.id %}" class="btn btn-primary">Edit Pictures</a></p>
     {% endif %}
-
     <p><b>Price:</b> {{ Property.price|intcomma }}.- Kr</p>
-
     <p><b>Total Visits:</b> {{ PropertyVisits.count }}</p>
-
-
     {% if propertySellerUserId != currentUserId %}
         {% if user.is_authenticated %}
             {% if Property in Favourites %}
-                <img id="fav-img" src="/static/images/favorites_star_yellow.png" alt="yellow star"></br>
+                <img id="fav-img" src="/static/images/favorites_star_yellow.png" alt="yellow star"><br>
                 <a class="btn btn-danger-in-details" href="/{% url 'remove_favourite' Property.id %}" >Remove from favourites</a>
             {% else %}
-                <img id="fav-img" src="/static/images/favorites_star.png"alt="star"></br>
+                <img id="fav-img" src="/static/images/favorites_star.png" alt="star"><br>
                 <a class="btn btn-primary-in-details" href="{% url 'add_favourite' Property.id %}" >Add to favourites</a>
             {% endif %}
             <br>
@@ -75,9 +69,8 @@
             <a href="{% url 'login' %}" class="card-link">Login</a>
         {% endif %}
     {% endif %}
-
     <h3>Property Details</h3>
-    <p><div id="descr">{{ Property.description_set.first.description }}</div></p>
+    <div id="descr">{{ Property.description_set.first.description }}</div>
     <p><b>Category:</b> {{ Property.category.category}}</p>
     <p><b>City:</b> {{ Property.zip.city }}</p>
     <p><b>Zip:</b> {{ Property.zip.zip }}</p>
