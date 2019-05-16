@@ -42,12 +42,12 @@ def create_properties(request):
     })
 
 
-def update_property(request, _id):
+def update_property(request, id):
     if request.method == 'POST':
         form = PropertiesUpdateForm(data=request.POST, instance=request.user, files=request.FILES)
         if form.is_valid():
-            property_to_update = get_object_or_404(Properties, pk=_id)
-            description_to_update = get_object_or_404(Description, property_id=_id)
+            property_to_update = get_object_or_404(Properties, pk=id)
+            description_to_update = get_object_or_404(Description, property_id=id)
 
             property_to_update.address = form['address'].value()
             property_to_update.zip_id = form['zip'].value()
@@ -60,10 +60,10 @@ def update_property(request, _id):
             description_to_update.description = form['description'].value()
             property_to_update.save()
             description_to_update.save()
-            return redirect('propertyDetails', id=_id)
+            return redirect('propertyDetails', id=id)
     else:
-        property_to_update = Properties.objects.get(pk=_id)
-        description_to_update = get_object_or_404(Description, property_id=_id)
+        property_to_update = Properties.objects.get(pk=id)
+        description_to_update = get_object_or_404(Description, property_id=id)
         form = PropertiesUpdateForm(initial={'address': property_to_update.address,
                                              'zip': property_to_update.zip,
                                              'category': property_to_update.category,
@@ -75,60 +75,60 @@ def update_property(request, _id):
                                              'description': description_to_update.description})
     return render(request, 'Properties/update_property.html', {
         'form': form,
-        'prop_id': _id
+        'prop_id': id
     })
 
 
-def update_property_images(request, _id):
+def update_property_images(request, id):
     return render(request, 'Properties/property_details_edit_images.html', {
-        'Property_images': PropertyImages.objects.filter(property_id=_id),
-        'prop_id': _id
+        'Property_images': PropertyImages.objects.filter(property_id=id),
+        'prop_id': id
     })
 
 
-def add_property_image(request, _id):
+def add_property_image(request, id):
     if request.method == 'POST':
         form = PropertiesImagesForm(data=request.POST, files=request.FILES)
         if form.is_valid():
             form.save()
-            return redirect(update_property_images, _id)
+            return redirect(update_property_images, id)
     else:
-        form = PropertiesImagesForm(initial={'property': _id})
+        form = PropertiesImagesForm(initial={'property': id})
     return render(request, 'Properties/upload_property_images.html', {
         'form': form,
-        'prop_id': _id
+        'prop_id': id
     })
 
 
-def delete_property_image(request, _id):
-    image_to_delete = get_object_or_404(PropertyImages, id=_id)
+def delete_property_image(request, id):
+    image_to_delete = get_object_or_404(PropertyImages, id=id)
     redirect_location_id = image_to_delete.property_id
     image_to_delete.delete()
     return redirect(update_property_images, redirect_location_id)
 
 
-def get_property_by_id(request, _id):
-    prop = get_object_or_404(Properties, id=_id)
+def get_property_by_id(request, id):
+    prop = get_object_or_404(Properties, id=id)
     prop_seller_user_id = get_object_or_404(PropertySellers, property_id=prop.id).user_id
     if prop.deleted:
         return redirect('allProperties')
     users_prop_list = []
     for i in PropertySellers.objects.filter(user_id=request.user.id):
         users_prop_list.append(i.property_id)
-    property_visit = PropertyVisits.objects.filter(property_id=_id).order_by('-_id').first()
+    property_visit = PropertyVisits.objects.filter(property_id=id).order_by('-id').first()
     if property_visit and property_visit.date.strftime('%W') == datetime.now().strftime('%W') and \
             property_visit.date.strftime('%Y') == datetime.now().strftime('%Y'):
         property_visit.counter = property_visit.counter + 1
         property_visit.save()
     else:
-        property_visit = PropertyVisits(property_id=_id, counter=1)
+        property_visit = PropertyVisits(property_id=id, counter=1)
         property_visit.save()
     return render(request, 'Properties/property_details.html',
                   {'Property': prop,
                    'UsersProperties': users_prop_list,
                    'Cart': [c.property for c in CartItems.objects.filter(user=request.user.id)],
                    'Favourites': [f.property for f in Favourites.objects.filter(user=request.user.id)],
-                   'PropertyVisits': PropertyVisits.objects.filter(property_id=_id).aggregate(count=Sum('counter')),
+                   'PropertyVisits': PropertyVisits.objects.filter(property_id=id).aggregate(count=Sum('counter')),
                    'propertySellerUserId': prop_seller_user_id,
                    'currentUserId': request.user.id
                    })
@@ -158,14 +158,14 @@ def get_all_properties(request):
     return render(request, 'Properties/index.html', context)
 
 
-def add_to_cart(request, _id):
-    item = CartItems(property=get_object_or_404(Properties, pk=_id), user=request.user)
+def add_to_cart(request, id):
+    item = CartItems(property=get_object_or_404(Properties, pk=id), user=request.user)
     item.save()
     return redirect(request.META.get('HTTP_REFERER'))
 
 
-def remove_from_cart(request, _id):
-    item = CartItems.objects.filter(property_id=_id, user=request.user)
+def remove_from_cart(request, id):
+    item = CartItems.objects.filter(property_id=id, user=request.user)
     item.delete()
     return redirect(request.META.get('HTTP_REFERER'))
 
@@ -273,11 +273,11 @@ def property_filter(request):
                                                      })
 
 
-def delete_property(request, _id):
-    properties = get_object_or_404(Properties, pk=_id)
+def delete_property(request, id):
+    properties = get_object_or_404(Properties, pk=id)
     properties.deleted = True
     properties.save()
-    selling = get_object_or_404(PropertySellers, property_id=_id)
+    selling = get_object_or_404(PropertySellers, property_id=id)
     selling.delete()
     if urlparse(request.META.get('HTTP_REFERER')).path == '/users/profile':
         return redirect('profile')
