@@ -1,7 +1,3 @@
-
-
-from datetime import timedelta
-
 from django.contrib.auth.decorators import login_required
 from django.db.models import Sum
 from django.shortcuts import render, redirect, get_object_or_404, render_to_response
@@ -9,9 +5,8 @@ from django.contrib.auth.forms import UserCreationForm
 from django.utils.datetime_safe import date
 
 from datetime import timedelta
-from urllib.parse import urlparse
 
-from Properties.models import Properties, Zip, PropertySellers, PropertyVisits
+from Properties.models import Properties, PropertySellers, PropertyVisits
 
 from Users.models import Profiles, CartItems, Favourites, CheckoutInfo, SearchHistory, User, Cards
 from Users.forms.profile_form import UpdateProfileForm
@@ -21,6 +16,7 @@ from Users.forms.staff_form import StaffForm
 
 import logging
 logger = logging.getLogger(__name__)
+
 
 def error_404_view(request, exception, template_name="404.html"):
     response = render_to_response("404.html")
@@ -41,21 +37,22 @@ def index(request):
         searches = [s.search for s in SearchHistory.objects.filter(user=request.user).order_by('-id')]
         cart = [c.property for c in CartItems.objects.filter(user=request.user.id)]
     enddate = date.today()
-    monthStartdate = enddate - timedelta(days=30)
-    weekStartdate = enddate - timedelta(days=7)
+    month_startdate = enddate - timedelta(days=30)
+    week_startdate = enddate - timedelta(days=7)
 
-    monthvisits = PropertyVisits.objects.filter(property__deleted=False, date__date__range=[monthStartdate, enddate]) \
-                      .values('property').annotate(counterSum=Sum('counter')).order_by('-counterSum')[:3]
+    monthvisits = PropertyVisits.objects.filter(property__deleted=False, date__date__range=[month_startdate, enddate]) \
+                                .values('property').annotate(counterSum=Sum('counter')).order_by('-counterSum')[:3]
     for i in monthvisits :
         i['property'] = get_object_or_404(Properties, pk=i['property'])
 
     context = {'Properties': Properties.objects.filter(deleted=False).order_by('-id')[:3],
                'Cart': cart,
                'monthVisits': monthvisits,
-               'weekVisits': PropertyVisits.objects.filter(property__deleted=False, date__date__range=[weekStartdate, enddate]).order_by('-counter')[:3],
+               'weekVisits': PropertyVisits.objects.filter(property__deleted=False, date__date__range=[week_startdate, enddate]).order_by('-counter')[:3],
                'Searches': searches,
                'User': request.user}
     return render(request, 'Users/index.html', context)
+
 
 def register(request):
     if request.method == 'POST':
@@ -95,16 +92,15 @@ def profile_seller(request, id):
 @login_required
 def update_profile(request):
     if request.method == 'POST':
-        form = UpdateProfileForm(data=request.POST, instance=request.user, files=request.FILES)
+        form = UpdateProfileForm(data=request.POST, files=request.FILES)
         if form.is_valid():
             my_profile = Profiles.objects.get(user_id=request.user.id)
             my_profile.name = form['name'].value()
             my_profile.address = form['address'].value()
             my_profile.social = form['social'].value()
             my_profile.zipCode_id = form['zipCode'].value()
-            logger.error(form['image'].value())
-            if "/" not in form['image'].value():          # Default image value always contains the whole path
-                my_profile.image = form['image'].value()  # Only update if not default image value
+            if "/" not in form['image'].value():             # Default image value always contains the whole path
+                my_profile.image = form['image'].value()     # Only update if not default image value
             my_profile.save()
             return redirect('profile')
     else:
@@ -119,13 +115,10 @@ def update_profile(request):
     })
 
 
-
-
 @login_required
 def cart(request):
-    #Þegar karfa er sótt eru allar körfur hreinsaðar af eyddum eignum
-    toDelete = CartItems.objects.filter(property__deleted=True)
-    for i in toDelete:
+    to_delete = CartItems.objects.filter(property__deleted=True)     # The cart is emptied of all deleted properties,
+    for i in to_delete:                                              # for all users when someone loads one
         i.delete()
     Cart = {'Cart': CartItems.objects.filter(user_id=request.user.id)}
     return render(request, 'Users/cart.html', Cart)
@@ -133,9 +126,8 @@ def cart(request):
 
 @login_required
 def favourites(request):
-    #Þegar uppáhöld eru sótt eru öll uhháhöld hreinsuð af eyddum eignum
-    toDelete = Favourites.objects.filter(property__deleted=True)
-    for i in toDelete:
+    to_delete = Favourites.objects.filter(property__deleted=True)   # Favourites is emptied of all deleted properties,
+    for i in to_delete:                                             # for all users when someone loads one
         i.delete()
     fav = Favourites.objects.filter(user_id=request.user.id)
     context = {'fav': fav,
@@ -205,7 +197,6 @@ def read_only_checkout(request):
 
 @login_required
 def card_info_checkout(request):
-
     if request.method == 'POST':
         form = CardInfoForm(data=request.POST)
         if form.is_valid():
@@ -238,7 +229,6 @@ def empty_checkout_cancel(request):
     return redirect('cart')
 
 
-
 @login_required
 def empty_cart(request):
     items = CartItems.objects.filter(user=request.user)
@@ -259,6 +249,7 @@ def staff(request):
     staff = User.objects.filter(is_staff=True)
     return render(request, 'Users/staff.html', {'staff': staff})
 
+
 @login_required
 def add_staff(request):
     if request.method == 'POST':
@@ -269,8 +260,7 @@ def add_staff(request):
             for i in items :
                 i.delete()
             user.is_staff = True
-            #Nýjir starfsmenn fá netfang sem er notendanafn þeirra með réttri endingu
-            user.email = user.username + '@ca.is'
+            user.email = user.username + '@ca.is'           #New staffmembers get an email when promoted
             user.save()
             return redirect('add_staff')
     else:
