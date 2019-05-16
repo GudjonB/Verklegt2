@@ -35,7 +35,7 @@ def create_properties(request):
             if form.cleaned_data['image']:
                 images = PropertyImages(image=form.cleaned_data['image'], property_id=properties.id)
                 images.save()
-            return redirect('allProperties')
+            return redirect('all_properties')
     else:
         form = PropertiesCreateForm()
     return render(request, 'Properties/create_properties.html', {
@@ -112,7 +112,7 @@ def get_property_by_id(request, id):
     prop = get_object_or_404(Properties, id=id)
     prop_seller_user_id = get_object_or_404(PropertySellers, property_id=prop.id).user_id
     if prop.deleted:
-        return redirect('allProperties')
+        return redirect('all_properties')
     users_prop_list = []
     for i in PropertySellers.objects.filter(user_id=request.user.id):
         users_prop_list.append(i.property_id)
@@ -277,7 +277,7 @@ def delete_property(request, id):
     selling.delete()
     if urlparse(request.META.get('HTTP_REFERER')).path == '/users/profile':
         return redirect('profile')
-    return redirect('allProperties')
+    return redirect('all_properties')
 
 
 def delete_purchased_properties(request):
@@ -335,4 +335,4 @@ def add_data_from_web(request):
                                                  image=filename)
             image_counter += 1
 
-    return redirect('allProperties')
+    return redirect('all_properties')
