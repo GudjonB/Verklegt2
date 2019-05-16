@@ -35,6 +35,7 @@ footer {
     background-color: #f2f2f2;
     width: 100%;
     bottom: 0;
+    margin-top: 1rem;
 }
 
 .img-responsive {
@@ -51,18 +52,17 @@ footer {
     margin: 0px auto 45px;
     border-radius: 0;
     border-bottom: 1px #7f7f7f;
-    box-shadow: 0 2px 1px -1px;
+    box-shadow: 0 1px 1px -1px;
     text-align: center;
 }
 
 
 .form-control:focus {
     width: 35%;
-    margin: 40px auto;
+    margin: 0px auto 45px;
     border-radius: 0;
-    border: none;
     border-bottom: 1px #7f7f7f;
-    box-shadow: 0 2px 1px -1px;
+    box-shadow: 0 1px 1px -1px;
     text-align: center;
 }
 input#id_mobile{
@@ -120,6 +120,21 @@ button:focus {
     outline: none;
     border: none;
 }
+#confirmButton {
+    clear: both;
+    margin: 10px 0;
+}
+
+#submitButton{
+    clear:both;
+}
+
+#backButton {
+    clear:both;
+    margin-bottom: 20px;
+    margin-right: 50%;
+}
+
 input:focus {
     outline: none;
 }
@@ -652,6 +667,7 @@ hr {
 #descr {
     width: 60%;
     display: inline-block;
+    text-align: justify;
 }
 
 .pagination {

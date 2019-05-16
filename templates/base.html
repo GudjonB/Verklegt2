@@ -22,7 +22,6 @@
 <body>
 
 <div class="jumbotron">
-        <!--<a href="../"> <img class="nav-img"  src="/static/images/castle-clipart-fairy-tale-18.png"></a>-->
         <div>
             <h1 class="jumbotext">Castle Apartments</h1>
             <!--<p>Homes, houses & shit</p> -->
@@ -44,15 +43,15 @@
 
             <div class="collapse navbar-collapse" id="myNavbar">
                 <ul class="nav navbar-nav">
-                    <li><a href="/">Home</a></li>
-                    <li><a href="{% url 'allProperties' %}">Properties</a></li>
+                    <li><a href="{% url 'home' %}">Home</a></li>
+                    <li><a href="{% url 'all_properties' %}">Properties</a></li>
                     <li><a href="{% url 'open_houses' %}">Open Houses</a></li>
                     <li><a href="#">Stores</a></li>
-                    <li><a href="#">Contact</a></li>
+                    <li><a href = "mailto: castleapartments@ca.is" class="mail">Contact</a></li>
                 </ul>
             </div>
         </div>
-        <a href="/" id="home-button"><i class="fas fa-home fa-2x"></i></a>
+        <a href="{% url 'home' %}" id="home-button"><i class="fas fa-home fa-2x"></i></a>
     </div>
 
     <div>
@@ -76,8 +75,8 @@
                         <div class="collapse profile-collapse" id="myProfile">
                             <ul class="nav navbar-nav">
                                 <li><p>Welcome: {{ request.user.username }}!</p></li>
-                                <li><a href="{% url 'createProperties' %}">Add Property</a></li>
-                                <li><a href="{% url 'addStaff' %}">Add Staff</a></li>
+                                <li><a href="{% url 'create_properties' %}">Add Property</a></li>
+                                <li><a href="{% url 'add_staff' %}">Add Staff</a></li>
                                 <li><a href="{% url 'add_open_house' %}">Add Open House</a></li>
                                 <li><a href="{% url 'profile' %}">My Profile</a></li>
                                 <li><a href="{% url 'logout' %}">Logout</a></li>
@@ -153,7 +152,7 @@
                     </li>
                     <li>
                         <p>
-                            <a href="{% url 'aboutUs' %}">ABOUT US</a>
+                            <a href="{% url 'about_us' %}">ABOUT US</a>
                         </p>
                     </li>
 
@@ -178,7 +177,7 @@
                     </li>
                     <li>
                         <p>
-                            <a href = "mailto: castleapartments@example.is" class="mail"> <i class="fas fa-envelope mr-3"></i> castleapartmenst@example.is</a></p>
+                            <a href = "mailto: castleapartments@ca.is" class="mail"> <i class="fas fa-envelope mr-3"></i> castleapartmenst@ca.is</a></p>
                     </li>
                     <li>
                         <p>
@@ -198,9 +197,9 @@
                 <h5 class="font-weight-bold text-uppercase mb-4">Follow Us</h5>
 
                 <!-- Facebook -->
-                <a type="button" class="btn-floating btn-fb"><i class="fab fa-facebook-f"></i></a><br/>
-                <a type="button" class="btn-floating btn-tw"><i class="fab fa-twitter"></i></a><br/>
-                <a type="button" class="btn-floating btn-gplus"><i class="fab fa-google-plus-g"></i></a>
+                <a type="button" href="https://www.facebook.com" class="btn-floating btn-fb"><i class="fab fa-facebook-f"></i></a><br/>
+                <a type="button" href="https://www.twitter.com" class="btn-floating btn-tw"><i class="fab fa-twitter"></i></a><br/>
+                <a type="button" href="https://www.instagram.com/ "class="btn-floating btn-ig"><i class="fab fa-instagram"></i></a>
             </div>
         </div>
     </div>

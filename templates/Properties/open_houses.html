@@ -4,28 +4,28 @@
 {% block houses %}
     <h1>Open Houses</h1>
     <div class="propContainer">
-        {% if OpenHouses.count == 0 %}
+        {% if open_houses.count == 0 %}
             <div class="no_fav_container">
                 <div>
-                    <img id="open_house_img" src="/static/images/no_open_house.png">
+                    <img id="open_house_img" alt="no open house" src="/static/images/no_open_house.png">
                 </div>
                 <div>
                     <p>No Open Houses At This Moment</p>
                 </div>
             </div>
         {% else %}
-            {% for i in OpenHouses %}
-                {% if not i.deleted %}
+            {% for i in open_houses %}
+                {% if not i.property.deleted %}
                     <div class="card" >
-                        <a href="/properties/{{ i.property.id }}">
+                        <a href="{% url 'property_details' i.property.id %}">
                             {% if i.property.propertyimages_set.count == 0 %}
-                                <img class="card-img-top" alt="card image" src="/static/images/properties/default_castle.jpg" >
+                                <img class="card-img-top" alt="castle" src="/static/images/properties/default_castle.jpg" >
                             {% else %}
-                                <img class="card-img-top" alt="card image" src="{{ i.property.propertyimages_set.first}}" >
+                                <img class="card-img-top" alt="property thumbnail" src="{{ i.property.propertyimages_set.first}}" >
                             {% endif %}
                         </a>
                         <div class="card-body">
-                            <h5 class="card-title"><a href="/properties/{{ i.property_id }}">{{ i.property.address }}</a></h5>
+                            <h5 class="card-title"><a href="{% url 'property_details' i.property.id %}">{{ i.property.address }}</a></h5>
                         </div>
                         <ul class="list-group list-group-flush">
                             <li class="list-group-item">{{ i.time }}</li>

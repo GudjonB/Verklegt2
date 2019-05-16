@@ -36,7 +36,7 @@ def create_properties(request):
             if form.cleaned_data['image']:
                 images = PropertyImages(image=form.cleaned_data['image'], property_id=properties.id)
                 images.save()
-            return redirect('allProperties')
+            return redirect('all_properties')
     else:
         form = PropertiesCreateForm()
     return render(request, 'Properties/create_properties.html', {
@@ -62,7 +62,7 @@ def update_property(request, id):
             description_to_update.description = form['description'].value()
             property_to_update.save()
             description_to_update.save()
-            return redirect('propertyDetails', id=id)
+            return redirect('property_details', id=id)
     else:
         property_to_update = Properties.objects.get(pk=id)
         description_to_update = get_object_or_404(Description, property_id=id)
@@ -118,7 +118,7 @@ def get_property_by_id(request, id):
     prop = get_object_or_404(Properties, id=id)
     prop_seller_user_id = get_object_or_404(PropertySellers, property_id=prop.id).user_id
     if prop.deleted:
-        return redirect('allProperties')
+        return redirect('all_properties')
     users_prop_list = []
     for i in PropertySellers.objects.filter(user_id=request.user.id):
         users_prop_list.append(i.property_id)
@@ -163,20 +163,6 @@ def get_all_properties(request):
                'DisplayProps': display_props
                }
     return render(request, 'Properties/index.html', context)
-
-
-'''
-def add_to_cart(request, id):
-    item = CartItems(property=get_object_or_404(Properties, pk=id), user=request.user)
-    item.save()
-    return redirect(request.META.get('HTTP_REFERER'))
-
-
-def remove_from_cart(request, id):
-    item = CartItems.objects.filter(property_id=id, user=request.user)
-    item.delete()
-    return redirect(request.META.get('HTTP_REFERER'))
-'''
 
 
 def get_open_houses(request):
@@ -228,8 +214,8 @@ def property_filter(request):
     if query.getlist('category'):  # check categories
         props = Properties.objects.filter(Q(deleted=False), Q(category__in=query.getlist('category')))\
             .order_by('category').order_by('address')
-    if query.get('zipcodes'):  # check zipcodes
-        tmp = Properties.objects.filter(Q(deleted=False), Q(zip__in=query.get('zipcodes')))
+    if query.get('Zip'):  # check zipcodes
+        tmp = Properties.objects.filter(Q(deleted=False), Q(zip=query.get('Zip')))
         props = tmp.intersection(props)
     if query.get('roomsfrom'):  # check min rooms
         tmp = Properties.objects.filter(Q(deleted=False), Q(rooms__gte=query.get('roomsfrom')))
@@ -272,13 +258,18 @@ def property_filter(request):
     except EmptyPage:
         display_props = paginator.page(paginator.num_pages)
 
+    if request.user in User.objects.all():
+        searches = [s.search for s in SearchHistory.objects.filter(
+            user=request.user).order_by('-id')]
+    else:
+        searches = None
+
     return render(request, 'Properties/index.html', {'DisplayProps': display_props,
                                                      'Categories': Categories.objects.all(),
                                                      'Zip': Zip.objects.all(),
                                                      'Cart': [c.property for c in
                                                               CartItems.objects.filter(user=request.user.id)],
-                                                     'Searches': [s.search for s in SearchHistory.objects.filter(
-                                                                  user=request.user).order_by('-id')]
+                                                     'Searches': searches
                                                      })
 
 
@@ -292,7 +283,7 @@ def delete_property(request, id):
     selling.delete()
     if urlparse(request.META.get('HTTP_REFERER')).path == '/users/profile':
         return redirect('profile')
-    return redirect('allProperties')
+    return redirect('all_properties')
 
 
 def delete_purchased_properties(request):
@@ -350,4 +341,4 @@ def add_data_from_web(request):
                                                  image=filename)
             image_counter += 1
 
-    return redirect('allProperties')
+    return redirect('all_properties')
