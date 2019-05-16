@@ -6,6 +6,6 @@
         {% csrf_token %}
         {{ form }}
         <input type="button" onclick="location.href={% url 'empty_checkout_cancel' %}" value="Cancel" class="btn btn-primary pull-right"/>
-        <input type="submit" value="Next" class="btn btn-primary pull-right" style="clear:both; margin-bottom: 20px"/>
+        <input id="submitButton" type="submit" value="Next" class="btn btn-primary pull-right" />
     </form>
 {% endblock %}

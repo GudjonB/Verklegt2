@@ -6,11 +6,11 @@
     <div class="propContainer">
             {% for i in staff %}
                     <div class="card" >
-                        <a href="/sellerprofile/{{ i.id }}">
+                        <a href="{% url 'profile_seller' i.id %}">
                                 <img class="card-img-top" alt="profile image" src="{{ i.profiles.image_name }}" >
                         </a>
                         <div class="card-body">
-                            <h5 class="card-title"><a href="/sellerprofile/{{ i.id }}">{{ i.profiles.name }}</a></h5>
+                            <h5 class="card-title"><a href="{% url 'profile_seller' i.id %}">{{ i.profiles.name }}</a></h5>
                         </div>
                         <ul class="list-group list-group-flush">
                             <li class="list-group-item">User name: {{ i.username }}</li>
