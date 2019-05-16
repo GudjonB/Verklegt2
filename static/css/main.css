@@ -58,9 +58,8 @@ footer {
 
 .form-control:focus {
     width: 35%;
-    margin: 40px auto;
+    margin: 0px auto 45px;
     border-radius: 0;
-    border: none;
     border-bottom: 1px #7f7f7f;
     box-shadow: 0 2px 1px -1px;
     text-align: center;
