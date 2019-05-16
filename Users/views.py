@@ -2,6 +2,7 @@
 
 from datetime import timedelta
 
+from django.contrib.auth.decorators import login_required
 from django.db.models import Sum
 from django.shortcuts import render, redirect, get_object_or_404, render_to_response
 from django.contrib.auth.forms import UserCreationForm
@@ -71,6 +72,7 @@ def register(request):
     })
 
 
+@login_required
 def profile(request):
     fav = Favourites.objects.filter(user_id=request.user.id, property__in=Properties.objects.filter(deleted=False))
     return render(request, 'Users/profile.html', {
@@ -90,6 +92,7 @@ def profile_seller(request, id):
     })
 
 
+@login_required
 def update_profile(request):
     if request.method == 'POST':
         form = UpdateProfileForm(data=request.POST, instance=request.user, files=request.FILES)
@@ -118,11 +121,13 @@ def update_profile(request):
 
 
 
+@login_required
 def cart(request):
     Cart = {'Cart': CartItems.objects.filter(user_id=request.user.id)}
     return render(request, 'Users/cart.html', Cart)
 
 
+@login_required
 def favourites(request):
     fav = Favourites.objects.filter(user_id=request.user.id, property__in=Properties.objects.filter(deleted=False))
     context = {'fav': fav,
@@ -130,30 +135,35 @@ def favourites(request):
     return render(request, 'Users/Favourites.html', context)
 
 
+@login_required
 def add_to_favourite(request, id):
     favourite = Favourites(property=get_object_or_404(Properties, pk=id), user=request.user)
     favourite.save()
     return redirect(request.META.get('HTTP_REFERER'), id)
 
 
+@login_required
 def remove_from_favourites(request, id):
     favourite = Favourites.objects.filter(property_id=id, user=request.user)
     favourite.delete()
     return redirect(request.META.get('HTTP_REFERER'))
 
 
+@login_required
 def add_to_cart(request, id):
     item = CartItems(property=get_object_or_404(Properties, pk=id), user=request.user)
     item.save()
     return redirect(request.META.get('HTTP_REFERER'))
 
 
+@login_required
 def remove_from_cart(request, id):
     item = CartItems.objects.filter(property_id=id, user=request.user)
     item.delete()
     return redirect(request.META.get('HTTP_REFERER'))
 
 
+@login_required
 def proceed_to_checkout(request):
 
     if request.method == 'POST':
@@ -177,6 +187,7 @@ def proceed_to_checkout(request):
     })
 
 
+@login_required
 def read_only_checkout(request):
     read_only = {'info': CheckoutInfo.objects.filter(user_id=request.user.id).order_by("-id").first(),
                  'cardInfo': Cards.objects.filter(user_id=request.user.id).order_by("-id").first(),
@@ -184,6 +195,7 @@ def read_only_checkout(request):
     return render(request, 'Users/read_only_checkout.html', read_only)
 
 
+@login_required
 def card_info_checkout(request):
 
     if request.method == 'POST':
@@ -198,6 +210,7 @@ def card_info_checkout(request):
     })
 
 
+@login_required
 def confirmation_checkout(request):
     total_price = 0
     for i in CartItems.objects.filter(user_id=request.user.id):
@@ -208,6 +221,7 @@ def confirmation_checkout(request):
     return render(request, 'Users/confirmation_checkout.html', confirm)
 
 
+@login_required
 def empty_checkout_cancel(request):
     for i in CheckoutInfo.objects.filter(user_id=request.user.id):
         i.delete()
@@ -217,6 +231,7 @@ def empty_checkout_cancel(request):
 
 
 
+@login_required
 def empty_cart(request):
     items = CartItems.objects.filter(user=request.user)
     for item in items:
@@ -224,16 +239,19 @@ def empty_cart(request):
     return redirect(request.META.get('HTTP_REFERER'))
 
 
+@login_required
 def empty_cart_purchased(request):
     items = CartItems.objects.filter(user=request.user)
     for item in items:
         item.delete()
     return redirect('/')
 
+
 def staff(request):
     staff = User.objects.filter(is_staff=True)
     return render(request, 'Users/staff.html', {'staff': staff})
 
+@login_required
 def add_staff(request):
     if request.method == 'POST':
         form = StaffForm(data=request.POST)

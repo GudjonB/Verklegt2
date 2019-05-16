@@ -5,7 +5,7 @@
     <form class = "form form horizontal" action="{% url 'checkout' %}" method="post">
         {% csrf_token %}
         {{ form }}
-        <input type="button" onclick="location.href={% url 'empty_checkout_cancel' %}" value="Cancel" class="btn btn-primary pull-right"/>
+        <a href="{% url 'empty_checkout_cancel' %}" value="Cancel" class="btn btn-primary pull-right"/>Cancel</a>
         <input id="submitButton" type="submit" value="Next" class="btn btn-primary pull-right" />
     </form>
 {% endblock %}

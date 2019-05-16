@@ -52,14 +52,14 @@
                             <!--<p class="card-text">{{ i.description_set.first }}</p>-->
                         </div>
                         {% if not Profiles.user.is_staff %}
-                        <div class="card-body">
-                            {% if i.property in Cart %}
-                                <a href="/properties/removeCartItem/{{ i.property.id }}" class="btn btn-danger-small">Remove from cart</a>
-                            {% else %}
-                                <a href="/users/addCartItem/{{ i.property.id }}" class="btn btn-primary-small">Add to cart</a>
-                            {% endif %}
-                        </div>
-                    {% endif %}
+                            <div class="card-body">
+                                {% if i.property in Cart %}
+                                    <a href="/properties/removeCartItem/{{ i.property.id }}" class="btn btn-danger-small">Remove from cart</a>
+                                {% else %}
+                                    <a href="/users/addCartItem/{{ i.property.id }}" class="btn btn-primary-small">Add to cart</a>
+                                {% endif %}
+                            </div>
+                        {% endif %}
                     </div>
                 {% endfor %}
             </div>
