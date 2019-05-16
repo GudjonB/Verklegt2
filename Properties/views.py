@@ -61,7 +61,7 @@ def update_property(request, id):
             description_to_update.description = form['description'].value()
             property_to_update.save()
             description_to_update.save()
-            return redirect('propertyDetails', id=id)
+            return redirect('property_details', id=id)
     else:
         property_to_update = Properties.objects.get(pk=id)
         description_to_update = get_object_or_404(Description, property_id=id)

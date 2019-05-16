@@ -44,9 +44,9 @@
     </div>
     <br>
     {% if propertySellerUserId != currentUserId %}
-        <a href="/users/sellerprofile/{{ propertySellerUserId }}" class="btn btn-primary">View Realtor Profile</a>
+        <a href="{% url 'profile_seller' propertySellerUserId %}" class="btn btn-primary">View Realtor Profile</a>
     {% else %}
-        <p><a href="/properties/edit_image/{{ Property.id}}" class="btn btn-primary">Edit Pictures</a></p>
+        <p><a href="{% url 'update_property_images' Property.id %}" class="btn btn-primary">Edit Pictures</a></p>
     {% endif %}
 
     <p><b>Price:</b> {{ Property.price|intcomma }}.- Kr</p>
