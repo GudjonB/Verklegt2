@@ -25,7 +25,9 @@
 }
 .jumbotext {
     text-align: left;
-    font-family: "Times New Roman", Times, serif;
+    font-family: "Brush Script MT", cursive;
+    font-size: 3.5rem;
+    color: #cc0000;
 }
 
 /* Add a gray background color and some padding to the footer */
