@@ -31,7 +31,7 @@ def create_properties(request):
             description.save()
             sellers = PropertySellers(user_id=request.user.id, property_id=properties.id)
             sellers.save()
-            if form['image'].value():
+            if form.cleaned_data['image']:
                 images = PropertyImages(image=form.cleaned_data['image'], property_id=properties.id)
                 images.save()
             return redirect('allProperties')
@@ -157,6 +157,7 @@ def get_all_properties(request):
                }
     return render(request, 'Properties/index.html', context)
 
+
 '''
 def add_to_cart(request, id):
     item = CartItems(property=get_object_or_404(Properties, pk=id), user=request.user)
@@ -169,6 +170,7 @@ def remove_from_cart(request, id):
     item.delete()
     return redirect(request.META.get('HTTP_REFERER'))
 '''
+
 
 def get_open_houses(request):
     context = {'OpenHouses': OpenHouses.objects.all()}
