@@ -8,5 +8,5 @@ class PropertiesImagesForm(ModelForm):
         exclude = ['id']
         widgets = {
             'property': widgets.HiddenInput(attrs={'class': 'form-control'}),
-            'image': widgets.FileInput(attrs={'class': 'form-control'})
+            'image': widgets.FileInput(attrs={'class': 'form-control', 'multiple': 'True'})
         }

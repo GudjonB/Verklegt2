@@ -175,7 +175,7 @@ def remove_from_cart(request, id):
 
 
 def get_open_houses(request):
-    context = {'OpenHouses': OpenHouses.objects.all()}
+    context = {'open_houses': OpenHouses.objects.all()}
     return render(request, 'Properties/open_houses.html', context)
 
 
@@ -184,7 +184,7 @@ def add_open_houses(request):
         form = OpenHousesCreateForm(request=request, data=request.POST)
         if form.is_valid():
             form.save()
-            return redirect('openHouses')
+            return redirect('open_houses')
     else:
         form = OpenHousesCreateForm(initial={'user': request.user}, request=request)
     return render(request, 'Properties/add_open_houses.html', {
