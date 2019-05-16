@@ -14,6 +14,7 @@ from Helpers.getData import clearFiles, writeToCsv, readFromCsv
 from datetime import datetime
 import logging
 import urllib
+import random
 
 logger = logging.getLogger(__name__)
 
@@ -159,7 +160,7 @@ def get_all_properties(request):
 
 
 def get_open_houses(request):
-    context = {'OpenHouses': OpenHouses.objects.all()}
+    context = {'open_houses': OpenHouses.objects.all()}
     return render(request, 'Properties/open_houses.html', context)
 
 
@@ -168,7 +169,7 @@ def add_open_houses(request):
         form = OpenHousesCreateForm(request=request, data=request.POST)
         if form.is_valid():
             form.save()
-            return redirect('openHouses')
+            return redirect('open_houses')
     else:
         form = OpenHousesCreateForm(initial={'user': request.user}, request=request)
     return render(request, 'Properties/add_open_houses.html', {
@@ -289,6 +290,17 @@ def delete_purchased_properties(request):
     for i in Cards.objects.filter(user_id=request.user.id):
         i.delete()
     return redirect('/')
+
+
+def receipt(request):
+    random_id = random.choice([p.id for p in Properties.objects.all()])
+    item = Properties.objects.filter(id=random_id).first()
+    img = PropertyImages.objects.filter(property_id=random_id).first()
+    item.deleted = True
+    item.save()
+    info = {'property': item,
+            'img': img}
+    return render(request, 'Properties/receipt.html', info)
 
 
 def add_data_from_web(request):
