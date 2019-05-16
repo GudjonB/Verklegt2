@@ -35,23 +35,6 @@ class Country(models.Model):
         return self.country
 
 
-class Cards(models.Model):
-    name = models.CharField(max_length=70,
-                            validators=[RegexValidator(u'^[a-zA-ZáðéíóúýþæöÁÐÉÍÓÚÝÞÆÖ ]*$',
-                                                       'Name must only contain alphabetic characters')]
-                            )
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    number = models.CharField(max_length=16, verbose_name=u"Credit Card Number:",
-                              validators=[RegexValidator(u'^.{16}[0-9]*$',
-                                                         'Credit card number must be 16 characters long and must only contain numbers')])
-    cvc = models.CharField(max_length=3, verbose_name=u"CVC:",
-                           validators=[RegexValidator(u'^.{3}[0-9]*$',
-                                                      'CVC must be 3 characters long and must only contain numbers')]
-                           )
-    expiration = CardExpiryField('expiration date')
-
-
-
 
 class Favourites(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -91,5 +74,22 @@ class CheckoutInfo(models.Model):
     social = models.CharField(max_length=10, verbose_name=u"Social Security Number:",
                               validators=[RegexValidator(u'^.{10}[0-9]*$',
                                                          'Social security number must be 10 digits long and must only contain numbers')])
+    feeling_lucky = models.BooleanField(default=False)
+
+
+class Cards(models.Model):
+    name = models.CharField(max_length=70,
+                            validators=[RegexValidator(u'^[a-zA-ZáðéíóúýþæöÁÐÉÍÓÚÝÞÆÖ ]*$',
+                                                       'Name must only contain alphabetic characters')]
+                            )
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    number = models.CharField(max_length=16, verbose_name=u"Credit Card Number:",
+                              validators=[RegexValidator(u'^.{16}[0-9]*$',
+                                                         'Credit card number must be 16 characters long and must only contain numbers')])
+    cvc = models.CharField(max_length=3, verbose_name=u"CVC:",
+                           validators=[RegexValidator(u'^.{3}[0-9]*$',
+                                                      'CVC must be 3 characters long and must only contain numbers')]
+                           )
+    expiration = CardExpiryField('expiration date')
 
 

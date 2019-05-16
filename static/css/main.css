@@ -688,5 +688,24 @@ hr {
     height: 45%;
 }
 
+#searchform {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 
+#search-btn {
+    height: 35px;
+}
 
+.autocomplete {
+    margin: auto 0.5rem;
+}
+
+.top-row {
+
+}
+
+.surprise {
+
+}

@@ -43,8 +43,8 @@ def index(request):
     monthStartdate = enddate - timedelta(days=30)
     weekStartdate = enddate - timedelta(days=7)
 
-    monthvisits = PropertyVisits.objects.filter(property__deleted=False, date__date__range=[monthStartdate, enddate])\
-                                  .values('property').annotate(counterSum=Sum('counter')).order_by('-counterSum')[:3]
+    monthvisits = PropertyVisits.objects.filter(property__deleted=False, date__date__range=[monthStartdate, enddate]) \
+                      .values('property').annotate(counterSum=Sum('counter')).order_by('-counterSum')[:3]
     for i in monthvisits :
         i['property'] = get_object_or_404(Properties, pk=i['property'])
 
@@ -161,16 +161,24 @@ def remove_from_cart(request, id):
 
 
 def proceed_to_checkout(request):
+
     if request.method == 'POST':
         form = CheckoutInfoForm(data=request.POST)
         if form.is_valid():
+            print(form)
             form.save()
             return redirect('checkoutCardInfo')
     else:
+        if request.META.get('HTTP_REFERER') == 'http://127.0.0.1:8000/properties/':
+            feelingLucky = True
+        else:
+            feelingLucky = False
         form = CheckoutInfoForm(initial={'user': request.user,
                                          'name': request.user.profiles.name,
-                                         'social': request.user.profiles.social
+                                         'social': request.user.profiles.social,
+                                         'feeling_lucky': feelingLucky
                                          })
+
     return render(request, 'Users/checkout.html', {
         'form': form
     })
@@ -178,11 +186,13 @@ def proceed_to_checkout(request):
 
 def read_only_checkout(request):
     read_only = {'info': CheckoutInfo.objects.filter(user_id=request.user.id).order_by("-id").first(),
-                 'cardInfo': Cards.objects.filter(user_id=request.user.id).order_by("-id").first()}
+                 'cardInfo': Cards.objects.filter(user_id=request.user.id).order_by("-id").first(),
+                 'feeling_lucky': CheckoutInfo.objects.filter(user=request.user).order_by('-id').first().feeling_lucky}
     return render(request, 'Users/read_only_checkout.html', read_only)
 
 
 def card_info_checkout(request):
+
     if request.method == 'POST':
         form = CardInfoForm(data=request.POST)
         if form.is_valid():
@@ -212,11 +222,6 @@ def empty_checkout_cancel(request):
         i.delete()
     return redirect('cart')
 
-
-# def empty_checkout_confirm(request):
-#    for i in Cards.objects.filter(user_id=request.user.id):
-#        i.delete()
-#    return redirect('/')
 
 
 def empty_cart(request):

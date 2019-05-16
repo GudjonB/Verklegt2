@@ -8,7 +8,6 @@ urlpatterns = [
     path('login', LoginView.as_view(template_name='Users/login.html'), name='login'),
     path('logout', LogoutView.as_view(next_page='login'), name='logout'),
 
-
     path('profile', views.profile, name='profile'),
     path('cart', views.cart, name='cart'),
     path('sellerprofile/<int:id>', views.profile_seller, name='profile_seller'),
@@ -25,7 +24,6 @@ urlpatterns = [
     path('removeCartItem/<int:id>', views.remove_from_cart, name='removeCartItem'),
     path('emptyCart/', views.empty_cart, name='emptyCart'),
     path('emptyCartPurchase', views.empty_cart_purchased, name='emptyCartPurchase'),
-
 
     path('checkout', views.proceed_to_checkout, name='checkout'),
     path('checkoutCardInfo', views.card_info_checkout, name='checkoutCardInfo'),
