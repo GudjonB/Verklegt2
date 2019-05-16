@@ -14,15 +14,15 @@
         {% for i in items %}
             <div class="card" >
 
-                <a href="/properties/{{ i.id }}">
+                <a href="{% url 'property_details' i.id %}">
                     {% if i.property.propertyimages_set.count == 0 %}
-                        <img class="card-img-top" alt="card image" src="/static/images/properties/default_castle.jpg" >
+                        <img class="card-img-top" alt="castle" src="/static/images/properties/default_castle.jpg" >
                     {% else %}
-                        <img class="card-img-top" alt="card image" src="{{ i.property.propertyimages_set.first}}" >
+                        <img class="card-img-top" alt="property thumbnail" src="{{ i.property.propertyimages_set.first}}" >
                     {% endif %}
                 </a>
                 <div class="card-body">
-                    <h5 class="card-title"><a href="/properties/{{ i.property_id }}">{{ i.property.address }}</a></h5>
+                    <h5 class="card-title"><a href="{% url 'property_details' i.property_id %}">{{ i.property.address }}</a></h5>
                 </div>
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item">{{ i.property.category }}</li>
@@ -34,14 +34,9 @@
         {% endfor %}
     </div>
     <p><b>Total Price:</b> {{ total_price|intcomma }}.- kr</p>
-    <input type="button" onclick="location.href='javascript:history.back()'" value="Prev" class="btn btn-primary pull-right"
-           style="clear:both; margin-bottom: 20px; margin-right: 50%"/>
+    <input type="button" onclick="location.href='javascript:history.back()'" value="Prev" class="btn btn-primary pull-right"/>
 
-    <input id="confirmButton" type="button" onclick="purchaseConfirmed();location.href='/properties/delete_purchased_properties'"
+    <input id="confirmButton" type="button" onclick="purchaseConfirmed();location.href={% url 'delete_purchased_properties' %}"
      value="Confirm Purchase" class="btn btn-primary pull-right" style="clear:both; margin: 10px 0"/>
-<!-- ;
-    location.href='/users/emptyCartPurchase'
-    location.href='/properties/delete_purchased_properties'
-    -->
 
 {% endblock %}
