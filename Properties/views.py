@@ -32,11 +32,8 @@ def create_properties(request):
             sellers = PropertySellers(user_id=request.user.id, property_id=properties.id)
             sellers.save()
             if form.cleaned_data['image']:
-                print('mynd')
                 images = PropertyImages(image=form.cleaned_data['image'], property_id=properties.id)
                 images.save()
-            else:
-                print('engin mynd')
             return redirect('allProperties')
     else:
         form = PropertiesCreateForm()
