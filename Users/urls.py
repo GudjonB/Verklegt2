@@ -27,7 +27,7 @@ urlpatterns = [
 
     path('checkout', views.proceed_to_checkout, name='checkout'),
     path('checkoutCardInfo', views.card_info_checkout, name='checkout_card_info'),
-    path('checkoutReadOnly', views.read_only_checkout, name='checkout_readOnly'),
+    path('checkoutReadOnly', views.read_only_checkout, name='checkout_read_only'),
     path('checkoutConfirmation', views.confirmation_checkout, name='checkout_confirmation'),
     path('emptyCheckoutCancel', views.empty_checkout_cancel, name='empty_checkout_cancel'),
 
