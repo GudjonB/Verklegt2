@@ -1,6 +1,7 @@
 from urllib.parse import urlparse
 
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
+from django.core.files.storage import default_storage
 from django.shortcuts import render, redirect, get_object_or_404
 from django.db.models import Q, Sum
 
@@ -91,7 +92,12 @@ def add_property_image(request, id):
     if request.method == 'POST':
         form = PropertiesImagesForm(data=request.POST, files=request.FILES)
         if form.is_valid():
-            form.save()
+            properties = Properties.objects.get(pk=form['property'].value())
+            files = request.FILES.getlist('image')
+            for f in files:
+                img = default_storage.save('static/images/properties/' + f.name, f.file)
+                image = PropertyImages(property=properties, image=img)
+                image.save()
             return redirect(update_property_images, id)
     else:
         form = PropertiesImagesForm(initial={'property': id})
