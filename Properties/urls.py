@@ -4,13 +4,13 @@ from . import views
 urlpatterns = [
     path('', views.get_all_properties, name="allProperties"),
     path('<int:id>', views.get_property_by_id, name="propertyDetails"),
-    path('openHouses', views.get_open_houses, name="openHouses"),
+    path('open_houses', views.get_open_houses, name="openHouses"),
 
     path('create', views.create_properties, name="createProperties"),
-    path('addOpenHouses', views.add_open_houses, name="add_open_house"),
+    path('add_open_houses', views.add_open_houses, name="add_open_house"),
 
     path('delete/<int:id>', views.delete_property, name='deleteProperty'),
-    path('delete_purchased_properties', views.delete_purchased_properties, name='deletePurchasedProperties'),
+    path('delete_purchased_properties', views.delete_purchased_properties, name='delete_purchased_properties'),
     path('update/<int:id>', views.update_property, name='update_property'),
     path('edit_image/<int:id>', views.update_property_images, name='update_property_images'),
     path('add_image/<int:id>', views.add_property_image, name='add_property_image'),
@@ -20,5 +20,5 @@ urlpatterns = [
     path('filter', views.property_filter, name="filter"),
 
     path('data/mbl', views.add_data_from_web, name='addDataFromWeb')
-]
 
+]
