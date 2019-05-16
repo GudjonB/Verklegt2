@@ -95,14 +95,13 @@ def profile_seller(request, id):
 @login_required
 def update_profile(request):
     if request.method == 'POST':
-        form = UpdateProfileForm(data=request.POST, instance=request.user, files=request.FILES)
+        form = UpdateProfileForm(data=request.POST, files=request.FILES)
         if form.is_valid():
             my_profile = Profiles.objects.get(user_id=request.user.id)
             my_profile.name = form['name'].value()
             my_profile.address = form['address'].value()
             my_profile.social = form['social'].value()
             my_profile.zipCode_id = form['zipCode'].value()
-            logger.error(form['image'].value())
             if "/" not in form['image'].value():          # Default image value always contains the whole path
                 my_profile.image = form['image'].value()  # Only update if not default image value
             my_profile.save()
@@ -123,13 +122,19 @@ def update_profile(request):
 
 @login_required
 def cart(request):
+    toDelete = CartItems.objects.filter(property__deleted=True)
+    for i in toDelete:
+        i.delete()
     Cart = {'Cart': CartItems.objects.filter(user_id=request.user.id)}
     return render(request, 'Users/cart.html', Cart)
 
 
 @login_required
 def favourites(request):
-    fav = Favourites.objects.filter(user_id=request.user.id, property__in=Properties.objects.filter(deleted=False))
+    toDelete = Favourites.objects.filter(property__deleted=True)
+    for i in toDelete:
+        i.delete()
+    fav = Favourites.objects.filter(user_id=request.user.id)
     context = {'fav': fav,
                'Cart': [c.property for c in CartItems.objects.filter(user=request.user.id)]}
     return render(request, 'Users/Favourites.html', context)
@@ -263,7 +268,7 @@ def add_staff(request):
             user.is_staff = True
             user.email = user.username + '@ca.is'
             user.save()
-            return redirect('addStaff')
+            return redirect('add_staff')
     else:
         form = StaffForm()
     return render(request, 'Users/add_staff.html', {
