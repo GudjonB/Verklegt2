@@ -18,8 +18,6 @@
                 <p class="profile-para"><b>Social Security Nr:</b> {{ sellers_profile.social }}</p>
             {% endif %}
 
-
-            <!--<a href="/users/profileup" class="btn btn-profile">Edit Profile</a>               message realtor? -->
         </div>
         {% if selling_count != 0 %}
             <div class="profile-selling-container">
@@ -29,7 +27,7 @@
                     {% for i in selling %}
                         {% if not i.property.deleted %}
                             <div class="card" >
-                                <a href="/properties/{{ i.property_id }}">
+                                <a href="{% url 'property_details' i.property_id %}">
                                     {% if i.property.propertyimages_set.count == 0 %}
                                         <img class="card-img-top" alt="card image" src="/static/images/properties/default_castle.jpg" >
                                     {% else %}
@@ -37,11 +35,11 @@
                                     {% endif %}
                                 </a>
                                 <div class="card-body">
-                                    <h5 class="card-title"><a href="/properties/{{ i.property_id }}">{{ i.property.address }}</a></h5>
+                                    <h5 class="card-title"><a href="{% url 'property_details' i.property_id %}">{{ i.property.address }}</a></h5>
                                     <!--<p class="card-text">{{ i.description_set.first }}</p>-->
                                 </div>
                                 <div class="card-body">
-                                    <a href="/properties/{{ i.property_id }}" class="card-link">View</a>
+                                    <a href="{% url 'property_details' i.property_id %}" class="card-link">View</a>
                                 </div>
                             </div>
                         {% endif %}

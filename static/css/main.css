@@ -119,6 +119,12 @@ button:focus {
     outline: none;
     border: none;
 }
+#confirmButton {
+    clear: both;
+    margin: 10px 0;
+}
+
+
 input:focus {
     outline: none;
 }
@@ -651,6 +657,7 @@ hr {
 #descr {
     width: 60%;
     display: inline-block;
+    text-align: justify;
 }
 
 .pagination {
