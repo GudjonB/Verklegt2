@@ -19,8 +19,6 @@
         </div>
         <input class="btn btn-primary" type="submit" value="Submit">
     </form>
-
-
     <h5 class="section-title h1">Our latest properties for sale!</h5>
     <div class="propContainer">
         <div class="newRow">
@@ -61,7 +59,6 @@
         </div>
     </div>
     <a href ="{% url 'all_properties' %}" class="see-all-props btn btn-info">See all properties</a>
-
     <br>
     <br>
     <h5 class="section-title h1">Hot properties this week!</h5>
@@ -109,7 +106,6 @@
     <div class="propContainer">
         <div class="newRow">
             {% for i in monthVisits %}
-
                 <div class="card">
                     <a href="{% url 'property_details' i.property.id %}">
                         {% if i.property.propertyimages_set.count == 0 %}

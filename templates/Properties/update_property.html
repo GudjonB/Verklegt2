@@ -5,6 +5,6 @@
     <form action="{% url 'update_property' prop_id %}" class="form form horizontal" enctype="multipart/form-data" method="POST">
         {% csrf_token %}
         {{ form.as_p }}
-        <input class="btn btn-primary" type="submit" value="Update"/>
+        <input class="btn btn-primary" type="submit" value="Update">
     </form>
 {% endblock %}
