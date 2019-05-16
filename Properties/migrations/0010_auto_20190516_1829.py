@@ -16,7 +16,4 @@ class Migration(migrations.Migration):
             name='year_built',
             field=models.CharField(blank=True, max_length=4, null=True, validators=[django.core.validators.RegexValidator('^\\d{4}$', 'Year must be 4 digits long and must only contain numbers')]),
         ),
-        migrations.DeleteModel(
-            name='open_houses',
-        ),
     ]

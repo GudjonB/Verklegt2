@@ -358,7 +358,7 @@ def delete_purchased_properties(request):
 
 @login_required
 def receipt(request):
-    random_id = random.choice([p.id for p in Properties.objects.all()])
+    random_id = random.choice([p.id for p in Properties.objects.filter(deleted=False)])
     item = Properties.objects.filter(id=random_id).first()
     img = PropertyImages.objects.filter(property_id=random_id).first()
     item.deleted = True
