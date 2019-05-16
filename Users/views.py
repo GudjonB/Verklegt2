@@ -99,7 +99,9 @@ def update_profile(request):
             my_profile.address = form['address'].value()
             my_profile.social = form['social'].value()
             my_profile.zipCode_id = form['zipCode'].value()
-            my_profile.image = form['image'].value()
+            logger.error(form['image'].value())
+            if "/" not in form['image'].value():          # Default image value always contains the whole path
+                my_profile.image = form['image'].value()  # Only update if not default image value
             my_profile.save()
             return redirect('profile')
     else:
