@@ -42,12 +42,12 @@ def create_properties(request):
     })
 
 
-def update_property(request, id):
+def update_property(request, _id):
     if request.method == 'POST':
         form = PropertiesUpdateForm(data=request.POST, instance=request.user, files=request.FILES)
         if form.is_valid():
-            property_to_update = get_object_or_404(Properties, pk=id)
-            description_to_update = get_object_or_404(Description, property_id=id)
+            property_to_update = get_object_or_404(Properties, pk=_id)
+            description_to_update = get_object_or_404(Description, property_id=_id)
 
             property_to_update.address = form['address'].value()
             property_to_update.zip_id = form['zip'].value()
@@ -60,10 +60,10 @@ def update_property(request, id):
             description_to_update.description = form['description'].value()
             property_to_update.save()
             description_to_update.save()
-            return redirect('propertyDetails', id=id)
+            return redirect('propertyDetails', id=_id)
     else:
-        property_to_update = Properties.objects.get(pk=id)
-        description_to_update = get_object_or_404(Description, property_id=id)
+        property_to_update = Properties.objects.get(pk=_id)
+        description_to_update = get_object_or_404(Description, property_id=_id)
         form = PropertiesUpdateForm(initial={'address': property_to_update.address,
                                              'zip': property_to_update.zip,
                                              'category': property_to_update.category,
@@ -75,60 +75,60 @@ def update_property(request, id):
                                              'description': description_to_update.description})
     return render(request, 'Properties/update_property.html', {
         'form': form,
-        'prop_id': id
+        'prop_id': _id
     })
 
 
-def update_property_images(request, id):
+def update_property_images(request, _id):
     return render(request, 'Properties/property_details_edit_images.html', {
-        'Property_images': PropertyImages.objects.filter(property_id=id),
-        'prop_id': id
+        'Property_images': PropertyImages.objects.filter(property_id=_id),
+        'prop_id': _id
     })
 
 
-def add_property_image(request, id):
+def add_property_image(request, _id):
     if request.method == 'POST':
         form = PropertiesImagesForm(data=request.POST, files=request.FILES)
         if form.is_valid():
             form.save()
-            return redirect(update_property_images, id)
+            return redirect(update_property_images, _id)
     else:
-        form = PropertiesImagesForm(initial={'property': id})
+        form = PropertiesImagesForm(initial={'property': _id})
     return render(request, 'Properties/upload_property_images.html', {
         'form': form,
-        'prop_id': id
+        'prop_id': _id
     })
 
 
-def delete_property_image(request, id):
-    image_to_delete = get_object_or_404(PropertyImages, id=id)
+def delete_property_image(request, _id):
+    image_to_delete = get_object_or_404(PropertyImages, id=_id)
     redirect_location_id = image_to_delete.property_id
     image_to_delete.delete()
     return redirect(update_property_images, redirect_location_id)
 
 
-def get_property_by_id(request, id):
-    prop = get_object_or_404(Properties, id=id)
+def get_property_by_id(request, _id):
+    prop = get_object_or_404(Properties, id=_id)
     prop_seller_user_id = get_object_or_404(PropertySellers, property_id=prop.id).user_id
     if prop.deleted:
         return redirect('allProperties')
     users_prop_list = []
     for i in PropertySellers.objects.filter(user_id=request.user.id):
         users_prop_list.append(i.property_id)
-    propertyVisit = PropertyVisits.objects.filter(property_id=id).order_by('-id').first()
-    if propertyVisit and propertyVisit.date.strftime('%W') == datetime.now().strftime('%W') and \
-            propertyVisit.date.strftime('%Y') == datetime.now().strftime('%Y'):
-        propertyVisit.counter = propertyVisit.counter + 1
-        propertyVisit.save()
-    else :
-        propertyVisit = PropertyVisits(property_id=id, counter=1)
-        propertyVisit.save()
+    property_visit = PropertyVisits.objects.filter(property_id=_id).order_by('-_id').first()
+    if property_visit and property_visit.date.strftime('%W') == datetime.now().strftime('%W') and \
+            property_visit.date.strftime('%Y') == datetime.now().strftime('%Y'):
+        property_visit.counter = property_visit.counter + 1
+        property_visit.save()
+    else:
+        property_visit = PropertyVisits(property_id=_id, counter=1)
+        property_visit.save()
     return render(request, 'Properties/property_details.html',
                   {'Property': prop,
                    'UsersProperties': users_prop_list,
                    'Cart': [c.property for c in CartItems.objects.filter(user=request.user.id)],
                    'Favourites': [f.property for f in Favourites.objects.filter(user=request.user.id)],
-                   'PropertyVisits': PropertyVisits.objects.filter(property_id=id).aggregate(count=Sum('counter')),
+                   'PropertyVisits': PropertyVisits.objects.filter(property_id=_id).aggregate(count=Sum('counter')),
                    'propertySellerUserId': prop_seller_user_id,
                    'currentUserId': request.user.id
                    })
@@ -144,28 +144,28 @@ def get_all_properties(request):
     paginator = Paginator(props, 9)
     page = request.GET.get('page')
     try:
-        displayProps = paginator.page(page)
+        display_props = paginator.page(page)
     except PageNotAnInteger:
-        displayProps = paginator.page(1)
+        display_props = paginator.page(1)
     except EmptyPage:
-        displayProps = paginator.page(paginator.num_pages)
+        display_props = paginator.page(paginator.num_pages)
     context = {'Categories': Categories.objects.all(),
                'Zip': Zip.objects.all(),
                'Cart': cart,
                'Searches': searches,
-               'DisplayProps': displayProps
+               'DisplayProps': display_props
                }
     return render(request, 'Properties/index.html', context)
 
 
-def add_to_cart(request, id):
-    item = CartItems(property=get_object_or_404(Properties, pk=id), user=request.user)
+def add_to_cart(request, _id):
+    item = CartItems(property=get_object_or_404(Properties, pk=_id), user=request.user)
     item.save()
     return redirect(request.META.get('HTTP_REFERER'))
 
 
-def remove_from_cart(request, id):
-    item = CartItems.objects.filter(property_id=id, user=request.user)
+def remove_from_cart(request, _id):
+    item = CartItems.objects.filter(property_id=_id, user=request.user)
     item.delete()
     return redirect(request.META.get('HTTP_REFERER'))
 
@@ -173,7 +173,6 @@ def remove_from_cart(request, id):
 def get_open_houses(request):
     context = {'OpenHouses': OpenHouses.objects.all()}
     return render(request, 'Properties/open_houses.html', context)
-
 
 
 def add_open_houses(request):
@@ -198,13 +197,13 @@ def search(request):
     paginator = Paginator(props, 9)
     page = request.GET.get('page')
     try:
-        displayProps = paginator.page(page)
+        display_props = paginator.page(page)
     except PageNotAnInteger:
-        displayProps = paginator.page(1)
+        display_props = paginator.page(1)
     except EmptyPage:
-        displayProps = paginator.page(paginator.num_pages)
+        display_props = paginator.page(paginator.num_pages)
 
-    return render(request, 'Properties/index.html', {'query': query, 'DisplayProps': displayProps,
+    return render(request, 'Properties/index.html', {'query': query, 'DisplayProps': display_props,
                                                      'Categories': Categories.objects.all(),
                                                      'Zip': Zip.objects.all(),
                                                      'Cart': [c.property for c in
@@ -214,12 +213,12 @@ def search(request):
                                                      })
 
 
-def filter(request):
+def property_filter(request):
     query = request.GET
     props = Properties.objects.filter(deleted=False).order_by('-id')
     if query.getlist('category'):  # check categories
-        props = Properties.objects.filter(Q(deleted=False), Q(category__in=query.getlist('category'))).order_by('category').order_by(
-            'address')
+        props = Properties.objects.filter(Q(deleted=False), Q(category__in=query.getlist('category')))\
+            .order_by('category').order_by('address')
     if query.get('zipcodes'):  # check zipcodes
         tmp = Properties.objects.filter(Q(deleted=False), Q(zip__in=query.get('zipcodes')))
         props = tmp.intersection(props)
@@ -258,13 +257,13 @@ def filter(request):
     paginator = Paginator(props, 9)
     page = request.GET.get('page')
     try:
-        displayProps = paginator.page(page)
+        display_props = paginator.page(page)
     except PageNotAnInteger:
-        displayProps = paginator.page(1)
+        display_props = paginator.page(1)
     except EmptyPage:
-        displayProps = paginator.page(paginator.num_pages)
+        display_props = paginator.page(paginator.num_pages)
 
-    return render(request, 'Properties/index.html', {'DisplayProps': displayProps,
+    return render(request, 'Properties/index.html', {'DisplayProps': display_props,
                                                      'Categories': Categories.objects.all(),
                                                      'Zip': Zip.objects.all(),
                                                      'Cart': [c.property for c in
@@ -274,11 +273,11 @@ def filter(request):
                                                      })
 
 
-def delete_property(request, id):
-    properties = get_object_or_404(Properties, pk=id)
+def delete_property(request, _id):
+    properties = get_object_or_404(Properties, pk=_id)
     properties.deleted = True
     properties.save()
-    selling = get_object_or_404(PropertySellers, property_id=id)
+    selling = get_object_or_404(PropertySellers, property_id=_id)
     selling.delete()
     if urlparse(request.META.get('HTTP_REFERER')).path == '/users/profile':
         return redirect('profile')
@@ -296,6 +295,7 @@ def delete_purchased_properties(request):
         i.delete()
     return redirect('/')
 
+
 def add_data_from_web(request):
     clearFiles()
     writeToCsv()
@@ -306,26 +306,26 @@ def add_data_from_web(request):
     imgs = readFromCsv('properties/csv/propertyImgs.csv')
     print(imgs)
     for i in range(len(props)):
-        zip, created = Zip.objects.get_or_create(zip=str(zips[i][0]),
-                                                 city=str(zips[i][1]))
+        _zip, created = Zip.objects.get_or_create(zip=str(zips[i][0]),
+                                                  city=str(zips[i][1]))
         category, created = Categories.objects.get_or_create(category=str(categories[i][0]))
-        property, created = Properties.objects.get_or_create(address=str(props[i][0]),
-                                                             zip_id=zip.id,
-                                                             category_id=category.id,
-                                                             size=props[i][1],
-                                                             rooms=props[i][2],
-                                                             bathrooms=props[i][3],
-                                                             year_built=props[i][4],
-                                                             price=props[i][5])
-        Description.objects.get_or_create(property=property,
+        prop, created = Properties.objects.get_or_create(address=str(props[i][0]),
+                                                         zip_id=_zip.id,
+                                                         category_id=category.id,
+                                                         size=props[i][1],
+                                                         rooms=props[i][2],
+                                                         bathrooms=props[i][3],
+                                                         year_built=props[i][4],
+                                                         price=props[i][5])
+        Description.objects.get_or_create(property=prop,
                                           description=descriptions[i][0])
-        PropertySellers.objects.get_or_create(property_id=property.id, user_id=request.user.id)
-        imageCounter = 1
-        while imageCounter != 6:
-            filename = 'static/images/properties/' + str(props[i][5]) + '_mynd_' + str(imageCounter) + '.jpg'
-            urllib.request.urlretrieve(imgs[i+imageCounter][1], filename)
-            PropertyImages.objects.get_or_create(property=property,
+        PropertySellers.objects.get_or_create(property_id=prop.id, user_id=request.user.id)
+        image_counter = 1
+        while image_counter != 6:
+            filename = 'static/images/properties/' + str(props[i][5]) + '_mynd_' + str(image_counter) + '.jpg'
+            urllib.request.urlretrieve(imgs[i+image_counter][1], filename)
+            PropertyImages.objects.get_or_create(property=prop,
                                                  image=filename)
-            imageCounter += 1
+            image_counter += 1
 
     return redirect('allProperties')
