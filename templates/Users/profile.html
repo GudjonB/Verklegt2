@@ -31,7 +31,7 @@
                 {% if fav.count == 0 %}
                     <div class="no_fav_container">
                         <div>
-                            <img class="no_fav" src="/static/images/sad_star.png">
+                            <img class="no_fav" alt="sad star" src="/static/images/sad_star.png">
                         </div>
                         <div>
                             <p class="fav_para">You have no favorite properties, Go and search!</p>
@@ -42,9 +42,9 @@
                     <div class="card" >
                         <a href="/properties/{{ i.property.id }}">
                             {% if i.property.propertyimages_set.count == 0 %}
-                                <img class="card-img-top" alt="card image" src="/static/images/properties/default_castle.jpg" >
+                                <img class="card-img-top" alt="castle" src="/static/images/properties/default_castle.jpg" >
                             {% else %}
-                                <img class="card-img-top" alt="card image" src="{{ i.property.propertyimages_set.first}}" >
+                                <img class="card-img-top" alt="property thumbnail" src="{{ i.property.propertyimages_set.first}}" >
                             {% endif %}
                         </a>
                         <div class="card-body">
@@ -76,9 +76,9 @@
                         <div class="card" >
                             <a href="{% url 'property_details' i.property_id %}">
                                 {% if i.property.propertyimages_set.count == 0 %}
-                                    <img class="card-img-top" alt="card image" src="/static/images/properties/default_castle.jpg" >
+                                    <img class="card-img-top" alt="castle" src="/static/images/properties/default_castle.jpg" >
                                 {% else %}
-                                    <img class="card-img-top" alt="card image" src="{{ i.property.propertyimages_set.first}}" >
+                                    <img class="card-img-top" alt="property thumbnail" src="{{ i.property.propertyimages_set.first}}" >
                                 {% endif %}
                             </a>
                             <div class="card-body">
@@ -86,8 +86,10 @@
                                 <!--<p class="card-text">{{ i.description_set.first }}</p>-->
                             </div>
                             <div class="card-body">
+
                                 <a href="{% url 'property_details' i.property_id %}" class="card-link">View</a>
-                                <a href="{% url 'delete_property' i.property_id %}" class="btn btn-danger">Delete Property</a>
+                                <a href="{% url 'delete_property' i.property_id %}" onclick="return confirm('are you sure?')" class="btn btn-danger">Delete Property</a>
+
                             </div>
                         </div>
                     {% endif %}

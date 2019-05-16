@@ -159,18 +159,17 @@ def proceed_to_checkout(request):
     if request.method == 'POST':
         form = CheckoutInfoForm(data=request.POST)
         if form.is_valid():
-            print(form)
             form.save()
             return redirect('checkout_card_info')
     else:
         if request.META.get('HTTP_REFERER') == 'http://127.0.0.1:8000/properties/':
-            feelingLucky = True
+            feeling_lucky = True
         else:
-            feelingLucky = False
+            feeling_lucky = False
         form = CheckoutInfoForm(initial={'user': request.user,
                                          'name': request.user.profiles.name,
                                          'social': request.user.profiles.social,
-                                         'feeling_lucky': feelingLucky
+                                         'feeling_lucky': feeling_lucky
                                          })
 
     return render(request, 'Users/checkout.html', {
