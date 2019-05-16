@@ -67,7 +67,7 @@ class Migration(migrations.Migration):
             field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='Properties.Zip'),
         ),
         migrations.CreateModel(
-            name='open_houses',
+            name='OpenHouses',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('time', models.DateTimeField(blank=True)),

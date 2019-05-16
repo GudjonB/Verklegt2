@@ -1,6 +1,8 @@
 from urllib.parse import urlparse
 
+from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
+from django.core.files.storage import default_storage
 from django.shortcuts import render, redirect, get_object_or_404
 from django.db.models import Q, Sum
 
@@ -23,6 +25,7 @@ def index(request):
     return render(request, 'Properties/index.html')
 
 
+@login_required
 def create_properties(request):
     if request.method == 'POST':
         form = PropertiesCreateForm(request.POST, request.FILES)
@@ -43,6 +46,7 @@ def create_properties(request):
     })
 
 
+@login_required
 def update_property(request, id):
     if request.method == 'POST':
         form = PropertiesUpdateForm(data=request.POST, instance=request.user, files=request.FILES)
@@ -80,6 +84,7 @@ def update_property(request, id):
     })
 
 
+@login_required
 def update_property_images(request, id):
     return render(request, 'Properties/property_details_edit_images.html', {
         'Property_images': PropertyImages.objects.filter(property_id=id),
@@ -87,11 +92,17 @@ def update_property_images(request, id):
     })
 
 
+@login_required
 def add_property_image(request, id):
     if request.method == 'POST':
         form = PropertiesImagesForm(data=request.POST, files=request.FILES)
         if form.is_valid():
-            form.save()
+            properties = Properties.objects.get(pk=form['property'].value())
+            files = request.FILES.getlist('image')
+            for f in files:
+                img = default_storage.save('static/images/properties/' + f.name, f.file)
+                image = PropertyImages(property=properties, image=img)
+                image.save()
             return redirect(update_property_images, id)
     else:
         form = PropertiesImagesForm(initial={'property': id})
@@ -101,6 +112,7 @@ def add_property_image(request, id):
     })
 
 
+@login_required
 def delete_property_image(request, id):
     image_to_delete = get_object_or_404(PropertyImages, id=id)
     redirect_location_id = image_to_delete.property_id
@@ -164,6 +176,7 @@ def get_open_houses(request):
     return render(request, 'Properties/open_houses.html', context)
 
 
+@login_required
 def add_open_houses(request):
     if request.method == 'POST':
         form = OpenHousesCreateForm(request=request, data=request.POST)
@@ -316,6 +329,7 @@ def property_filter(request):
                                                      })
 
 
+@login_required
 def delete_property(request, id):
     properties = get_object_or_404(Properties, pk=id)
     for i in CartItems.objects.filter(property_id=id):
@@ -329,6 +343,7 @@ def delete_property(request, id):
     return redirect('all_properties')
 
 
+@login_required
 def delete_purchased_properties(request):
     for i in CartItems.objects.filter(user_id=request.user.id):
         i.property.deleted = True
@@ -341,6 +356,7 @@ def delete_purchased_properties(request):
     return redirect('/')
 
 
+@login_required
 def receipt(request):
     random_id = random.choice([p.id for p in Properties.objects.all()])
     item = Properties.objects.filter(id=random_id).first()
@@ -352,6 +368,7 @@ def receipt(request):
     return render(request, 'Properties/receipt.html', info)
 
 
+@login_required
 def add_data_from_web(request):
     clearFiles()
     writeToCsv()
