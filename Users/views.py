@@ -263,7 +263,7 @@ def add_staff(request):
             user.is_staff = True
             user.email = user.username + '@ca.is'
             user.save()
-            return redirect('addStaff')
+            return redirect('add_staff')
     else:
         form = StaffForm()
     return render(request, 'Users/add_staff.html', {
