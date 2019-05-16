@@ -10,6 +10,7 @@ class StaffForm(ModelForm):
             'user': widgets.Select(attrs={'class': 'form-control'},),
             'id': widgets.HiddenInput()
         }
+
     def __init__(self,*args,**kwargs):
-        super (StaffForm,self ).__init__(*args,**kwargs)
-        self.fields['user'].queryset = User.objects.filter(is_staff=False)
+        super(StaffForm, self ).__init__(*args, **kwargs)
+        self.fields['user'].queryset = User.objects.filter(is_staff=False)  # only get non staff users
