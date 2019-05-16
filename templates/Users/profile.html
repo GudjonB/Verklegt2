@@ -40,7 +40,7 @@
                 {% endif %}
                 {% for i in fav %}
                     <div class="card" >
-                        <a href="/properties/{{ i.id }}">
+                        <a href="/properties/{{ i.property.id }}">
                             {% if i.property.propertyimages_set.count == 0 %}
                                 <img class="card-img-top" alt="card image" src="/static/images/properties/default_castle.jpg" >
                             {% else %}
@@ -51,6 +51,7 @@
                             <h5 class="card-title"><a href="/properties/{{ i.property_id }}">{{ i.property.address }}</a></h5>
                             <!--<p class="card-text">{{ i.description_set.first }}</p>-->
                         </div>
+                        {% if not Profiles.user.is_staff %}
                         <div class="card-body">
                             {% if i.property in Cart %}
                                 <a href="/properties/removeCartItem/{{ i.property.id }}" class="btn btn-danger-small">Remove from cart</a>
@@ -58,6 +59,7 @@
                                 <a href="/users/addCartItem/{{ i.property.id }}" class="btn btn-primary-small">Add to cart</a>
                             {% endif %}
                         </div>
+                    {% endif %}
                     </div>
                 {% endfor %}
             </div>
@@ -65,7 +67,7 @@
     </div>
 
     {% if selling_count != 0 %}
-        <div class="profile-selling-container">
+        <div class="container">
             <h3>My Properties</h3>
             <hr>
             <div class="profile-selling">
@@ -92,6 +94,7 @@
                 {% endfor %}
             </div>
         </div>
+        <br>
     {% endif %}
 
 {% endblock %}

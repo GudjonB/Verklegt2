@@ -246,6 +246,9 @@ def add_staff(request):
         form = StaffForm(data=request.POST)
         if form.is_valid:
             user = get_object_or_404(User, pk=form['user'].value())
+            items = CartItems.objects.filter(user=user)
+            for i in items :
+                i.delete()
             user.is_staff = True
             user.email = user.username + '@ca.is'
             user.save()
@@ -256,3 +259,6 @@ def add_staff(request):
         'form': form
     })
 
+
+def about_us(request):
+    return render(request, 'Users/about_us.html')
