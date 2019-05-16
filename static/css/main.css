@@ -501,6 +501,12 @@ ul {
 
 .profile-head {
     display: block;
+    margin-bottom: 4rem;
+}
+
+.profile-head-seller {
+    display: block;
+    margin-bottom: 4rem;
 }
 
 .profile-img {
