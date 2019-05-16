@@ -1,5 +1,5 @@
 from django.forms import ModelForm, widgets
-from Properties.models import OpenHouses, Properties, User, PropertySellers
+from Properties.models import OpenHouses, Properties, PropertySellers
 
 
 class OpenHousesCreateForm(ModelForm):
