@@ -6,12 +6,12 @@ from creditcards.models import CardExpiryField
 import hashlib
 import time
 
+
 def _createHash():
     hash = hashlib.sha1()
     hash.update(str(time.time()))
-    return  hash.hexdigest()[:-10]
+    return hash.hexdigest()[:-10]
 
-# Create your models here.
 
 class Profiles(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -24,7 +24,8 @@ class Profiles(models.Model):
     zipCode = models.ForeignKey(Zip, on_delete=models.CASCADE, null=True, blank=True, verbose_name=u"Zip:")
     social = models.CharField(max_length=10,
                               validators=[RegexValidator(u'^\d{10}$',
-                                                         'Social security number must be 10 digits long and must only contain numbers')])
+                                                         'Social security number must be 10 digits long '
+                                                         'and must only contain numbers')])
     image = models.ImageField(upload_to='static/images/users/', verbose_name=u"Profile image:",
                               default='static/images/users/little-robin-hood-boys-costume.jpg',
                               blank=True, null=True)
@@ -51,9 +52,11 @@ class CartItems(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     property = models.ForeignKey(Properties, on_delete=models.CASCADE)
 
+
 class SearchHistory(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     search = models.CharField(max_length=50)
+
 
 class CheckoutInfo(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -79,7 +82,8 @@ class CheckoutInfo(models.Model):
                                                           'Zip must only contain numbers')])
     social = models.CharField(max_length=10, verbose_name=u"Social Security Number:",
                               validators=[RegexValidator(u'^\d{10}$',
-                                                         'Social security number must be 10 digits long and must only contain numbers')])
+                                                         'Social security number must be 10 digits long '
+                                                         'and must only contain numbers')])
     feeling_lucky = models.BooleanField(default=False)
 
 
@@ -91,11 +95,10 @@ class Cards(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     number = models.CharField(max_length=16, verbose_name=u"Credit Card Number:", default=_createHash,
                               validators=[RegexValidator(u'^\d{16}$',
-                                                         'Credit card number must be 16 characters long and must only contain numbers')])
+                                                         'Credit card number must be 16 characters long and '
+                                                         'must only contain numbers')])
     cvc = models.CharField(max_length=3, verbose_name=u"CVC:", default=_createHash,
                            validators=[RegexValidator(u'^\d{3}$',
                                                       'CVC must be 3 characters long and must only contain numbers')]
                            )
     expiration = CardExpiryField('expiration date')
-
-

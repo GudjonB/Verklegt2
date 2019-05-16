@@ -95,14 +95,13 @@ def profile_seller(request, id):
 @login_required
 def update_profile(request):
     if request.method == 'POST':
-        form = UpdateProfileForm(data=request.POST, instance=request.user, files=request.FILES)
+        form = UpdateProfileForm(data=request.POST, files=request.FILES)
         if form.is_valid():
             my_profile = Profiles.objects.get(user_id=request.user.id)
             my_profile.name = form['name'].value()
             my_profile.address = form['address'].value()
             my_profile.social = form['social'].value()
             my_profile.zipCode_id = form['zipCode'].value()
-            logger.error(form['image'].value())
             if "/" not in form['image'].value():          # Default image value always contains the whole path
                 my_profile.image = form['image'].value()  # Only update if not default image value
             my_profile.save()
