@@ -38,10 +38,8 @@ class Properties(models.Model):
     rooms = models.PositiveIntegerField()
     bathrooms = models.PositiveIntegerField()
     year_built = models.CharField(max_length=4, blank=True, null=True,
-                                  validators=[RegexValidator(u'^[0-9]{4}$',
-                                                             'Year must be 4 digits long and must only contain numbers')
-                                              ]
-                                  )
+                                  validators=[RegexValidator(u'^\d{4}$',
+                                                             'Year must be 4 digits long and must only contain numbers')])
     price = models.FloatField(validators=[MinValueValidator(0.0)])
     deleted = models.BooleanField(default=False)
 
