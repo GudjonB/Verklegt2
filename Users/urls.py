@@ -33,7 +33,8 @@ urlpatterns = [
     path('checkoutConfirmation', views.confirmation_checkout, name='checkoutConfirmation'),
     path('emptyCheckoutCancel', views.empty_checkout_cancel, name='emptyCheckoutCancel'),
 
-    path('add_staff', views.add_staff, name="addStaff")
+    path('add_staff', views.add_staff, name="addStaff"),
+    path('about_us', views.about_us, name="aboutUs")
 ]
 
 handler404 = 'Users.views.error_404_view'
