@@ -16,7 +16,7 @@ class Profiles(models.Model):
                                validators=[RegexValidator(u'^[0-9a-zA-ZáðéíóúýþæöÁÐÉÍÓÚÝÞÆÖ -]*$',
                                                           'Invalid character in address')])
     zipCode = models.ForeignKey(Zip, on_delete=models.CASCADE, null=True, blank=True, verbose_name=u"Zip:")
-    social = models.CharField(max_length=10,
+    social = models.CharField(max_length=10, verbose_name=u"Social Security Number:",
                               validators=[RegexValidator(u'^\d{10}$',
                                                          'Social security number must be 10 digits long '
                                                          'and must only contain numbers')])

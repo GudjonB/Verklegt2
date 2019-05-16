@@ -40,7 +40,7 @@ class Properties(models.Model):
     year_built = models.CharField(max_length=4, blank=True, null=True,
                                   validators=[RegexValidator(u'^\d{4}$',
                                                              'Year must be 4 digits long and must only contain numbers')])
-    price = models.FloatField(validators=[MinValueValidator(0.0)])
+    price = models.DecimalField(decimal_places=0, max_digits=15, validators=[MinValueValidator(0)])
     deleted = models.BooleanField(default=False)
 
     def __str__(self):
