@@ -31,7 +31,7 @@ def create_properties(request):
             description.save()
             sellers = PropertySellers(user_id=request.user.id, property_id=properties.id)
             sellers.save()
-            if form['image'].value():
+            if form.cleaned_data['image']:
                 images = PropertyImages(image=form.cleaned_data['image'], property_id=properties.id)
                 images.save()
             return redirect('allProperties')
