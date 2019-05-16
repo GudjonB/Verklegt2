@@ -3,10 +3,6 @@
     {% load humanize %}
     <h1 class="profile-head">My Profile</h1>
     <hr>
-    <!--
-        <h2>User Nr:    {{ Profiles.user_id }}</h2>
-        <h2>Profile ID: {{ Profiles.id }}</h2>
-        -->
     <div class="profile-container">
         <div class="profile-info">
 
@@ -20,7 +16,7 @@
             {% endif %}
             <p class="profile-para"><b>Zip:               </b> {{ Profiles.zipCode }}</p>
 
-            <a href="/users/profileup" class="btn btn-profile">Edit Profile</a>
+            <a href="{% url 'update_profile' %}" class="btn btn-profile">Edit Profile</a>
         </div>
 
         <div id="profile-fav-container">
@@ -54,9 +50,9 @@
                         {% if not Profiles.user.is_staff %}
                             <div class="card-body">
                                 {% if i.property in Cart %}
-                                    <a href="/properties/removeCartItem/{{ i.property.id }}" class="btn btn-danger-small">Remove from cart</a>
+                                    <a href="{% url 'remove_cart_item' i.property.id %}" class="btn btn-danger-small">Remove from cart</a>
                                 {% else %}
-                                    <a href="/users/addCartItem/{{ i.property.id }}" class="btn btn-primary-small">Add to cart</a>
+                                    <a href="{% url 'add_cart_item' i.property.id %}" class="btn btn-primary-small">Add to cart</a>
                                 {% endif %}
                             </div>
                         {% endif %}
@@ -87,7 +83,6 @@
                             </div>
                             <div class="card-body">
                                 <a href="{% url 'delete_property' i.property_id %}" onclick="return confirm('are you sure?')" class="btn btn-danger">Delete Property</a>
-
                             </div>
                         </div>
                     {% endif %}

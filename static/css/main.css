@@ -524,7 +524,7 @@ ul {
 }
 
 .profile-img {
-    width: 30%;
+    width: 100%;
     margin-bottom: 1rem;
 }
 
@@ -543,7 +543,8 @@ hr {
 }
 
 .profile-info {
-
+    width: 12rem;
+    margin-left: 1rem;
 }
 
 #profile-fav-container {

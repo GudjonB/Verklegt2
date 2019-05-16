@@ -99,8 +99,8 @@ def update_profile(request):
             my_profile.address = form['address'].value()
             my_profile.social = form['social'].value()
             my_profile.zipCode_id = form['zipCode'].value()
-            if "/" not in form['image'].value():          # Default image value always contains the whole path
-                my_profile.image = form['image'].value()  # Only update if not default image value
+            if "/" not in form['image'].value():             # Default image value always contains the whole path
+                my_profile.image = form['image'].value()     # Only update if not default image value
             my_profile.save()
             return redirect('profile')
     else:
@@ -117,8 +117,8 @@ def update_profile(request):
 
 @login_required
 def cart(request):
-    toDelete = CartItems.objects.filter(property__deleted=True)
-    for i in toDelete:
+    to_delete = CartItems.objects.filter(property__deleted=True)     # The cart is emptied of all deleted properties,
+    for i in to_delete:                                              # for all users when someone loads one
         i.delete()
     Cart = {'Cart': CartItems.objects.filter(user_id=request.user.id)}
     return render(request, 'Users/cart.html', Cart)
@@ -126,8 +126,8 @@ def cart(request):
 
 @login_required
 def favourites(request):
-    to_delete = Favourites.objects.filter(property__deleted=True)
-    for i in to_delete:
+    to_delete = Favourites.objects.filter(property__deleted=True)   # Favourites is emptied of all deleted properties,
+    for i in to_delete:                                             # for all users when someone loads one
         i.delete()
     fav = Favourites.objects.filter(user_id=request.user.id)
     context = {'fav': fav,
@@ -268,7 +268,7 @@ def add_staff(request):
             for i in items :
                 i.delete()
             user.is_staff = True
-            user.email = user.username + '@ca.is'
+            user.email = user.username + '@ca.is'           #New staffmembers get an email when promoted
             user.save()
             return redirect('add_staff')
     else:

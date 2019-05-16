@@ -234,62 +234,63 @@ def search(request):
 def property_filter(request):
     query = request.GET
     props = Properties.objects.filter(deleted=False)
-    if query.get('category'):  # check categories
+    if query.get('category'):  # Check categories
         props = Properties.objects.filter(Q(deleted=False), Q(category=query.get('category')))
-        logger.error(query.get('category'))
-        category_query = query.get('category')
+        category_query = query.get('category')  # For storing when navigating between pages
     else:
         category_query = ""
 
-    if query.get('zipcodes'):  # check zipcodes
+    if query.get('zipcodes'):  # Check zipcodes
         tmp = Properties.objects.filter(Q(deleted=False), Q(zip=query.get('zipcodes')))
         props = tmp.intersection(props)
-        zip_query = query.get('zipcodes')
+        zip_query = query.get('zipcodes')  # For storing when navigating between pages
     else:
         zip_query = ""
 
-    if query.get('roomsfrom'):  # check min rooms
+    if query.get('roomsfrom'):  # Check min rooms
         tmp = Properties.objects.filter(Q(deleted=False), Q(rooms__gte=query.get('roomsfrom')))
         props = tmp.intersection(props)
-        roomsfrom_query = query.get('roomsfrom')
+        roomsfrom_query = query.get('roomsfrom')  # For storing when navigating between pages
     else:
         roomsfrom_query = ""
 
-    if query.get('roomsto') and '+' not in query.get('roomsto'):
+    if query.get('roomsto') and '+' not in query.get('roomsto'):  # Check max rooms
         tmp = Properties.objects.filter(Q(deleted=False), Q(rooms__lte=query.get('roomsto')))
         props = tmp.intersection(props)
-        roomsto_query = query.get('roomsto')
+        roomsto_query = query.get('roomsto')  # For storing when navigating between pages
     else:
         roomsto_query = ""
 
-    if query.get('sizefrom'):
+    if query.get('sizefrom'):  # Check min size
         tmp = Properties.objects.filter(Q(deleted=False), Q(size__gte=query.get('sizefrom')))
         props = tmp.intersection(props)
-        sizefrom_query = query.get('sizefrom')
+        sizefrom_query = query.get('sizefrom')  # For storing when navigating between pages
     else:
         sizefrom_query = ""
 
-    if query.get('sizeto') and '+' not in query.get('sizeto'):
+    if query.get('sizeto') and '+' not in query.get('sizeto'):  # Check max size
         tmp = Properties.objects.filter(Q(deleted=False), Q(size__lte=query.get('sizeto')))
         props = tmp.intersection(props)
-        sizeto_query = query.get('sizeto')
+        sizeto_query = query.get('sizeto')  # For storing when navigating between pages
     else:
         sizeto_query = ""
 
-    if query.get('pricefrom'):
+    if query.get('pricefrom'):  # Check min price
         tmp = Properties.objects.filter(Q(deleted=False), Q(price__gte=int(query.get('pricefrom')) * 1000000))
         props = tmp.intersection(props)
-        pricefrom_query = query.get('pricefrom')
+        pricefrom_query = query.get('pricefrom')  # For storing when navigating between pages
     else:
         pricefrom_query = ""
 
-    if query.get('priceto') and '+' not in query.get('priceto'):
+    if query.get('priceto') and '+' not in query.get('priceto'):  # Check max price
         tmp = Properties.objects.filter(Q(deleted=False), Q(price__lte=int(query.get('priceto')) * 1000000))
         props = tmp.intersection(props)
-        priceto_query = query.get('priceto')
+        priceto_query = query.get('priceto')  # For storing when navigating between pages
     else:
         priceto_query = ""
 
+    # Check what field to order by
+    # Set the 'order_query' variable to know what to order by when navigating between pages
     if query.get('orderinfo') == 'newestfirst':
         order_query = 'newestfirst'
         props = props.order_by('-id')
@@ -312,11 +313,12 @@ def property_filter(request):
         order_query = 'newestfirst'
         props = props.order_by('-id')
 
+    #  Each page is max 9 pages
     paginator = Paginator(props, 9)
     page = request.GET.get('page')
-    try:
+    try:  # Stores the properties to display on the page being loaded with respect to fillter and order
         display_props = paginator.page(page)
-    except PageNotAnInteger:
+    except PageNotAnInteger:  # First page after applying filter
         display_props = paginator.page(1)
     except EmptyPage:
         display_props = paginator.page(paginator.num_pages)
@@ -333,6 +335,7 @@ def property_filter(request):
                                                      'Cart': [c.property for c in
                                                               CartItems.objects.filter(user=request.user.id)],
                                                      'Searches': searches,
+                                                     # The Variable below are for storing filter info between pages
                                                      'OrderInfo': order_query,
                                                      'CategoryInfo': category_query,
                                                      'ZipInfo': zip_query,
@@ -376,8 +379,8 @@ def delete_purchased_properties(request):
 
 @login_required
 def receipt(request):
-    # slembi takkinn finnur eign af handahófi
-    random_id = random.choice([p.id for p in Properties.objects.all()])
+# slembi takkinn finnur eign af handahófi
+    random_id = random.choice([p.id for p in Properties.objects.filter(deleted=False)])
     item = Properties.objects.filter(id=random_id).first()
     img = PropertyImages.objects.filter(property_id=random_id).first()
     item.deleted = True
@@ -390,14 +393,14 @@ def receipt(request):
 @login_required
 def add_data_from_web(request):
     clearFiles()
-    writeToCsv()
+    writeToCsv() #Call the helper function to populate csv files
+    #get the data and store as list
     zips = readFromCsv('properties/csv/zip.csv')
     descriptions = readFromCsv('properties/csv/description.csv')
     props = readFromCsv('properties/csv/properties.csv')
     categories = readFromCsv('properties/csv/categories.csv')
     imgs = readFromCsv('properties/csv/propertyImgs.csv')
-    print(imgs)
-    for i in range(len(props)):
+    for i in range(len(props)): #Create objects from the data collected
         _zip, created = Zip.objects.get_or_create(zip=str(zips[i][0]),
                                                   city=str(zips[i][1]))
         category, created = Categories.objects.get_or_create(category=str(categories[i][0]))
