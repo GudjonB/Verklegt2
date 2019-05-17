@@ -180,7 +180,15 @@ def get_all_properties(request):
 
 
 def get_open_houses(request):
-    context = {'open_houses': OpenHouses.objects.all()}
+    # first get all open houses
+    open_list = OpenHouses.objects.all()
+    # then iterate through them all and delete open houses in the past
+    for open in open_list:
+        if open.time.date() < datetime.today().date():
+            open.delete()
+    today = datetime.today()
+    # as a safeguard send all the open houses and the date today for validation in the html
+    context = {'open_houses': OpenHouses.objects.all(), 'today': today}
     return render(request, 'Properties/open_houses.html', context)
 
 
@@ -192,7 +200,11 @@ def add_open_houses(request):
             form.save()
             return redirect('open_houses')
     else:
-        form = OpenHousesCreateForm(initial={'user': request.user}, request=request)
+        year = datetime.today().year
+        mth = datetime.today().month
+        day = datetime.today().day
+        str_time = datetime(year, mth, day + 1, 13).strftime("%d-%m-%Y %H:%M")
+        form = OpenHousesCreateForm(initial={'user': request.user, 'time': str_time}, request=request)
     return render(request, 'Properties/add_open_houses.html', {
         'form': form
     })
@@ -394,6 +406,7 @@ def add_data_from_web(request):
     props = readFromCsv('properties/csv/properties.csv')
     categories = readFromCsv('properties/csv/categories.csv')
     imgs = readFromCsv('properties/csv/propertyImgs.csv')
+
     for i in range(len(props)):     # Create objects from the data collected
         _zip, created = Zip.objects.get_or_create(zip=str(zips[i][0]),
                                                   city=str(zips[i][1]))
