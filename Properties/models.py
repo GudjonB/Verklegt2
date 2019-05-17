@@ -1,10 +1,8 @@
-from datetime import timezone, datetime
 
-from django.core.exceptions import ValidationError
-from django.core.validators import RegexValidator
-from django.core.validators import MinValueValidator
-from django.db import models
 from django.contrib.auth.models import User
+from django.core.validators import MinValueValidator
+from django.core.validators import RegexValidator
+from django.db import models
 
 
 def validate_date(value):

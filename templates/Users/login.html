@@ -4,12 +4,10 @@
     <form class="form form-horizontal" method="post">
         {% csrf_token %}
         {{ form.as_p }}
-        <input type="submit" class="btn btn-primary" value="Login" />
+        <input type="submit" class="btn btn-primary" value="Login"/>
         <div class="no-account">
             <br>
-            <a href ="{% url 'register' %}" class="new-account">Don't have an account? Create one here!</a>
+            <a href="{% url 'register' %}" class="new-account">Don't have an account? Create one here!</a>
         </div>
-
     </form>
-
 {% endblock %}

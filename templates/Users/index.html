@@ -6,9 +6,10 @@
 
 {% block houses %}
     {% load humanize %}
-    <form id="searchform" action="{% url 'search' %}" method="get" >
+    <form id="searchform" action="{% url 'search' %}" method="get">
         <div class="autocomplete">
-            <input id="userSearch" type="text" placeholder="Search.." name="q" maxlength="100" list="userSearches" autocomplete="off">
+            <input id="userSearch" type="text" placeholder="Search.." name="q" maxlength="100" list="userSearches"
+                   autocomplete="off">
             <datalist id="userSearches">
                 {% for s in Searches %}
                     {% if forloop.counter < 6 %}
@@ -27,9 +28,9 @@
                 <div class="card">
                     <a href="{% url 'property_details' i.id %}">
                         {% if i.propertyimages_set.count == 0 %}
-                            <img class="card-img-top" alt="castle" src="/static/images/properties/default_castle.jpg" >
+                            <img class="card-img-top" alt="castle" src="/static/images/properties/default_castle.jpg">
                         {% else %}
-                            <img class="card-img-top" alt="property thumbnail" src="{{ i.propertyimages_set.first}}" >
+                            <img class="card-img-top" alt="property thumbnail" src="{{ i.propertyimages_set.first }}">
                         {% endif %}
                     </a>
                     <div class="card-body">
@@ -41,24 +42,26 @@
                             <li class="list-group-item">{{ i.size|intcomma }} m<sup>2</sup></li>
                         </ul>
                         {% if not user.is_staff %}
-                        <div class="card-body">
-                            {% if user.is_authenticated %}
-                                {% if i in Cart %}
-                                    <a href="{% url 'remove_cart_item' i.id %}" class="btn btn-danger-cart">Remove from cart</a>
+                            <div class="card-body">
+                                {% if user.is_authenticated %}
+                                    {% if i in Cart %}
+                                        <a href="{% url 'remove_cart_item' i.id %}" class="btn btn-danger-cart">Remove
+                                            from cart</a>
+                                    {% else %}
+                                        <a href="{% url 'add_cart_item' i.id %}" class="btn btn-primary-cart">Add to
+                                            cart</a>
+                                    {% endif %}
                                 {% else %}
-                                    <a href="{% url 'add_cart_item' i.id %}" class="btn btn-primary-cart">Add to cart</a>
+                                    <a href="{% url 'login' %}" class="card-link">Add to cart</a>
                                 {% endif %}
-                            {% else %}
-                                <a href="{% url 'login' %}" class="card-link">Add to cart</a>
-                            {% endif %}
-                        </div>
+                            </div>
                         {% endif %}
                     </div>
                 </div>
             {% endfor %}
         </div>
     </div>
-    <a href ="{% url 'all_properties' %}" class="see-all-props btn btn-info">See all properties</a>
+    <a href="{% url 'all_properties' %}" class="see-all-props btn btn-info">See all properties</a>
     <br>
     <br>
     <h5 class="section-title h1">Hot properties this week!</h5>
@@ -68,14 +71,16 @@
                 <div class="card">
                     <a href="{% url 'property_details' i.property.id %}">
                         {% if i.property.propertyimages_set.count == 0 %}
-                            <img class="card-img-top" alt="castle" src="/static/images/properties/default_castle.jpg" >
+                            <img class="card-img-top" alt="castle" src="/static/images/properties/default_castle.jpg">
                         {% else %}
-                            <img class="card-img-top" alt="property thumbnail" src="{{ i.property.propertyimages_set.first}}" >
+                            <img class="card-img-top" alt="property thumbnail"
+                                 src="{{ i.property.propertyimages_set.first }}">
                         {% endif %}
                     </a>
                     <div class="card-body">
                         <div class="card-body">
-                            <h5 class="card-title"><a href="/properties/{{ i.property.id }}">{{ i.property.address }}</a></h5>
+                            <h5 class="card-title"><a
+                                    href="/properties/{{ i.property.id }}">{{ i.property.address }}</a></h5>
                         </div>
                         <ul class="list-group list-group-flush">
                             <li class="list-group-item">{{ i.property.price|intcomma }} .- Kr</li>
@@ -83,17 +88,19 @@
                             <li class="list-group-item">Visits this week: {{ i.counter }}</li>
                         </ul>
                         {% if not user.is_staff %}
-                        <div class="card-body">
-                            {% if user.is_authenticated %}
-                                {% if i.property in Cart %}
-                                    <a href="{% url 'remove_cart_item' i.property_id %}" class="btn btn-danger-cart">Remove from cart</a>
+                            <div class="card-body">
+                                {% if user.is_authenticated %}
+                                    {% if i.property in Cart %}
+                                        <a href="{% url 'remove_cart_item' i.property_id %}"
+                                           class="btn btn-danger-cart">Remove from cart</a>
+                                    {% else %}
+                                        <a href="{% url 'add_cart_item' i.property_id %}" class="btn btn-primary-cart">Add
+                                            to cart</a>
+                                    {% endif %}
                                 {% else %}
-                                    <a href="{% url 'add_cart_item' i.property_id %}" class="btn btn-primary-cart">Add to cart</a>
+                                    <a href="{% url 'login' %}" class="card-link">Add to cart</a>
                                 {% endif %}
-                            {% else %}
-                                <a href="{% url 'login' %}" class="card-link">Add to cart</a>
-                            {% endif %}
-                        </div>
+                            </div>
                         {% endif %}
                     </div>
                 </div>
@@ -109,14 +116,16 @@
                 <div class="card">
                     <a href="{% url 'property_details' i.property.id %}">
                         {% if i.property.propertyimages_set.count == 0 %}
-                            <img class="card-img-top" alt="castle" src="/static/images/properties/default_castle.jpg" >
+                            <img class="card-img-top" alt="castle" src="/static/images/properties/default_castle.jpg">
                         {% else %}
-                            <img class="card-img-top" alt="property thumbnail" src="{{ i.property.propertyimages_set.first}}" >
+                            <img class="card-img-top" alt="property thumbnail"
+                                 src="{{ i.property.propertyimages_set.first }}">
                         {% endif %}
                     </a>
                     <div class="card-body">
                         <div class="card-body">
-                            <h5 class="card-title"><a href="{% url 'property_details' i.property.id %}">{{ i.property.address }}</a></h5>
+                            <h5 class="card-title"><a
+                                    href="{% url 'property_details' i.property.id %}">{{ i.property.address }}</a></h5>
                         </div>
                         <ul class="list-group list-group-flush">
                             <li class="list-group-item">{{ i.property.price|intcomma }} .- Kr</li>
@@ -124,17 +133,19 @@
                             <li class="list-group-item">Visits this month: {{ i.counterSum }}</li>
                         </ul>
                         {% if not user.is_staff %}
-                        <div class="card-body">
-                            {% if user.is_authenticated %}
-                                {% if i.property in Cart %}
-                                    <a href="{% url 'remove_cart_item' i.property.id %}" class="btn btn-danger-cart">Remove from cart</a>
+                            <div class="card-body">
+                                {% if user.is_authenticated %}
+                                    {% if i.property in Cart %}
+                                        <a href="{% url 'remove_cart_item' i.property.id %}"
+                                           class="btn btn-danger-cart">Remove from cart</a>
+                                    {% else %}
+                                        <a href="{% url 'add_cart_item' i.property.id %}" class="btn btn-primary-cart">Add
+                                            to cart</a>
+                                    {% endif %}
                                 {% else %}
-                                    <a href="{% url 'add_cart_item' i.property.id %}" class="btn btn-primary-cart">Add to cart</a>
+                                    <a href="{% url 'login' %}" class="card-link">Add to cart</a>
                                 {% endif %}
-                            {% else %}
-                                <a href="{% url 'login' %}" class="card-link">Add to cart</a>
-                            {% endif %}
-                        </div>
+                            </div>
                         {% endif %}
                     </div>
                 </div>
