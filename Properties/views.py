@@ -1,22 +1,22 @@
+import logging
+import random
+import urllib
+from datetime import datetime
 from urllib.parse import urlparse
 
 from django.contrib.auth.decorators import login_required
-from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.core.files.storage import default_storage
-from django.shortcuts import render, redirect, get_object_or_404
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.db.models import Q, Sum
+from django.shortcuts import render, redirect, get_object_or_404
 
+from Helpers.getData import clearFiles, writeToCsv, readFromCsv
+from Properties.forms.open_houses_form import OpenHousesCreateForm
 from Properties.forms.properties_form import PropertiesCreateForm
 from Properties.forms.properties_form_update import PropertiesUpdateForm
-from Properties.forms.open_houses_form import OpenHousesCreateForm
 from Properties.forms.properties_images_form import PropertiesImagesForm
 from Properties.models import *
 from Users.models import CartItems, Favourites, SearchHistory, Cards
-from Helpers.getData import clearFiles, writeToCsv, readFromCsv
-from datetime import datetime
-import logging
-import urllib
-import random
 
 logger = logging.getLogger(__name__)
 
@@ -232,7 +232,7 @@ def search(request):
                                                      'Cart': [c.property for c in
                                                               CartItems.objects.filter(user=request.user.id)],
                                                      'Searches': [s.search for s in SearchHistory.objects.filter(
-                                                                  user=request.user).order_by('-id')]
+                                                         user=request.user).order_by('-id')]
                                                      })
 
 
@@ -406,8 +406,7 @@ def add_data_from_web(request):
     props = readFromCsv('properties/csv/properties.csv')
     categories = readFromCsv('properties/csv/categories.csv')
     imgs = readFromCsv('properties/csv/propertyImgs.csv')
-
-    for i in range(len(props)):     # Create objects from the data collected
+    for i in range(len(props)):  # Create objects from the data collected
         _zip, created = Zip.objects.get_or_create(zip=str(zips[i][0]),
                                                   city=str(zips[i][1]))
         category, created = Categories.objects.get_or_create(category=str(categories[i][0]))
@@ -425,7 +424,7 @@ def add_data_from_web(request):
         image_counter = 1
         while image_counter != 6:   # Get five photos for each property
             filename = 'static/images/properties/' + str(props[i][5]) + '_mynd_' + str(image_counter) + '.jpg'
-            urllib.request.urlretrieve(imgs[i+image_counter][1], filename)  # download the images from the links
+            urllib.request.urlretrieve(imgs[i + image_counter][1], filename)  # download the images from the links
             PropertyImages.objects.get_or_create(property=prop,
                                                  image=filename)
             image_counter += 1

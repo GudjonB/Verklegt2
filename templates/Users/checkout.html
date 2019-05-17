@@ -2,7 +2,7 @@
 
 {% block content %}
     <h1>Contact Information</h1>
-    <form class = "form form horizontal" action="{% url 'checkout' %}" method="post">
+    <form class="form form horizontal" action="{% url 'checkout' %}" method="post">
         {% csrf_token %}
         {{ form }}
         <a href="{% url 'empty_checkout_cancel' %}" class="btn btn-primary pull-right">Cancel</a>
