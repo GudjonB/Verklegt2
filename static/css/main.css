@@ -23,6 +23,7 @@
     background-size: cover;
     border-radius: 0;
 }
+
 .jumbotext {
     text-align: left;
     font-family: "Brush Script MT", cursive;
@@ -668,6 +669,12 @@ hr {
 #descr {
     width: 60%;
     display: inline-block;
+    text-align: justify;
+    margin-bottom: 2rem;
+}
+
+.fa-gem {
+    color: deepskyblue;
 }
 
 

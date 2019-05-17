@@ -3,8 +3,6 @@ from django.db import models
 from django.contrib.auth.models import User
 from Properties.models import Properties, Zip
 from creditcards.models import CardExpiryField
-import hashlib
-import time
 
 
 class Profiles(models.Model):
