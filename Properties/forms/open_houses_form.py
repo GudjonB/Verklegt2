@@ -13,7 +13,7 @@ class OpenHousesCreateForm(ModelForm):
             'property': widgets.Select(attrs={'class': 'form-control'}),
             'user': widgets.HiddenInput(attrs={'class': 'form-control'}),
             'length': widgets.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Length in minutes'}),
-            'time': widgets.DateTimeInput(attrs={'class': 'form-control', 'placeholder': 'dd/mm/yyyy hh:mm'})
+            'time': widgets.DateTimeInput(attrs={'class': 'form-control', 'placeholder': 'dd-mm-yyyy hh:mm'})
         }
 
     def __init__(self, *args, **kwargs):
