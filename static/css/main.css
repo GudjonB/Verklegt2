@@ -668,6 +668,12 @@ hr {
 #descr {
     width: 60%;
     display: inline-block;
+    text-align: justify;
+    margin-bottom: 2rem;
+}
+
+.fa-gem {
+    color: deepskyblue;
 }
 
 
