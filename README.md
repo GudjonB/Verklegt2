@@ -2,14 +2,14 @@
 Castle Apartments
 
 
-Aðgangur fyrir kaupanda:
+# Aðgangur fyrir kaupanda:
 
 Notandanafn: buyer
 
 Lykilorð: ibuybuyi
 
 
-Aðgangur fyrir fasteignasala:
+# Aðgangur fyrir fasteignasala:
 
 Notandanafn: realtor 
 
