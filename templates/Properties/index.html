@@ -259,13 +259,13 @@
     <div class="pagination">
         <span class="step-links">
             {% if DisplayProps.has_previous %} <!-- To store filter query info when navigating to previous page -->
-                <a href="?page={{ DisplayProps.previous_page_number }}&category={{ CategoryInfo }}&zipcodes={{ ZipInfo }}&roomsfrom={{ RoomsfromInfo }}&roomsto={{ RoomstoInfo }}&sizefrom={{ SizefromInfo }}&sizeto={{ SizetoInfo }}&pricefrom={{ PricefromInfo }}&priceto={{ PricetoInfo }}&orderinfo={{ OrderInfo }}">previous</a>
+                <a href="?page={{ DisplayProps.previous_page_number }}&category={{ CategoryInfo }}&zipcodes={{ ZipInfo }}&roomsfrom={{ RoomsfromInfo }}&roomsto={{ RoomstoInfo }}&sizefrom={{ SizefromInfo }}&sizeto={{ SizetoInfo }}&pricefrom={{ PricefromInfo }}&priceto={{ PricetoInfo }}&orderinfo={{ OrderInfo }}"><i class="fas fa-arrow-left"></i> previous</a>
             {% endif %}
             <span class="current">
                 Page {{ DisplayProps.number }} of {{ DisplayProps.paginator.num_pages }}
             </span>
             {% if DisplayProps.has_next %} <!-- To store filter query info when navigating to next page -->
-                <a href="?page={{ DisplayProps.next_page_number }}&category={{ CategoryInfo }}&zipcodes={{ ZipInfo }}&roomsfrom={{ RoomsfromInfo }}&roomsto={{ RoomstoInfo }}&sizefrom={{ SizefromInfo }}&sizeto={{ SizetoInfo }}&pricefrom={{ PricefromInfo }}&priceto={{ PricetoInfo }}&orderinfo={{ OrderInfo }}">next</a>
+                <a href="?page={{ DisplayProps.next_page_number }}&category={{ CategoryInfo }}&zipcodes={{ ZipInfo }}&roomsfrom={{ RoomsfromInfo }}&roomsto={{ RoomstoInfo }}&sizefrom={{ SizefromInfo }}&sizeto={{ SizetoInfo }}&pricefrom={{ PricefromInfo }}&priceto={{ PricetoInfo }}&orderinfo={{ OrderInfo }}">next <i class="fas fa-arrow-right"></i></a>
             {% endif %}
         </span>
     </div><br><br>
