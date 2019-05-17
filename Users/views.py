@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.db.models import Sum
 from django.shortcuts import render, redirect, get_object_or_404, render_to_response
@@ -265,6 +266,7 @@ def add_staff(request):
         if form.is_valid:
             user = get_object_or_404(User, pk=form['user'].value())
             items = CartItems.objects.filter(user=user)
+            messages.success(request, str(user.username) + ' successfully added to staff!')
             for i in items :
                 i.delete()
             user.is_staff = True

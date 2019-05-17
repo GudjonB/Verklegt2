@@ -1,6 +1,13 @@
 {% extends "base.html" %}
 {% block content %}
     <h1 class="login-register">Grant User Staff Privileges</h1>
+    {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
     <form class="form form-horizontal" method="post">
         {% csrf_token %}
         {{ form.as_p }}

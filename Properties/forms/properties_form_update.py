@@ -11,7 +11,7 @@ class PropertiesUpdateForm(ModelForm):
         exclude = ['id', 'name', 'deleted', 'image']
         widgets = {
             'address': widgets.TextInput(attrs={'class': 'form-control'}),
-            'zip': widgets.TextInput(attrs={'class': 'form-control'}),
+            'zip': widgets.Select(attrs={'class': 'form-control'}, ),
             'category': widgets.Select(attrs={'class': 'form-control'}),
             'size': widgets.TextInput(attrs={'class': 'form-control'}),
             'rooms': widgets.TextInput(attrs={'class': 'form-control'}),
