@@ -28,6 +28,9 @@
                         <ul class="list-group list-group-flush">
                             <li class="list-group-item">{{ i.time }}</li>
                         </ul>
+                        {% if user.is_staff %}
+                            <a href="{% url 'delete_open_house' i.id %}" onclick="return confirm('are you sure?')" class="btn btn-danger">Delete Open House</a>
+                        {% endif %}
                     </div>
                 {% endif %}
             {% endfor %}
