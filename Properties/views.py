@@ -1,4 +1,3 @@
-import logging
 import random
 import urllib
 from datetime import datetime
@@ -11,14 +10,14 @@ from django.db.models import Q, Sum
 from django.shortcuts import render, redirect, get_object_or_404
 
 from Helpers.getData import clearFiles, writeToCsv, readFromCsv
+
 from Properties.forms.open_houses_form import OpenHousesCreateForm
 from Properties.forms.properties_form import PropertiesCreateForm
 from Properties.forms.properties_form_update import PropertiesUpdateForm
 from Properties.forms.properties_images_form import PropertiesImagesForm
 from Properties.models import *
-from Users.models import CartItems, Favourites, SearchHistory, Cards
 
-logger = logging.getLogger(__name__)
+from Users.models import CartItems, Favourites, SearchHistory, Cards
 
 
 def index(request):
@@ -123,7 +122,7 @@ def add_property_image(request, id):
 def delete_property_image(request, id):
     image_to_delete = get_object_or_404(PropertyImages, id=id)  # Find the image in database
     redirect_location_id = image_to_delete.property_id  # redirect to property page
-    image_to_delete.delete()    # remove image from database
+    image_to_delete.delete()  # remove image from database
     return redirect(update_property_images, redirect_location_id)
 
 
@@ -357,8 +356,8 @@ def property_filter(request):
 def delete_property(request, id):
     properties = get_object_or_404(Properties, pk=id)
     for i in CartItems.objects.filter(property_id=id):
-        i.delete()      # remove property from all carts
-    properties.deleted = True   # then delete it from database
+        i.delete()  # remove property from all carts
+    properties.deleted = True  # then mark it is deleted in database
     properties.save()
     selling = get_object_or_404(PropertySellers, property_id=id)   # remove from seller profile
     selling.delete()
