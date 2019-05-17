@@ -1,12 +1,8 @@
 {% extends 'base.html' %}
 
-
-
 {% block content %}
     {% load humanize %}
-
     <h4>Property Search</h4>
-
     <form id="searchform" action="{% url 'search' %}" method="get" >
         <div class="autocomplete">
             <input id="userSearch" type="text" placeholder="Search.." name="q" maxlength="100" list="userSearches" autocomplete="off">
@@ -20,7 +16,6 @@
         </div>
         <input class="btn btn-primary" id="search-btn" type="submit" value="Search">
     </form>
-
     <br>
     <div class="container">
         <div class="[ col-xs-12 ] search-params">
@@ -31,17 +26,15 @@
                             <input type="radio" name="category" value="{{ i.id }}"> {{ i.category }}<br>
                         </label>
                     {% endfor %}
-
                 </div>
-                Zip code:
+                <label for="zip-codes">Zip code:</label>
                 <span class="zips"><select class="zipcodes"  name="zipcodes" id="zip-codes">
                     <option selected disabled>-------</option>
                     {% for i in Zip %}
                         <option value="{{ i.id }}">{{ i.zip }}</option>
                     {% endfor %}
-
                 </select>
-                Size (m<sup>2</sup>):
+                    <label for="size-from">Size (m<sup>2</sup>):</label>
                 <select class="size" name="sizefrom" id="size-from">
                     <option value="">&nbsp;</option>
                     <option value="10" >10</option>
@@ -70,7 +63,7 @@
                     <option value="900" >900</option>
                     <option value="1000" >1000</option>
                 </select>
-                <a> to </a>
+                <label for="size-to"> to </label>
                 <select class="size" name="sizeto" id="size-to" >
                     <option value="">&nbsp;</option>
                     <option value="10" >10</option>
@@ -98,8 +91,8 @@
                     <option value="800" >800</option>
                     <option value="900" >900</option>
                     <option value="1000+" >1000+</option>
-                </select> |
-                Rooms:
+                </select>
+                <label for="rooms-from">| Rooms:</label>
                 <select class="rooms" name="roomsfrom" id="rooms-from">
                     <option value="">&nbsp;</option>
                     <option value="1" >1</option>
@@ -113,7 +106,7 @@
                     <option value="9" >9</option>
                     <option value="10" >10</option>
                 </select>
-                 to
+                 <label for="rooms-to">to</label>
                 <select class="rooms" name="roomsto" id="rooms-to">
                     <option value="">&nbsp;</option>
                     <option value="1" >1</option>
@@ -126,8 +119,8 @@
                     <option value="8" >8</option>
                     <option value="9" >9</option>
                     <option value="10+" >10+</option>
-                </select> |
-                Price (m.kr):
+                </select>
+                    <label for="price-from">| Price (m.kr):</label>
                 <select class="price" name="pricefrom" id="price-from">
                     <option value="">&nbsp;</option>
                     <option value="0" >0</option>
@@ -164,7 +157,7 @@
                     <option value="900" >900</option>
                     <option value="1000" >1000</option>
                 </select>
-                 to
+                    <label for="price-to">to</label>
                 <select class="price" name="priceto" id="price-to">
                     <option value="">&nbsp;</option>
                     <option value="0" >0</option>
@@ -201,7 +194,7 @@
                     <option value="900" >900</option>
                     <option value="1000+" >1000+</option>
                 </select>
-                | Order by:
+                    <label for="order-info">| Order by:</label>
                 <select class="order-info" name="orderinfo" id="order-info">
                     <option value="">&nbsp;</option>
                     <option value="newestfirst" >Newest first</option>
@@ -210,33 +203,22 @@
                     <option value="pricedescending" >Price descending</option>
                     <option value="nameascending" >Name ascending</option>
                     <option value="namedescending" >Name descending</option>
-
                 </select>
-                <input class="btn btn-primary" type="submit"value="Filter"/>
+                <input class="btn btn-primary" type="submit" value="Filter"/>
             </form>
         </div>
     </div>
     {% if not user.is_staff %}
         <div class="surprise">
-            <a>Not sure what you're looking for?</a><br>
-            {% if user.is_authenticated %}
-                <form action="../users/checkout">
-                    <input type="submit" value="I'm feeling lucky!" />
-                </form>
-            {% else %}
-                <form action="../users/login">
-                    <input type="submit" value="I'm feeling lucky!" />
-                </form>
-            {% endif %}
+        <a>Not sure what you're looking for?</a><br>
+        <form action="{% url 'checkout' %}">
+            <input type="submit" value="I'm feeling lucky!" />
+        </form>
     {% endif %}
-
-
-    </div>
+</div>
 {% endblock %}
-
 {% block houses %}
     {% load humanize %}
-
     <div class="propContainer">
         {% for i in DisplayProps %}
             {% if not i.deleted %}
@@ -250,7 +232,6 @@
                     </a>
                     <div class="card-body">
                         <h5 class="card-title"><a href="{% url 'property_details' i.id %}">{{ i.address }}</a></h5>
-                        <!--<p class="card-text">{{ i.description_set.first }}</p>-->
                     </div>
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item">{{ i.category.category}}</li>
@@ -278,15 +259,14 @@
     <div class="pagination">
         <span class="step-links">
             {% if DisplayProps.has_previous %} <!-- To store filter query info when navigating to previous page -->
-                <a href="?page={{ DisplayProps.previous_page_number }}&category={{ CategoryInfo }}&zipcodes={{ ZipInfo }}&roomsfrom={{ RoomsfromInfo }}&roomsto={{ RoomstoInfo }}&sizefrom={{ SizefromInfo }}&sizeto={{ SizetoInfo }}&pricefrom={{ PricefromInfo }}&priceto={{ PricetoInfo }}&orderinfo={{ OrderInfo }}">previous</a>
+                <a href="?page={{ DisplayProps.previous_page_number }}&category={{ CategoryInfo }}&zipcodes={{ ZipInfo }}&roomsfrom={{ RoomsfromInfo }}&roomsto={{ RoomstoInfo }}&sizefrom={{ SizefromInfo }}&sizeto={{ SizetoInfo }}&pricefrom={{ PricefromInfo }}&priceto={{ PricetoInfo }}&orderinfo={{ OrderInfo }}"><i class="fas fa-arrow-left"></i> previous</a>
             {% endif %}
             <span class="current">
                 Page {{ DisplayProps.number }} of {{ DisplayProps.paginator.num_pages }}
             </span>
             {% if DisplayProps.has_next %} <!-- To store filter query info when navigating to next page -->
-                <a href="?page={{ DisplayProps.next_page_number }}&category={{ CategoryInfo }}&zipcodes={{ ZipInfo }}&roomsfrom={{ RoomsfromInfo }}&roomsto={{ RoomstoInfo }}&sizefrom={{ SizefromInfo }}&sizeto={{ SizetoInfo }}&pricefrom={{ PricefromInfo }}&priceto={{ PricetoInfo }}&orderinfo={{ OrderInfo }}">next</a>
+                <a href="?page={{ DisplayProps.next_page_number }}&category={{ CategoryInfo }}&zipcodes={{ ZipInfo }}&roomsfrom={{ RoomsfromInfo }}&roomsto={{ RoomstoInfo }}&sizefrom={{ SizefromInfo }}&sizeto={{ SizetoInfo }}&pricefrom={{ PricefromInfo }}&priceto={{ PricetoInfo }}&orderinfo={{ OrderInfo }}">next <i class="fas fa-arrow-right"></i></a>
             {% endif %}
         </span>
     </div><br><br>
-
 {% endblock %}
