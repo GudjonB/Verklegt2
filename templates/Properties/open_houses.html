@@ -13,8 +13,8 @@
             </div>
         {% else %}
             {% for i in open_houses %}
-                {% if not i.property.deleted %}
-                    <div class="card">
+                {% if not i.property.deleted and today.isoformat <= i.time.isoformat%}
+                    <div class="card" >
                         <a href="{% url 'property_details' i.property.id %}">
                             {% if i.property.propertyimages_set.count == 0 %}
                                 <img class="card-img-top" alt="castle"
@@ -31,6 +31,9 @@
                         <ul class="list-group list-group-flush">
                             <li class="list-group-item">{{ i.time }}</li>
                         </ul>
+                        {% if user.is_staff %}
+                            <a href="{% url 'delete_open_house' i.id %}" onclick="return confirm('are you sure?')" class="btn btn-danger">Delete Open House</a>
+                        {% endif %}
                     </div>
                 {% endif %}
             {% endfor %}

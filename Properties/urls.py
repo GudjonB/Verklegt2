@@ -8,6 +8,7 @@ urlpatterns = [
     path('open_houses', views.get_open_houses, name="open_houses"),
     path('create', views.create_properties, name="create_properties"),
     path('add_open_houses', views.add_open_houses, name="add_open_house"),
+    path('delete_open_house/<int:id>', views.delete_open_house, name="delete_open_house"),
     path('delete/<int:id>', views.delete_property, name='delete_property'),
     path('delete_purchased_properties', views.delete_purchased_properties, name='delete_purchased_properties'),
     path('update/<int:id>', views.update_property, name='update_property'),

@@ -1,7 +1,13 @@
+
 from django.contrib.auth.models import User
 from django.core.validators import MinValueValidator
 from django.core.validators import RegexValidator
 from django.db import models
+
+
+def validate_date(value):
+    if value.isoformat() < datetime.today().isoformat():
+        raise ValidationError("Date cannot be in the past")
 
 
 class Categories(models.Model):
@@ -60,7 +66,7 @@ class Description(models.Model):
 class OpenHouses(models.Model):
     property = models.ForeignKey(Properties, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    time = models.DateTimeField(blank=True)
+    time = models.DateTimeField(blank=True, validators=[validate_date])
     length = models.PositiveIntegerField(blank=True)  # Minutes
 
 

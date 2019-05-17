@@ -5,7 +5,7 @@ from Users.models import Cards
 class CardInfoForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super(CardInfoForm, self).__init__(*args, **kwargs)
-        self.fields['expiration'].widget.attrs.update({'class': 'form-control'})
+        self.fields['expiration'].widget.attrs.update({'class': 'form-control'})  # change expiration class
 
     class Meta:
         model = Cards

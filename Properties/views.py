@@ -29,17 +29,17 @@ def index(request):
 def create_properties(request):
     if request.method == 'POST':
         form = PropertiesCreateForm(request.POST, request.FILES)
-        if form.is_valid():
+        if form.is_valid():          # validate inputs
             properties = form.save()
             description = Description(description=request.POST['description'], property=properties)
-            description.save()
+            description.save()      # Create the description object
             sellers = PropertySellers(user_id=request.user.id, property_id=properties.id)
-            sellers.save()
+            sellers.save()          # Create the seller object
             if form.cleaned_data['image']:
                 images = PropertyImages(image=form.cleaned_data['image'], property_id=properties.id)
                 images.save()
             return redirect('all_properties')
-    else:
+    else:                           # display form if request is GET
         form = PropertiesCreateForm()
     return render(request, 'Properties/create_properties.html', {
         'form': form
@@ -49,12 +49,11 @@ def create_properties(request):
 @login_required
 def update_property(request, id):
     if request.method == 'POST':
-        form = PropertiesUpdateForm(data=request.POST, instance=request.user, files=request.FILES)
+        form = PropertiesUpdateForm(data=request.POST, files=request.FILES)
         if form.is_valid():
             property_to_update = get_object_or_404(Properties, pk=id)
             description_to_update = get_object_or_404(Description, property_id=id)
-
-            property_to_update.address = form['address'].value()
+            property_to_update.address = form['address'].value()     # change the values according to user inputs
             property_to_update.zip_id = form['zip'].value()
             property_to_update.category_id = form['category'].value()
             property_to_update.size = form['size'].value()
@@ -63,13 +62,13 @@ def update_property(request, id):
             property_to_update.year_built = form['year_built'].value()
             property_to_update.price = form['price'].value()
             description_to_update.description = form['description'].value()
-            property_to_update.save()
+            property_to_update.save()   # update with results
             description_to_update.save()
             return redirect('property_details', id=id)
     else:
         property_to_update = Properties.objects.get(pk=id)
         description_to_update = get_object_or_404(Description, property_id=id)
-        form = PropertiesUpdateForm(initial={'address': property_to_update.address,
+        form = PropertiesUpdateForm(initial={'address': property_to_update.address,  # fill form with previous values
                                              'zip': property_to_update.zip,
                                              'category': property_to_update.category,
                                              'size': property_to_update.size,
@@ -78,7 +77,7 @@ def update_property(request, id):
                                              'year_built': property_to_update.year_built,
                                              'price': property_to_update.price,
                                              'description': description_to_update.description})
-    return render(request, 'Properties/update_property.html', {
+    return render(request, 'Properties/update_property.html', {  # display form
         'form': form,
         'prop_id': id
     })
@@ -122,9 +121,9 @@ def add_property_image(request, id):
 
 @login_required
 def delete_property_image(request, id):
-    image_to_delete = get_object_or_404(PropertyImages, id=id)
-    redirect_location_id = image_to_delete.property_id
-    image_to_delete.delete()
+    image_to_delete = get_object_or_404(PropertyImages, id=id)  # Find the image in database
+    redirect_location_id = image_to_delete.property_id  # redirect to property page
+    image_to_delete.delete()    # remove image from database
     return redirect(update_property_images, redirect_location_id)
 
 
@@ -135,14 +134,11 @@ def get_property_by_id(request, id):
         return redirect('all_properties')
     users_prop_list = []
     for i in PropertySellers.objects.filter(user_id=request.user.id):
-        users_prop_list.append(i.property_id)
-
-    # ef það er búið að heimsækja síðuna þá er nýjasta vikan sótt
+        users_prop_list.append(i.property_id)    # check if current user owns this property
+    # If page has been visited then the newest week is fetched
     property_visit = PropertyVisits.objects.filter(property_id=id).order_by('-id').first()
-    # ef hún var heimsótt í þessari viku þá er counterinn uppfærður annars er þetta önnur vika og
-    # hún er búin til með counter = 1
     if property_visit and property_visit.date.strftime('%W') == datetime.now().strftime('%W') and \
-            property_visit.date.strftime('%Y') == datetime.now().strftime('%Y'):
+            property_visit.date.strftime('%Y') == datetime.now().strftime('%Y'):    # update counter for current week
         property_visit.counter = property_visit.counter + 1
         property_visit.save()
     else:
@@ -151,11 +147,8 @@ def get_property_by_id(request, id):
     return render(request, 'Properties/property_details.html',
                   {'Property': prop,
                    'UsersProperties': users_prop_list,
-                   # listi yfir eignir í körfu notanda búinn til
-                   'Cart': [c.property for c in CartItems.objects.filter(user=request.user.id)],
-                   # listi yfir eiginir í uppáhaldi hjá notanda búinn til
-                   'Favourites': [f.property for f in Favourites.objects.filter(user=request.user.id)],
-                   # heildar fjöldi yfir heimsóknir eignar búinn til
+                   'Cart': [c.property for c in CartItems.objects.filter(user=request.user.id)],  # cart items
+                   'Favourites': [f.property for f in Favourites.objects.filter(user=request.user.id)],  # favorites
                    'PropertyVisits': PropertyVisits.objects.filter(property_id=id).aggregate(count=Sum('counter')),
                    'propertySellerUserId': prop_seller_user_id,
                    'currentUserId': request.user.id
@@ -165,18 +158,17 @@ def get_property_by_id(request, id):
 def get_all_properties(request):
     searches = []
     cart = []
-    # ef notandi er skráður inn þá er leitar saga hanns send með
-    if request.user.is_authenticated:
+    if request.user.is_authenticated:   # get the search history and cart only if user is logged in
         searches = [s.search for s in SearchHistory.objects.filter(user=request.user).order_by('-id')]
         cart = [c.property for c in CartItems.objects.filter(user=request.user.id)]
-    props = Properties.objects.filter(deleted=False).order_by('-id')
+    props = Properties.objects.filter(deleted=False).order_by('-id')    # split data into pages
     paginator = Paginator(props, 9)
     page = request.GET.get('page')
     try:
         display_props = paginator.page(page)
-    except PageNotAnInteger:
+    except PageNotAnInteger:    # in case user messes with url query
         display_props = paginator.page(1)
-    except EmptyPage:
+    except EmptyPage:   # in case user messes with url query
         display_props = paginator.page(paginator.num_pages)
     context = {'Categories': Categories.objects.all(),
                'Zip': Zip.objects.all(),
@@ -188,7 +180,15 @@ def get_all_properties(request):
 
 
 def get_open_houses(request):
-    context = {'open_houses': OpenHouses.objects.all()}
+    # first get all open houses
+    open_list = OpenHouses.objects.all()
+    # then iterate through them all and delete open houses in the past
+    for open in open_list:
+        if open.time.date() < datetime.today().date():
+            open.delete()
+    today = datetime.today()
+    # as a safeguard send all the open houses and the date today for validation in the html
+    context = {'open_houses': OpenHouses.objects.all(), 'today': today}
     return render(request, 'Properties/open_houses.html', context)
 
 
@@ -200,7 +200,11 @@ def add_open_houses(request):
             form.save()
             return redirect('open_houses')
     else:
-        form = OpenHousesCreateForm(initial={'user': request.user}, request=request)
+        year = datetime.today().year
+        mth = datetime.today().month
+        day = datetime.today().day
+        str_time = datetime(year, mth, day + 1, 13).strftime("%d-%m-%Y %H:%M")
+        form = OpenHousesCreateForm(initial={'user': request.user, 'time': str_time}, request=request)
     return render(request, 'Properties/add_open_houses.html', {
         'form': form
     })
@@ -208,11 +212,12 @@ def add_open_houses(request):
 
 def search(request):
     query = request.GET
-    props = Properties.objects.filter(deleted=False).order_by('address')
-    if query.get('q'):
+    props = Properties.objects.filter(deleted=False).order_by('address')    # order results alphabetically
+    if query.get('q'):  # if query not empty
+        # check for substring in properties
         props = Properties.objects.filter(Q(deleted=False), Q(address__icontains=query.get('q')))
-        SearchHistory.objects.create(user=request.user, search=query.get('q'))
-    paginator = Paginator(props, 9)
+        SearchHistory.objects.create(user=request.user, search=query.get('q'))  # update history for curr user
+    paginator = Paginator(props, 9)  # split results into pages
     page = request.GET.get('page')
     try:
         display_props = paginator.page(page)
@@ -316,7 +321,7 @@ def property_filter(request):
     #  Each page is max 9 pages
     paginator = Paginator(props, 9)
     page = request.GET.get('page')
-    try:  # Stores the properties to display on the page being loaded with respect to fillter and order
+    try:  # Stores the properties to display on the page being loaded with respect to filter and order
         display_props = paginator.page(page)
     except PageNotAnInteger:  # First page after applying filter
         display_props = paginator.page(1)
@@ -352,38 +357,40 @@ def property_filter(request):
 def delete_property(request, id):
     properties = get_object_or_404(Properties, pk=id)
     for i in CartItems.objects.filter(property_id=id):
-        i.delete()
-    properties.deleted = True
+        i.delete()      # remove property from all carts
+    properties.deleted = True   # then delete it from database
     properties.save()
-    selling = get_object_or_404(PropertySellers, property_id=id)
+    selling = get_object_or_404(PropertySellers, property_id=id)   # remove from seller profile
     selling.delete()
-    if urlparse(request.META.get('HTTP_REFERER')).path == '/users/profile':
+    if urlparse(request.META.get('HTTP_REFERER')).path == '/users/profile':  # go back to profile if applicable
         return redirect('profile')
     return redirect('all_properties')
 
+@login_required
+def delete_open_house(request, id):
+    open_house = get_object_or_404(OpenHouses, pk=id)
+    open_house.delete()
+    return redirect('open_houses')
 
 @login_required
 def delete_purchased_properties(request):
-    # þegar notandi klárar kaup þá er karfan tæmd og eignin merkt eytt
-    for i in CartItems.objects.filter(user_id=request.user.id):
-        i.property.deleted = True
+    for i in CartItems.objects.filter(user_id=request.user.id):  # empty cart for current user
+        i.property.deleted = True   # mark each property in cart
         i.property.save()
     items = CartItems.objects.filter(user=request.user)
     for item in items:
         item.delete()
-    # korta upplýsingar ekki geymdar lengur en þarf
-    for i in Cards.objects.filter(user_id=request.user.id):
+    for i in Cards.objects.filter(user_id=request.user.id):  # clear card info from database
         i.delete()
     return redirect('home')
 
 
 @login_required
 def receipt(request):
-    # slembi takkinn finnur eign af handahófi
-    random_id = random.choice([p.id for p in Properties.objects.filter(deleted=False)])
-    item = Properties.objects.filter(id=random_id).first()
+    random_id = random.choice([p.id for p in Properties.objects.filter(deleted=False)])  # find a random property id
+    item = Properties.objects.filter(id=random_id).first()  # match the property with given id
     img = PropertyImages.objects.filter(property_id=random_id).first()
-    item.deleted = True
+    item.deleted = True  # delete property from database
     item.save()
     info = {'property': item,
             'img': img}
@@ -394,8 +401,7 @@ def receipt(request):
 def add_data_from_web(request):
     clearFiles()
     writeToCsv()  # Call the helper function to populate csv files
-    # get the data and store as list
-    zips = readFromCsv('properties/csv/zip.csv')
+    zips = readFromCsv('properties/csv/zip.csv')     # get the data and store as list
     descriptions = readFromCsv('properties/csv/description.csv')
     props = readFromCsv('properties/csv/properties.csv')
     categories = readFromCsv('properties/csv/categories.csv')
@@ -416,9 +422,9 @@ def add_data_from_web(request):
                                           description=descriptions[i][0])
         PropertySellers.objects.get_or_create(property_id=prop.id, user_id=request.user.id)
         image_counter = 1
-        while image_counter != 6:
+        while image_counter != 6:   # Get five photos for each property
             filename = 'static/images/properties/' + str(props[i][5]) + '_mynd_' + str(image_counter) + '.jpg'
-            urllib.request.urlretrieve(imgs[i + image_counter][1], filename)
+            urllib.request.urlretrieve(imgs[i + image_counter][1], filename)  # download the images from the links
             PropertyImages.objects.get_or_create(property=prop,
                                                  image=filename)
             image_counter += 1
