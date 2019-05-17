@@ -176,7 +176,7 @@ def proceed_to_checkout(request):
         if request.META.get('HTTP_REFERER') == 'http://127.0.0.1:8000/properties/'\
             or request.META.get('HTTP_REFERER') == 'http://localhost:8000/properties/'\
             or request.META.get('HTTP_REFERER') == 'http://127.0.0.1:8000/users/login'\
-            or request.META.get('HTTP_REFERER') == 'http://localhost:8000/properties/':
+            or request.META.get('HTTP_REFERER') == 'http://localhost:8000/users/login':
             feeling_lucky = True
         else:
             feeling_lucky = False
