@@ -354,6 +354,11 @@ def delete_property(request, id):
         return redirect('profile')
     return redirect('all_properties')
 
+@login_required
+def delete_open_house(request, id):
+    open_house = get_object_or_404(OpenHouses, pk=id)
+    open_house.delete()
+    return redirect('open_houses')
 
 @login_required
 def delete_purchased_properties(request):
