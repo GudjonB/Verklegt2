@@ -188,7 +188,8 @@ def get_all_properties(request):
 
 
 def get_open_houses(request):
-    context = {'open_houses': OpenHouses.objects.all()}
+    today = datetime.today()
+    context = {'open_houses': OpenHouses.objects.all(), 'today': today}
     return render(request, 'Properties/open_houses.html', context)
 
 
@@ -200,7 +201,7 @@ def add_open_houses(request):
             form.save()
             return redirect('open_houses')
     else:
-        form = OpenHousesCreateForm(initial={'user': request.user}, request=request)
+        form = OpenHousesCreateForm(initial={'user': request.user, 'time': datetime.today()}, request=request)
     return render(request, 'Properties/add_open_houses.html', {
         'form': form
     })

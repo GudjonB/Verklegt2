@@ -15,7 +15,7 @@
             </div>
         {% else %}
             {% for i in open_houses %}
-                {% if not i.property.deleted %}
+                {% if not i.property.deleted and today.isoformat <= i.time.isoformat%}
                     <div class="card" >
                         <a href="{% url 'property_details' i.property.id %}">
                             {% if i.property.propertyimages_set.count == 0 %}
