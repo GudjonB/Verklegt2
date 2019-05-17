@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Upload Image</h1>
+    <form action="{% url 'add_property_image' prop_id %}" class="form form horizontal" enctype="multipart/form-data"
+          method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input class="btn btn-primary pull-right" onclick="location.href='javascript:history.back()'" type="button"
+               value="Back">
+        <input class="btn btn-success pull-right" type="submit" value="Upload">
+    </form>
+{% endblock %}

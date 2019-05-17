@@ -1,9 +1,105 @@
 {% extends 'base.html' %}
 {% block content %}
-        <h1>Profile</h1>
-        <form class="form form-horizontal" method="patch">
-            {% csrf_token %}
-            {{ form }}
-            <input type="submit" class="btn btn-primary" value="Update" />
-        </form>
+    {% load humanize %}
+    <h1 class="profile-head">My Profile</h1>
+    <hr>
+    <div class="profile-container">
+        <div class="profile-info">
+
+            <img class="profile-img" alt="profile_picture" src="{{ Profiles.image_name }}">
+
+            <p class="profile-para"><b>Name: </b> {{ Profiles.name }}</p>
+
+            <p class="profile-para"><b>Address: </b> {{ Profiles.address }}</p>
+            {% if user.is_authenticated and user.id == Profiles.user_id %}
+                <p class="profile-para"><b>Social Security Nr:</b> {{ Profiles.social }}</p>
+            {% endif %}
+            <p class="profile-para"><b>Zip: </b> {{ Profiles.zipCode }}</p>
+
+            <a href="{% url 'update_profile' %}" class="btn btn-profile">Edit Profile</a>
+        </div>
+
+        <div id="profile-fav-container">
+            <h3>My Favourites</h3>
+            <hr>
+
+            <div id="profile-fav">
+                {% if fav.count == 0 %}
+                    <div class="no_fav_container">
+                        <div>
+                            <img class="no_fav" alt="sad star" src="/static/images/sad_star.png">
+                        </div>
+                        <div>
+                            <p class="fav_para">You have no favorite properties, Go and search!</p>
+                        </div>
+                    </div>
+                {% endif %}
+                {% for i in fav %}
+                    <div class="card">
+                        <a href="/properties/{{ i.property.id }}">
+                            {% if i.property.propertyimages_set.count == 0 %}
+                                <img class="card-img-top" alt="castle"
+                                     src="/static/images/properties/default_castle.jpg">
+                            {% else %}
+                                <img class="card-img-top" alt="property thumbnail"
+                                     src="{{ i.property.propertyimages_set.first }}">
+                            {% endif %}
+                        </a>
+                        <div class="card-body">
+                            <h5 class="card-title"><a
+                                    href="/properties/{{ i.property_id }}">{{ i.property.address }}</a></h5>
+                            <!--<p class="card-text">{{ i.description_set.first }}</p>-->
+                        </div>
+                        {% if not Profiles.user.is_staff %}
+                            <div class="card-body">
+                                {% if i.property in Cart %}
+                                    <a href="{% url 'remove_cart_item' i.property.id %}" class="btn btn-danger-small">Remove
+                                        from cart</a>
+                                {% else %}
+                                    <a href="{% url 'add_cart_item' i.property.id %}" class="btn btn-primary-small">Add
+                                        to cart</a>
+                                {% endif %}
+                            </div>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    {% if selling_count != 0 %}
+        <div class="container">
+            <h3>My Properties</h3>
+            <hr>
+            <div class="profile-selling">
+                {% for i in selling %}
+                    {% if not i.property.deleted %}
+                        <div class="card">
+                            <a href="{% url 'property_details' i.property_id %}">
+                                {% if i.property.propertyimages_set.count == 0 %}
+                                    <img class="card-img-top" alt="castle"
+                                         src="/static/images/properties/default_castle.jpg">
+                                {% else %}
+                                    <img class="card-img-top" alt="property thumbnail"
+                                         src="{{ i.property.propertyimages_set.first }}">
+                                {% endif %}
+                            </a>
+                            <div class="card-body">
+                                <h5 class="card-title"><a
+                                        href="{% url 'property_details' i.property_id %}">{{ i.property.address }}</a>
+                                </h5>
+                                <!--<p class="card-text">{{ i.description_set.first }}</p>-->
+                            </div>
+                            <div class="card-body">
+                                <a href="{% url 'delete_property' i.property_id %}"
+                                   onclick="return confirm('are you sure?')" class="btn btn-danger">Delete Property</a>
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+        <br>
+    {% endif %}
+
 {% endblock %}

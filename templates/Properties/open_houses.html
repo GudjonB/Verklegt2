@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% block houses %}
+    <h1>Open Houses</h1>
+    <div class="propContainer">
+        {% if open_houses.count == 0 %}
+            <div class="no_fav_container">
+                <div>
+                    <img id="open_house_img" alt="no open house" src="/static/images/no_open_house.png">
+                </div>
+                <div>
+                    <p>No Open Houses At This Moment</p>
+                </div>
+            </div>
+        {% else %}
+            {% for i in open_houses %}
+                {% if not i.property.deleted and today.isoformat <= i.time.isoformat%}
+                    <div class="card" >
+                        <a href="{% url 'property_details' i.property.id %}">
+                            {% if i.property.propertyimages_set.count == 0 %}
+                                <img class="card-img-top" alt="castle"
+                                     src="/static/images/properties/default_castle.jpg">
+                            {% else %}
+                                <img class="card-img-top" alt="property thumbnail"
+                                     src="{{ i.property.propertyimages_set.first }}">
+                            {% endif %}
+                        </a>
+                        <div class="card-body">
+                            <h5 class="card-title"><a
+                                    href="{% url 'property_details' i.property.id %}">{{ i.property.address }}</a></h5>
+                        </div>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">{{ i.time }}</li>
+                        </ul>
+                        {% if user.is_staff %}
+                            <a href="{% url 'delete_open_house' i.id %}" onclick="return confirm('are you sure?')" class="btn btn-danger">Delete Open House</a>
+                        {% endif %}
+                    </div>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+    </div><br>
+{% endblock %}
+{% block content %}
+{% endblock %}

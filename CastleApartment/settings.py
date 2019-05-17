@@ -25,7 +25,7 @@ SECRET_KEY = 'hve(mrogirti9ae!e3$-ap&=akbk(nd7kq*%67aji$w+_f7b_5'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 
 
 # Application definition
@@ -37,8 +37,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.humanize',
     'Users.apps.UsersConfig',
     'Properties.apps.PropertiesConfig',
+    'sorl.thumbnail'
 ]
 
 MIDDLEWARE = [
@@ -83,7 +85,7 @@ DATABASES = {
         'USER': 'gtttwuro',
         'PASSWORD': 'gAKzNb52UaKqp_lmv76hoPdfL8V1TvP_',
         'HOST': 'balarama.db.elephantsql.com',
-        'PORT': '5432'
+        'PORT': '5432',
     }
 }
 
@@ -110,9 +112,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'en-gb'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'GMT'
 
 USE_I18N = True
 
@@ -129,8 +131,8 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static")
 ]
 
-LOGIN_URL = '/Users/login'
-LOGIN_REDIRECT_URL = '/Users/profile'
+LOGIN_URL = '/users/login'
+LOGIN_REDIRECT_URL = '/users/profile'
 
 MEDIA_ROOT = BASE_DIR
 MEDIA_URL = '/images/'

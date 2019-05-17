@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <form class="form form horizontal" action="{% url 'add_open_house' %}" method="post">
+        {% csrf_token %}
+        {{ form }}
+        <input id="confirmButton" type="submit" value="Create" class="btn btn-primary pull-right"/>
+    </form>
+{% endblock %}

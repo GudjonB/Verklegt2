@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+{% block content %}
+    {% load humanize %}
+    <h2>{{ Property.address }}</h2>
+    <div id="demo" class="carousel slide" data-ride="carousel">
+        <!-- Indicators -->
+        <ul class="carousel-indicators">
+            {% for i in Property.propertyimages_set.all %}
+                {% if forloop.first %}
+                    <li data-target="#demo" data-slide-to="{{ forloop.counter0 }}" class="active"></li>
+                {% else %}
+                    <li data-target="#demo" data-slide-to="{{ forloop.counter0 }}"></li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+        <div class="carousel-inner">
+            {% if Property.propertyimages_set.count != 0 %}
+                {% for img in Property.propertyimages_set.all %}
+                    {% if forloop.first %}
+                        <div class="carousel-item active">
+                            <img src="{{ img }}" alt="property image">
+                        </div>
+                    {% else %}
+                        <div class="carousel-item">
+                            <img src="{{ img }}" alt="property image">
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            {% else %}
+                <div class="carousel-item active">
+                    <img src="/static/images/properties/default_castle.jpg" alt="castle">
+                </div>
+            {% endif %}
+        </div>
+        <!-- Left and right controls -->
+        <a class="carousel-control-prev" href="#demo" data-slide="prev">
+            <span class="carousel-control-prev-icon"></span>
+        </a>
+        <a class="carousel-control-next" href="#demo" data-slide="next">
+            <span class="carousel-control-next-icon"></span>
+        </a>
+    </div>
+    <br>
+    {% if propertySellerUserId != currentUserId %}
+        <a href="{% url 'profile_seller' propertySellerUserId %}" class="btn btn-primary">View Realtor Profile</a>
+    {% else %}
+        <p><a href="{% url 'update_property_images' Property.id %}" class="btn btn-primary">Edit Pictures</a></p>
+    {% endif %}
+    <p><b>Price:</b> {{ Property.price|intcomma }}.- Kr</p>
+    <p><b>Total Visits:</b> {{ PropertyVisits.count }}</p>
+    {% if propertySellerUserId != currentUserId %}
+        {% if user.is_authenticated %}
+            {% if Property in Favourites %}
+                <img id="fav-img" src="/static/images/favorites_star_yellow.png" alt="yellow star"><br>
+                <a class="btn btn-danger-in-details" href="/{% url 'remove_favourite' Property.id %}">Remove from
+                    favourites</a>
+            {% else %}
+                <img id="fav-img" src="/static/images/favorites_star.png" alt="star"><br>
+                <a class="btn btn-primary-in-details" href="{% url 'add_favourite' Property.id %}">Add to favourites</a>
+            {% endif %}
+            <br>
+            {% if not user.is_staff %}
+                {% if Property in Cart %}
+                    <a href="{% url 'remove_cart_item' Property.id %}" class="btn btn-danger-in-details">Remove from
+                        cart</a>
+                {% else %}
+                    <a href="{% url 'add_cart_item' Property.id %}" class="btn btn-primary-in-details">Add to cart</a>
+                {% endif %}
+            {% endif %}
+        {% else %}
+            <a href="{% url 'login' %}" class="card-link">Login</a>
+        {% endif %}
+    {% endif %}
+    <h3>Property Details</h3>
+    <div id="descr">{{ Property.description_set.first.description }}</div>
+    <p><b>Category:</b> {{ Property.category.category }}</p>
+    <p><b>City:</b> {{ Property.zip.city }}</p>
+    <p><b>Zip:</b> {{ Property.zip.zip }}</p>
+    <p><b>m<sup>2</sup>:</b> {{ Property.size|intcomma }}</p>
+    <p><b>Bathrooms:</b> {{ Property.bathrooms }}</p>
+    <p><b>Rooms:</b> {{ Property.rooms }}</p>
+    {% if Property.category_id != 6 %}
+        <p><b>Year built:</b> {{ Property.year_built }}</p>
+    {% endif %}
+    {% if propertySellerUserId == currentUserId %}
+        <a href="{% url 'delete_property' Property.id %}" onclick="return confirm('are you sure?')"
+           class="btn btn-danger">Delete Property</a>
+        <a href="{% url 'update_property' Property.id %}" class="btn btn-danger">Edit Property Info</a>
+    {% endif %}
+    <br>
+{% endblock %}

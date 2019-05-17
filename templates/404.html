@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block content %}
+
+    <div>
+        <img class="img-fluid" alt="Sad House" src="/static/images/404.png">
+        <h5>Either the page you are looking for does not exist or there has been some kind of an error.</h5>
+        <h5>Press <a href={% url 'home' %}>here</a> to go to the home page.</h5>
+    </div>
+{% endblock %}

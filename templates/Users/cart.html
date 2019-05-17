@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block houses %}
+    {% load humanize %}
+
+    <div class="propContainer">
+        {% for i in Cart %}
+            <div class="card">
+                <a href="{% url 'property_details' i.property_id %}">
+                    {% if i.property.propertyimages_set.count == 0 %}
+                        <img class="card-img-top" alt="castle" src="/static/images/properties/default_castle.jpg">
+                    {% else %}
+                        <img class="card-img-top" alt="property thumbnail"
+                             src="{{ i.property.propertyimages_set.first }}">
+                    {% endif %}
+                </a>
+                <div class="card-body">
+                    <h5 class="card-title"><a
+                            href="{% url 'property_details' i.property_id %}">{{ i.property.address }}</a></h5>
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">{{ i.property.category }}</li>
+                    <li class="list-group-item">{{ i.property.size|intcomma }} m<sup>2</sup></li>
+                    <li class="list-group-item">{{ i.property.rooms }} Rooms</li>
+                    <li class="list-group-item">{{ i.property.price|intcomma }}.- kr</li>
+                </ul>
+                <div class="card-body">
+                    <a href="{% url 'remove_cart_item' i.property_id %}" class="btn btn-danger">Remove from cart</a>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    {% if Cart and deleted != False %}
+        <a href="{% url 'empty_cart' %}" class="btn btn-danger-in-cart">Empty cart</a><br>
+        <a href="{% url 'all_properties' %}" class="btn btn-primary-in-cart">Continue shopping</a><br>
+        <a href="{% url 'checkout' %}" class="btn btn-primary-in-cart">Proceed to checkout</a><br>
+    {% else %}
+        <img class="card-img-empty" alt="sad house" src="/static/images/users/sad-house-20.gif">
+        <br><br>
+        <p>It seems like your cart is empty!</p>
+        <a href="{% url 'all_properties' %}" class="see-all-props btn btn-info">Click here to view available
+            properties.</a>
+    {% endif %}
+
+{% endblock %}

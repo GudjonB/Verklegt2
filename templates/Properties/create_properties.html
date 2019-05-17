@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <form class="form form horizontal" action="{% url 'create_properties' %}" method="post"
+          enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form }}
+        <input id='confirmButton' type="submit" value="Create" class="btn btn-primary pull-right"/>
+    </form>
+{% endblock %}

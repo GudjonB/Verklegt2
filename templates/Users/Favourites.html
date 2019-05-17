@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block houses %}
+    {% load humanize %}
+
+    <h1>My Favorites</h1>
+
+    <div class="propContainer">
+        {% if fav %}
+            {% for i in fav %}
+                <div class="card">
+                    <a href="{% url 'property_details' i.id %}">
+                        {% if i.property.propertyimages_set.count == 0 %}
+                            <img class="card-img-top" alt="castle" src="/static/images/properties/default_castle.jpg">
+                        {% else %}
+                            <img class="card-img-top" alt="property thumbnail"
+                                 src="{{ i.property.propertyimages_set.first }}">
+                        {% endif %}
+                    </a>
+                    <div class="card-body">
+                        <h5 class="card-title"><a
+                                href="{% url 'property_details' i.property_id %}">{{ i.property.address }}</a></h5>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">{{ i.property.category }}</li>
+                        <li class="list-group-item">{{ i.property.size|intcomma }} m<sup>2</sup></li>
+                        <li class="list-group-item">{{ i.property.rooms }} Rooms</li>
+                        <li class="list-group-item">{{ i.property.price|intcomma }}.- kr</li>
+                    </ul>
+                    <div class="card-body">
+                        {% if i.property in Cart %}
+                            <a href="{% url 'remove_cart_item' i.property.id %}" class="btn btn-danger-cart">Remove from
+                                cart</a>
+                        {% else %}
+                            <a href="{% url 'add_cart_item' i.property.id %}" class="btn btn-primary-cart">Add to
+                                cart</a>
+                        {% endif %}
+
+                        <a href="{% url 'remove_favourite' i.property_id %}" class="btn btn-danger">Remove from
+                            favourites</a>
+                    </div>
+                </div>
+            {% endfor %}
+            </div><br>
+        {% else %}
+            <div class="no_fav_container">
+                <div>
+                    <img class="no_fav" alt="sad star" src="/static/images/sad_star.png">
+                </div>
+                <div>
+                    <p class="fav_para">You have no favorite properties, Go and search!</p>
+                </div>
+            </div>
+        {% endif %}
+
+
+
+
+{% endblock %}
