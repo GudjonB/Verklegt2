@@ -15,9 +15,6 @@ from Users.forms.checkout_form import CheckoutInfoForm
 from Users.forms.card_info_checkout_form import CardInfoForm
 from Users.forms.staff_form import StaffForm
 
-import logging
-logger = logging.getLogger(__name__)
-
 
 def error_404_view(request, exception, template_name="404.html"):
     response = render_to_response("404.html")
@@ -140,28 +137,28 @@ def favourites(request):
 def add_to_favourite(request, id):
     favourite = Favourites(property=get_object_or_404(Properties, pk=id), user=request.user)
     favourite.save()
-    return redirect(request.META.get('HTTP_REFERER'), id)
+    return redirect(request.META.get('HTTP_REFERER'), id)  # redirect to current page
 
 
 @login_required
 def remove_from_favourites(request, id):
     favourite = Favourites.objects.filter(property_id=id, user=request.user)
     favourite.delete()
-    return redirect(request.META.get('HTTP_REFERER'))
+    return redirect(request.META.get('HTTP_REFERER'))  # redirect to current page
 
 
 @login_required
 def add_to_cart(request, id):
     item = CartItems(property=get_object_or_404(Properties, pk=id), user=request.user)
     item.save()
-    return redirect(request.META.get('HTTP_REFERER'))
+    return redirect(request.META.get('HTTP_REFERER'))  # redirect to current page
 
 
 @login_required
 def remove_from_cart(request, id):
     item = CartItems.objects.filter(property_id=id, user=request.user)
     item.delete()
-    return redirect(request.META.get('HTTP_REFERER'))
+    return redirect(request.META.get('HTTP_REFERER'))  # redirect to current page
 
 
 @login_required
