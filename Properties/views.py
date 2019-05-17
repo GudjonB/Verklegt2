@@ -203,7 +203,7 @@ def add_open_houses(request):
         year = datetime.today().year
         mth = datetime.today().month
         day = datetime.today().day
-        str_time = datetime(year, mth, day + 1, 13).strftime("%d-%m-%Y %H:%M")
+        str_time = datetime(year, mth, day + 1, 13).strftime("%d/%m/%Y %H:%M")
         form = OpenHousesCreateForm(initial={'user': request.user, 'time': str_time}, request=request)
     return render(request, 'Properties/add_open_houses.html', {
         'form': form
