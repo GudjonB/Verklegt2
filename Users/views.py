@@ -173,7 +173,10 @@ def proceed_to_checkout(request):
             form.save()
             return redirect('checkout_card_info')
     else:
-        if request.META.get('HTTP_REFERER') == 'http://127.0.0.1:8000/properties/':
+        if request.META.get('HTTP_REFERER') == 'http://127.0.0.1:8000/properties/'\
+            or request.META.get('HTTP_REFERER') == 'http://localhost:8000/properties/'\
+            or request.META.get('HTTP_REFERER') == 'http://127.0.0.1:8000/users/login'\
+            or request.META.get('HTTP_REFERER') == 'http://localhost:8000/users/login':
             feeling_lucky = True
         else:
             feeling_lucky = False
