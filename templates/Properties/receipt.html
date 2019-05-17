@@ -3,8 +3,8 @@
     {% load humanize %}
     <h2>Congratulations with your new property:</h2>
     <div class="propContainer">
-        <div class="card" >
-            <img class="card-img-top" alt="property thumbnail" src="{{ img }}" >
+        <div class="card">
+            <img class="card-img-top" alt="property thumbnail" src="{{ img }}">
             <div class="card-body">
                 <h5 class="card-title"><a>{{ property.address }}</a></h5>
             </div>
@@ -15,6 +15,5 @@
                 <li class="list-group-item">{{ property.price|intcomma }}.- kr</li>
             </ul>
         </div>
-
     </div>
 {% endblock %}

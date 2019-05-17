@@ -10,23 +10,18 @@
     <p><b>City:</b> {{ info.city }}</p>
     <p><b>Zip Code:</b> {{ info.zipCode }}</p>
     <p><b>Social Security Number:</b> {{ info.social }}</p>
-
     <!--Card Info-->
-
     <p><b>Cardholder Name:</b> {{ cardInfo.name }}</p>
     <p><b>Card Number:</b> {{ cardInfo.number }}</p>
     <br>
-
-    <input id="backButton" type="button" onclick="location.href='javascript:history.back()'" value="Prev" class="btn btn-primary pull-right"/>
-
+    <input id="backButton" type="button" onclick="location.href='javascript:history.back()'" value="Prev"
+           class="btn btn-primary pull-right"/>
     {% if feeling_lucky %}
         <input id="confirmButton" type="button" onclick="location.href='{% url 'receipt' %}'"
                value="Confirm Purchase" class="btn btn-primary pull-right"/>
     {% else %}
-        <input id="confirmButton" type="button" onclick="location.href='{%  url 'checkout_confirmation' %}'"
-               value="Next" class="btn btn-primary pull-right" />
+        <input id="confirmButton" type="button" onclick="location.href='{% url 'checkout_confirmation' %}'"
+               value="Next" class="btn btn-primary pull-right"/>
     {% endif %}
-
-
 
 {% endblock %}

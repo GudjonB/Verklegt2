@@ -8,12 +8,14 @@
     <!-- Bootstrap CSS -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+          integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
 
     {% load static %}
     <link rel="shortcut icon" type="image/png" href="{% static 'favicon.ico' %}"/>
-    <link rel="stylesheet"  href="{% static  'css/main.css' %}">
+    <link rel="stylesheet" href="{% static  'css/main.css' %}">
     <script type="text/javascript" src="{% static 'js/main.js' %}"></script>
     <title>Castle Apartments!</title>
 
@@ -22,10 +24,10 @@
 <body>
 
 <div class="jumbotron">
-        <div>
-            <h1 class="jumbotext">Castle Apartments</h1>
-            <!--<p>Homes, houses & shit</p> -->
-        </div>
+    <div>
+        <h1 class="jumbotext">Castle Apartments</h1>
+        <!--<p>Homes, houses & shit</p> -->
+    </div>
 </div>
 
 
@@ -34,7 +36,8 @@
     <div id="leftnav">
         <div class="burger">
             <div class="navbar-header">
-                <button class="navbar-toggler second-button" type="button" data-toggle="collapse" data-target="#myNavbar"
+                <button class="navbar-toggler second-button" type="button" data-toggle="collapse"
+                        data-target="#myNavbar"
                         aria-controls="navbarSupportedContent23" aria-expanded="false" aria-label="Toggle navigation">
                     <div class="animated-icon2"><span></span><span></span><span></span><span></span></div>
                 </button>
@@ -46,7 +49,7 @@
                     <li><a href="{% url 'home' %}">Home</a></li>
                     <li><a href="{% url 'all_properties' %}">Properties</a></li>
                     <li><a href="{% url 'open_houses' %}">Open Houses</a></li>
-                    <li><a href = "mailto: castleapartments@ca.is">Contact</a></li>
+                    <li><a href="mailto: castleapartments@ca.is">Contact</a></li>
                 </ul>
             </div>
         </div>
@@ -65,7 +68,8 @@
 
                     <div>
                         <div class="navbar-header-profile">
-                            <button class="profile-toggler profile-button" type="button" data-toggle="collapse" data-target="#myProfile"
+                            <button class="profile-toggler profile-button" type="button" data-toggle="collapse"
+                                    data-target="#myProfile"
                                     aria-controls="navba" aria-expanded="false" aria-label="Toggle navigation">
                                 <div><i class="profIcon fas fa-user fa-2x"></i></div>
                             </button>
@@ -85,11 +89,13 @@
 
                 {% else %}
 
-                    <a type="button" href="{% url 'cart' %}" class="btn-floating btn-fb"><i class="fas fa-shopping-cart fa-2x"></i></a>
+                    <a type="button" href="{% url 'cart' %}" class="btn-floating btn-fb"><i
+                            class="fas fa-shopping-cart fa-2x"></i></a>
 
                     <div>
                         <div class="navbar-header-profile">
-                            <button class="profile-toggler profile-button" type="button" data-toggle="collapse" data-target="#myProfile"
+                            <button class="profile-toggler profile-button" type="button" data-toggle="collapse"
+                                    data-target="#myProfile"
                                     aria-controls="navba" aria-expanded="false" aria-label="Toggle navigation">
                                 <div><i class="profIcon fas fa-user fa-2x"></i></div>
                             </button>
@@ -110,8 +116,8 @@
 
         {% else %}
             <ul class="nav-right">
-                <li class="navRightLi"><a  href="{% url 'login' %}">Login</a></li>
-                <li class="navRightLi"><a  href="{% url 'register' %}">Register</a></li>
+                <li class="navRightLi"><a href="{% url 'login' %}">Login</a></li>
+                <li class="navRightLi"><a href="{% url 'register' %}">Register</a></li>
             </ul>
         {% endif %}
 
@@ -176,7 +182,8 @@
                     </li>
                     <li>
                         <p>
-                            <a href = "mailto: castleapartments@ca.is" class="mail"> <i class="fas fa-envelope mr-3"></i> castleapartments@ca.is</a></p>
+                            <a href="mailto: castleapartments@ca.is" class="mail"> <i class="fas fa-envelope mr-3"></i>
+                                castleapartments@ca.is</a></p>
                     </li>
                     <li>
                         <p>
@@ -196,9 +203,12 @@
                 <h5 class="font-weight-bold text-uppercase mb-4">Follow Us</h5>
 
                 <!-- Facebook -->
-                <a type="button" href="https://www.facebook.com" class="btn-floating btn-fb"><i class="fab fa-facebook-f"></i></a><br/>
-                <a type="button" href="https://www.twitter.com" class="btn-floating btn-tw"><i class="fab fa-twitter"></i></a><br/>
-                <a type="button" href="https://www.instagram.com/ "class="btn-floating btn-ig"><i class="fab fa-instagram"></i></a>
+                <a type="button" href="https://www.facebook.com" class="btn-floating btn-fb"><i
+                        class="fab fa-facebook-f"></i></a><br/>
+                <a type="button" href="https://www.twitter.com" class="btn-floating btn-tw"><i
+                        class="fab fa-twitter"></i></a><br/>
+                <a type="button" href="https://www.instagram.com/ " class="btn-floating btn-ig"><i
+                        class="fab fa-instagram"></i></a>
             </div>
         </div>
     </div>
@@ -208,14 +218,17 @@
 </body>
 
 
-
-
-
 <!-- Optional JavaScript-->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
 
 </body>
 </html>
