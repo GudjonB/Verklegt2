@@ -81,7 +81,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'gtttwuro',
         'USER': 'gtttwuro',
-        'PASSWORD': 'PnsAp96LX5onKSfwZJzjHvweC1uG8Lw9',
+        'PASSWORD': 'gAKzNb52UaKqp_lmv76hoPdfL8V1TvP_',
         'HOST': 'balarama.db.elephantsql.com',
         'PORT': '5432'
     }
@@ -128,3 +128,9 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static")
 ]
+
+LOGIN_URL = '/Users/login'
+LOGIN_REDIRECT_URL = '/Users/profile'
+
+MEDIA_ROOT = BASE_DIR
+MEDIA_URL = '/images/'
