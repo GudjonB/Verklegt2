@@ -1,6 +1,5 @@
 import random
 import urllib
-from datetime import datetime
 from urllib.parse import urlparse
 
 from django.contrib.auth.decorators import login_required
