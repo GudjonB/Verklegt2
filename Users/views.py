@@ -39,7 +39,7 @@ def index(request):
     week_startdate = enddate - timedelta(days=7)
 
     monthvisits = PropertyVisits.objects.filter(property__deleted=False, date__date__range=[month_startdate, enddate]) \
-                                .values('property').annotate(counterSum=Sum('counter')).order_by('-counterSum')[:3]
+                      .values('property').annotate(counterSum=Sum('counter')).order_by('-counterSum')[:3]
     for i in monthvisits :
         i['property'] = get_object_or_404(Properties, pk=i['property'])
 
@@ -163,18 +163,17 @@ def remove_from_cart(request, id):
 
 @login_required
 def proceed_to_checkout(request):
-
     if request.method == 'POST':
         form = CheckoutInfoForm(data=request.POST)
         if form.is_valid():
             form.save()
             return redirect('checkout_card_info')
-    else:
-        if request.META.get('HTTP_REFERER') == 'http://127.0.0.1:8000/properties/'\
-            or request.META.get('HTTP_REFERER') == 'http://localhost:8000/properties/'\
-            or request.META.get('HTTP_REFERER') == 'http://127.0.0.1:8000/users/login?next=/users/checkout'\
-            or request.META.get('HTTP_REFERER') == 'http://localhost:8000/users/login?next=/users/checkout':
-            feeling_lucky = True
+    else:       # check every location the user can come from when he's feeling lucky
+        if request.META.get('HTTP_REFERER') == 'http://127.0.0.1:8000/properties/' or \
+                request.META.get('HTTP_REFERER') == 'http://localhost:8000/properties/' or \
+                request.META.get('HTTP_REFERER') == 'http://127.0.0.1:8000/users/login?next=/users/checkout' or \
+                request.META.get('HTTP_REFERER') == 'http://localhost:8000/users/login?next=/users/checkout':
+            feeling_lucky = True    #  if the user came from one of these he is feeling very lucky
         else:
             feeling_lucky = False
         form = CheckoutInfoForm(initial={'user': request.user,
@@ -183,13 +182,13 @@ def proceed_to_checkout(request):
                                          'feeling_lucky': feeling_lucky
                                          })
 
-    return render(request, 'Users/checkout.html', {
-        'form': form
-    })
+        return render(request, 'Users/checkout.html', {
+            'form': form
+        })
 
 
 @login_required
-def read_only_checkout(request):
+def read_only_checkout(request):    # pass feeling lucky to determine if user goes to confirmation or not
     read_only = {'info': CheckoutInfo.objects.filter(user_id=request.user.id).order_by("-id").first(),
                  'cardInfo': Cards.objects.filter(user_id=request.user.id).order_by("-id").first(),
                  'feeling_lucky': CheckoutInfo.objects.filter(user=request.user).order_by('-id').first().feeling_lucky}
@@ -197,11 +196,11 @@ def read_only_checkout(request):
 
 
 @login_required
-def card_info_checkout(request):
+def card_info_checkout(request):    # get card info from user and validate
     if request.method == 'POST':
         form = CardInfoForm(data=request.POST)
         if form.is_valid():
-            number = form['number'].value()
+            number = form['number'].value()  # display only last 4 digits of card number
             number = '************' + number[:-12]
             user = request.user
             card = Cards(user=user,
@@ -222,7 +221,7 @@ def card_info_checkout(request):
 def confirmation_checkout(request):
     total_price = 0
     for i in CartItems.objects.filter(user_id=request.user.id):
-        total_price += i.property.price
+        total_price += i.property.price     # sum every property price in cart to get total
     confirm = {'items': CartItems.objects.filter(user_id=request.user.id),
                'items_count': CartItems.objects.filter(user_id=request.user.id).count(),
                'total_price': total_price}
@@ -232,7 +231,7 @@ def confirmation_checkout(request):
 @login_required
 def empty_checkout_cancel(request):
     for i in CheckoutInfo.objects.filter(user_id=request.user.id):
-        i.delete()
+        i.delete()  # on checkout delete info about user
     for i in Cards.objects.filter(user_id=request.user.id):
         i.delete()
     return redirect('cart')
@@ -241,7 +240,7 @@ def empty_checkout_cancel(request):
 @login_required
 def empty_cart(request):
     items = CartItems.objects.filter(user=request.user)
-    for item in items:
+    for item in items:  # delete every property from the cart table for this user
         item.delete()
     return redirect(request.META.get('HTTP_REFERER'))
 
@@ -249,13 +248,13 @@ def empty_cart(request):
 @login_required
 def empty_cart_purchased(request):
     items = CartItems.objects.filter(user=request.user)
-    for item in items:
+    for item in items:  # empty cart after purchase
         item.delete()
     return redirect('/')
 
 
 def staff(request):
-    staff = User.objects.filter(is_staff=True)
+    staff = User.objects.filter(is_staff=True)  # get every staff member
     return render(request, 'Users/staff.html', {'staff': staff})
 
 
@@ -264,13 +263,13 @@ def add_staff(request):
     if request.method == 'POST':
         form = StaffForm(data=request.POST)
         if form.is_valid:
-            user = get_object_or_404(User, pk=form['user'].value())
+            user = get_object_or_404(User, pk=form['user'].value())     # get users
             items = CartItems.objects.filter(user=user)
-            messages.success(request, str(user.username) + ' successfully added to staff!')
-            for i in items :
+            messages.success(request, str(user.username) + ' successfully added to staff!')  # validate success
+            for i in items :    # empty every cart item from this user if applicable
                 i.delete()
-            user.is_staff = True
-            user.email = user.username + '@ca.is'           #New staffmembers get an email when promoted
+            user.is_staff = True    # user is now marked as staff
+            user.email = user.username + '@ca.is'           # New staffmembers get an email when promoted
             user.save()
             return redirect('add_staff')
     else:
