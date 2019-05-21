@@ -211,10 +211,14 @@ def add_open_houses(request):
 def search(request):
     query = request.GET
     props = Properties.objects.filter(deleted=False).order_by('address')    # order results alphabetically
+    searches = []
     if query.get('q'):  # if query not empty
         # check for substring in properties
         props = Properties.objects.filter(Q(deleted=False), Q(address__icontains=query.get('q')))
-        SearchHistory.objects.create(user=request.user, search=query.get('q'))  # update history for curr user
+        if request.user.is_authenticated:
+            SearchHistory.objects.create(user=request.user, search=query.get('q'))  # update history for curr user
+            searches = [s.search for s in SearchHistory.objects.filter(user=request.user).order_by('-id')]
+
     paginator = Paginator(props, 9)  # split results into pages
     page = request.GET.get('page')
     try:
@@ -224,13 +228,13 @@ def search(request):
     except EmptyPage:
         display_props = paginator.page(paginator.num_pages)
 
-    return render(request, 'Properties/index.html', {'query': query, 'DisplayProps': display_props,
+    return render(request, 'Properties/index.html', {'query': query,
+                                                     'DisplayProps': display_props,
                                                      'Categories': Categories.objects.all(),
                                                      'Zip': Zip.objects.all(),
                                                      'Cart': [c.property for c in
                                                               CartItems.objects.filter(user=request.user.id)],
-                                                     'Searches': [s.search for s in SearchHistory.objects.filter(
-                                                         user=request.user).order_by('-id')]
+                                                     'Searches': searches
                                                      })
 
 

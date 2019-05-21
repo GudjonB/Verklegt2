@@ -9,7 +9,7 @@
         {% if fav %}
             {% for i in fav %}
                 <div class="card">
-                    <a href="{% url 'property_details' i.id %}">
+                    <a href="{% url 'property_details' i.property6.id %}">
                         {% if i.property.propertyimages_set.count == 0 %}
                             <img class="card-img-top" alt="castle" src="/static/images/properties/default_castle.jpg">
                         {% else %}

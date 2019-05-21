@@ -52,7 +52,7 @@
         {% if user.is_authenticated %}
             {% if Property in Favourites %}
                 <img id="fav-img" src="/static/images/favorites_star_yellow.png" alt="yellow star"><br>
-                <a class="btn btn-danger-in-details" href="/{% url 'remove_favourite' Property.id %}">Remove from
+                <a class="btn btn-danger-in-details" href="{% url 'remove_favourite' Property.id %}">Remove from
                     favourites</a>
             {% else %}
                 <img id="fav-img" src="/static/images/favorites_star.png" alt="star"><br>
