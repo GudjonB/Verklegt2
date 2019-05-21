@@ -182,9 +182,7 @@ def proceed_to_checkout(request):
                                          'feeling_lucky': feeling_lucky
                                          })
 
-        return render(request, 'Users/checkout.html', {
-            'form': form
-        })
+    return render(request, 'Users/checkout.html', {'form': form })
 
 
 @login_required
